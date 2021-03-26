@@ -1,0 +1,13 @@
+{
+  "name": "proposal-change-array-by-copy",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "spec": "ecmarkup spec.html index.html",
+    "prestart": "npm run spec",
+    "start": "npx serve"
+  },
+  "dependencies": {
+    "ecmarkup": "^7.0.3"
+  }
+}
