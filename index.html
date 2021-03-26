@@ -1062,7 +1062,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{},"entries":[{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"titleHTML":"Copyright &amp; Software License","number":"A","referencingIds":[],"key":"Copyright & Software License"}]}`);</script><style>body {
+let biblio = JSON.parse(`{"refsByClause":{"sec-arrayclone":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_5","_ref_6"],"sec-array.prototype.popped":["_ref_7","_ref_8"],"sec-array.prototype.pushed":["_ref_9","_ref_10"],"sec-array.prototype.reversed":["_ref_11","_ref_12"],"sec-array.prototype.shifted":["_ref_13","_ref_14"],"sec-array.prototype.sorted":["_ref_15","_ref_16"],"sec-array.prototype.spliced":["_ref_17","_ref_18"],"sec-array.prototype.unshifted":["_ref_19","_ref_20"],"sec-array.prototype.with":["_ref_21","_ref_22","_ref_23"]},"entries":[{"type":"clause","id":"sec-arrayclone","aoid":null,"titleHTML":"ArrayClone ( <var>originalArray</var> )","number":"1.1.1.1","referencingIds":[],"key":"ArrayClone ( originalArray )"},{"type":"clause","id":"sec-array-exotic-objects","aoid":null,"titleHTML":"Array Exotic Objects","number":"1.1.1","referencingIds":[],"key":"Array Exotic Objects"},{"type":"clause","id":"sec-built-in-exotic-object-internal-methods-and-slots","aoid":null,"titleHTML":"Built-in Exotic Object Internal Methods and Slots","number":"1.1","referencingIds":[],"key":"Built-in Exotic Object Internal Methods and Slots"},{"type":"clause","id":"sec-ordinary-and-exotic-objects-behaviour","aoid":null,"titleHTML":"Ordinary and Exotic Objects Behaviour","number":"1","referencingIds":[],"key":"Ordinary and Exotic Objects Behaviour"},{"type":"clause","id":"sec-array.prototype.popped","aoid":null,"titleHTML":"Array.prototype.popped ( )","number":"2.1.1.1","referencingIds":[],"key":"Array.prototype.popped ( )"},{"type":"clause","id":"sec-array.prototype.pushed","aoid":null,"titleHTML":"Array.prototype.pushed ( ...<var>args</var> )","number":"2.1.1.2","referencingIds":[],"key":"Array.prototype.pushed ( ...args )"},{"type":"clause","id":"sec-array.prototype.reversed","aoid":null,"titleHTML":"Array.prototype.reversed ( )","number":"2.1.1.3","referencingIds":[],"key":"Array.prototype.reversed ( )"},{"type":"clause","id":"sec-array.prototype.shifted","aoid":null,"titleHTML":"Array.prototype.shifted ( )","number":"2.1.1.4","referencingIds":[],"key":"Array.prototype.shifted ( )"},{"type":"clause","id":"sec-array.prototype.sorted","aoid":null,"titleHTML":"Array.prototype.sorted ( <var>compareFn</var> )","number":"2.1.1.5","referencingIds":[],"key":"Array.prototype.sorted ( compareFn )"},{"type":"clause","id":"sec-array.prototype.spliced","aoid":null,"titleHTML":"Array.prototype.spliced ( <var>start</var>, <var>deleteCount</var>, ...<var>items</var> )","number":"2.1.1.6","referencingIds":[],"key":"Array.prototype.spliced ( start, deleteCount, ...items )"},{"type":"clause","id":"sec-array.prototype.unshifted","aoid":null,"titleHTML":"Array.prototype.unshifted ( ...<var>args</var> )","number":"2.1.1.7","referencingIds":[],"key":"Array.prototype.unshifted ( ...args )"},{"type":"clause","id":"sec-array.prototype.with","aoid":null,"titleHTML":"Array.prototype.with ( <var>index</var>, <var>value</var> )","number":"2.1.1.8","referencingIds":[],"key":"Array.prototype.with ( index, value )"},{"type":"clause","id":"sec-properties-of-the-array-prototype-object","aoid":null,"titleHTML":"Properties of the Array Prototype Object","number":"2.1.1","referencingIds":[],"key":"Properties of the Array Prototype Object"},{"type":"clause","id":"sec-array-objects","aoid":null,"titleHTML":"Array Objects","number":"2.1","referencingIds":[],"key":"Array Objects"},{"type":"clause","id":"sec-indexed-collections","aoid":null,"titleHTML":"Indexed Collections","number":"2","referencingIds":[],"key":"Indexed Collections"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"titleHTML":"Copyright &amp; Software License","number":"A","referencingIds":[],"key":"Copyright & Software License"}]}`);</script><style>body {
   display: flex;
   font-size: 18px;
   line-height: 1.5;
@@ -2206,9 +2206,103 @@ li.menu-search-result-term:before {
 .normative-optional-tag a {
   color: #884400;
 }
-</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 0 Draft / March 26, 2021</h1><h1 class="title">Change Array by copy</h1>
+</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-ordinary-and-exotic-objects-behaviour" title="Ordinary and Exotic Objects Behaviour"><span class="secnum">1</span> Ordinary and Exotic Objects Behaviour</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-built-in-exotic-object-internal-methods-and-slots" title="Built-in Exotic Object Internal Methods and Slots"><span class="secnum">1.1</span> Built-in Exotic Object Internal Methods and Slots</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-array-exotic-objects" title="Array Exotic Objects"><span class="secnum">1.1.1</span> Array Exotic Objects</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-arrayclone" title="ArrayClone ( originalArray )"><span class="secnum">1.1.1.1</span> ArrayClone ( <var>originalArray</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-indexed-collections" title="Indexed Collections"><span class="secnum">2</span> Indexed Collections</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-array-objects" title="Array Objects"><span class="secnum">2.1</span> Array Objects</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-properties-of-the-array-prototype-object" title="Properties of the Array Prototype Object"><span class="secnum">2.1.1</span> Properties of the Array Prototype Object</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.popped" title="Array.prototype.popped ( )"><span class="secnum">2.1.1.1</span> Array.prototype.popped ( )</a></li><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.pushed" title="Array.prototype.pushed ( ...args )"><span class="secnum">2.1.1.2</span> Array.prototype.pushed ( ...<var>args</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.reversed" title="Array.prototype.reversed ( )"><span class="secnum">2.1.1.3</span> Array.prototype.reversed ( )</a></li><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.shifted" title="Array.prototype.shifted ( )"><span class="secnum">2.1.1.4</span> Array.prototype.shifted ( )</a></li><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.sorted" title="Array.prototype.sorted ( compareFn )"><span class="secnum">2.1.1.5</span> Array.prototype.sorted ( <var>compareFn</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.spliced" title="Array.prototype.spliced ( start, deleteCount, ...items )"><span class="secnum">2.1.1.6</span> Array.prototype.spliced ( <var>start</var>, <var>deleteCount</var>, ...<var>items</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.unshifted" title="Array.prototype.unshifted ( ...args )"><span class="secnum">2.1.1.7</span> Array.prototype.unshifted ( ...<var>args</var> )</a></li><li><span class="item-toggle-none"></span><a href="#sec-array.prototype.with" title="Array.prototype.with ( index, value )"><span class="secnum">2.1.1.8</span> Array.prototype.with ( <var>index</var>, <var>value</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 0 Draft / March 26, 2021</h1><h1 class="title">Change Array by copy</h1>
 
-<emu-annex id="sec-copyright-and-software-license">
+<emu-biblio href="biblio.json"></emu-biblio>
+
+<emu-clause id="sec-ordinary-and-exotic-objects-behaviour">
+    <h1><span class="secnum">1</span> Ordinary and Exotic Objects Behaviour</h1>
+
+    <emu-clause id="sec-built-in-exotic-object-internal-methods-and-slots">
+        <h1><span class="secnum">1.1</span> Built-in Exotic Object Internal Methods and Slots</h1>
+
+        <emu-clause id="sec-array-exotic-objects">
+            <h1><span class="secnum">1.1.1</span> Array Exotic Objects</h1>
+
+            <emu-clause id="sec-arrayclone">
+                <h1><span class="secnum">1.1.1.1</span> ArrayClone ( <var>originalArray</var> )</h1>
+
+                <p>The abstract operation ArrayClone tekes the argument <var>originalArray</var>. It is used to clone the Array in memory into a new Array and return it. It performs the following steps when called:</p>
+                <emu-alg><ol><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <emu-xref aoid="IsArray" id="_ref_0"><a href="https://tc39.es/ecma262/#sec-isarray">IsArray</a></emu-xref>(<var>originalArray</var>).</li><li>Let <var>len</var> be ?&nbsp;<emu-xref aoid="LengthOfArrayLike" id="_ref_1"><a href="https://tc39.es/ecma262/#sec-lengthofarraylike">LengthOfArrayLike</a></emu-xref>(<var>originalArray</var>).</li><li>Let <var>A</var> be ?&nbsp;<emu-xref aoid="ArraySpeciesCreate" id="_ref_2"><a href="https://tc39.es/ecma262/#sec-arrayspeciescreate">ArraySpeciesCreate</a></emu-xref>(<var>originalArray</var>, <var>len</var>).</li><li>Let <var>k</var> be 0.</li><li>Repeat, while <var>k</var> &lt; <var>len</var>,<ol><li>Let <var>Pk</var> be !&nbsp;<emu-xref aoid="ToString" id="_ref_3"><a href="https://tc39.es/ecma262/#sec-tostring">ToString</a></emu-xref>(<emu-xref href="#𝔽"><a href="https://tc39.es/ecma262/#𝔽">𝔽</a></emu-xref>(<var>k</var>)).</li><li>Let <var>kPresent</var> be ?&nbsp;<emu-xref aoid="HasProperty" id="_ref_4"><a href="https://tc39.es/ecma262/#sec-hasproperty">HasProperty</a></emu-xref>(<var>originalArray</var>, <var>Pk</var>).</li><li>If <var>kPresent</var> is <emu-val>true</emu-val>, then<ol><li>Let <var>kValue</var> be ?&nbsp;<emu-xref aoid="Get" id="_ref_5"><a href="https://tc39.es/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>originalArray</var>, <var>Pk</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="CreateDataPropertyOrThrow" id="_ref_6"><a href="https://tc39.es/ecma262/#sec-createdatapropertyorthrow">CreateDataPropertyOrThrow</a></emu-xref>(<var>A</var>, <var>Pk</var>, <var>kValue</var>).</li></ol></li><li>Set <var>k</var> to <var>k</var> + 1.</li></ol></li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+        </emu-clause>
+    </emu-clause>
+</emu-clause>
+<emu-clause id="sec-indexed-collections">
+    <h1><span class="secnum">2</span> Indexed Collections</h1>
+
+    <emu-clause id="sec-array-objects">
+        <h1><span class="secnum">2.1</span> Array Objects</h1>
+
+        <emu-clause id="sec-properties-of-the-array-prototype-object">
+            <h1><span class="secnum">2.1.1</span> Properties of the Array Prototype Object</h1>
+
+            <emu-clause id="sec-array.prototype.popped">
+                <h1><span class="secnum">2.1.1.1</span> Array.prototype.popped ( )</h1>
+
+                <p>When the <emu-val>popped</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_7"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_8"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(Array.prototype.pop, <var>A</var>, «»).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.pushed">
+                <h1><span class="secnum">2.1.1.2</span> Array.prototype.pushed ( ...<var>args</var> )</h1>
+
+                <p>When the <emu-val>pushed</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_9"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_10"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(Array.prototype.push, <var>A</var>, «...<var>args</var>»).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.reversed">
+                <h1><span class="secnum">2.1.1.3</span> Array.prototype.reversed ( )</h1>
+
+                <p>When the <emu-val>reversed</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_11"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_12"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(Array.prototype.reverse, <var>A</var>, «»).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.shifted">
+                <h1><span class="secnum">2.1.1.4</span> Array.prototype.shifted ( )</h1>
+
+                <p>When the <emu-val>shifted</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_13"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_14"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(Array.prototype.shift, <var>A</var>, «»).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.sorted">
+                <h1><span class="secnum">2.1.1.5</span> Array.prototype.sorted ( <var>compareFn</var> )</h1>
+
+                <p>When the <emu-val>sorted</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_15"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_16"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(Array.prototype.sort, <var>A</var>, «<var>compareFn</var>»).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.spliced">
+                <h1><span class="secnum">2.1.1.6</span> Array.prototype.spliced ( <var>start</var>, <var>deleteCount</var>, ...<var>items</var> )</h1>
+
+                <p>When the <emu-val>spliced</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_17"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_18"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(Array.prototype.splice, <var>A</var>, «<var>start</var>, <var>deleteCount</var>, ...<var>items</var>»).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.unshifted">
+                <h1><span class="secnum">2.1.1.7</span> Array.prototype.unshifted ( ...<var>args</var> )</h1>
+
+                <p>When the <emu-val>unshifted</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_19"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Perform ?&nbsp;<emu-xref aoid="Call" id="_ref_20"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(Array.prototype.unshift, <var>A</var>, «...<var>args</var>»).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.with">
+                <h1><span class="secnum">2.1.1.8</span> Array.prototype.with ( <var>index</var>, <var>value</var> )</h1>
+
+                <p>When the <emu-val>unshifted</emu-val> method is called, the following steps are taken:</p>
+
+                <emu-alg><ol><li>Let <var>O</var> be ?&nbsp;<emu-xref aoid="ToObject" id="_ref_21"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<emu-val>this</emu-val> value).</li><li>Let <var>A</var> be ArrayClone(<var>O</var>).</li><li>Let <var>P</var> be !&nbsp;<emu-xref aoid="ToString" id="_ref_22"><a href="https://tc39.es/ecma262/#sec-tostring">ToString</a></emu-xref>(<emu-xref href="#𝔽"><a href="https://tc39.es/ecma262/#𝔽">𝔽</a></emu-xref>(<var>index</var>)).</li><li>Perform ?&nbsp;<emu-xref aoid="Set" id="_ref_23"><a href="https://tc39.es/ecma262/#sec-set-o-p-v-throw">Set</a></emu-xref>(<var>A</var>, <var>P</var>, <var>value</var>, <emu-val>true</emu-val>).</li><li>Return <var>A</var>.</li></ol></emu-alg>
+            </emu-clause>
+        </emu-clause>
+    </emu-clause>
+</emu-clause><emu-annex id="sec-copyright-and-software-license">
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
       <h2>Copyright Notice</h2>
