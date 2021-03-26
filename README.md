@@ -1,4 +1,4 @@
-# Change arrays by copy
+# Change Array by copy
 
 Provides additional methods to `Array.prototype` to enable changes on an array by returning a new copy of it with the change.
 

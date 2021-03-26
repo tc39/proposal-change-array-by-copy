@@ -1,0 +1,16 @@
+{
+  "name": "proposal-change-array-by-copy",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prebuild": "mkdirp out/",
+    "build": "ecmarkup spec.html out/index.html",
+    "prestart": "npm run build",
+    "start": "serve out/"
+  },
+  "dependencies": {
+    "ecmarkup": "^7.0.3",
+    "mkdirp": "^1.0.4",
+    "serve": "^11.3.2"
+  }
+}
