@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "prebuild": "mkdirp out/",
+    "test": "tape ./polyfill.test.js",
     "build": "ecmarkup spec.html out/index.html",
     "prestart": "npm run build",
     "start": "serve out/"
@@ -11,6 +12,7 @@
   "dependencies": {
     "ecmarkup": "^7.0.3",
     "mkdirp": "^1.0.4",
-    "serve": "^11.3.2"
+    "serve": "^11.3.2",
+    "tape": "^5.2.2"
   }
 }

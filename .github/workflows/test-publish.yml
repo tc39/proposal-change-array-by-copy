@@ -1,4 +1,4 @@
-name: Publish the spec & cookbook to gh-pages
+name: Polyfill test & spec publish
 on:
   push:
     branches: [ main ]
@@ -17,3 +17,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: out
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dev deps
+      run: npm install
+    - name: Test the polyfill
+      run: npm run build

@@ -6,7 +6,13 @@ Provides additional methods to `Array.prototype` to enable changes on an array b
 
 This proposal is currently at [Stage 0].
 
+- [Candidate spec text][spec]
+- [Candidate polyfill][poly]
+
 [Stage 0]: https://github.com/tc39/proposals/blob/master/stage-0-proposals.md
+[spec]: http://www.rricard.me/proposal-change-array-by-copy/
+[poly]: ./polyfill.js
+
 
 ## Champions
 
