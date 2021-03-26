@@ -7,3 +7,152 @@ stage: 0
 contributors: Robin Ricard
 </pre>
 
+<emu-biblio href="biblio.json"></emu-biblio>
+
+<emu-clause id="sec-ordinary-and-exotic-objects-behaviour">
+    <h1>Ordinary and Exotic Objects Behaviour</h1>
+
+    <emu-clause id="sec-built-in-exotic-object-internal-methods-and-slots">
+        <h1>Built-in Exotic Object Internal Methods and Slots</h1>
+
+        <emu-clause id="sec-array-exotic-objects">
+            <h1>Array Exotic Objects</h1>
+
+            <emu-clause id="sec-arrayclone">
+                <h1>ArrayClone ( _originalArray_ )</h1>
+
+                <p>The abstract operation ArrayClone tekes the argument _originalArray_. It is used to clone the Array in memory into a new Array and return it. It performs the following steps when called:</p>
+                <emu-alg>
+                    1. Assert: IsArray(_originalArray_).
+                    1. Let _len_ be ? LengthOfArrayLike(_originalArray_).
+                    1. Let _A_ be ? ArraySpeciesCreate(_originalArray_, _len_).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ < _len_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _kPresent_ be ? HasProperty(_originalArray_, _Pk_).
+                        1. If _kPresent_ is *true*, then
+                            1. Let _kValue_ be ? Get(_originalArray_, _Pk_).
+                            1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _kValue_).
+                        1. Set _k_ to _k_ + 1.
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+        </emu-clause>
+    </emu-clause>
+</emu-clause>
+<emu-clause id="sec-indexed-collections">
+    <h1>Indexed Collections</h1>
+
+    <emu-clause id="sec-array-objects">
+        <h1>Array Objects</h1>
+
+        <emu-clause id="sec-properties-of-the-array-prototype-object">
+            <h1>Properties of the Array Prototype Object</h1>
+
+            <emu-clause id="sec-array.prototype.popped">
+                <h1>Array.prototype.popped ( )</h1>
+
+                <p>When the *popped* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Perform ? Call(Array.prototype.pop, _A_, «»).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.pushed">
+                <h1>Array.prototype.pushed ( ..._args_ )</h1>
+
+                <p>When the *pushed* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Perform ? Call(Array.prototype.push, _A_, «..._args_»).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.reversed">
+                <h1>Array.prototype.reversed ( )</h1>
+
+                <p>When the *reversed* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Perform ? Call(Array.prototype.reverse, _A_, «»).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.shifted">
+                <h1>Array.prototype.shifted ( )</h1>
+
+                <p>When the *shifted* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Perform ? Call(Array.prototype.shift, _A_, «»).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.sorted">
+                <h1>Array.prototype.sorted ( _compareFn_ )</h1>
+
+                <p>When the *sorted* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Perform ? Call(Array.prototype.sort, _A_, «_compareFn_»).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.spliced">
+                <h1>Array.prototype.spliced ( _start_, _deleteCount_, ..._items_ )</h1>
+
+                <p>When the *spliced* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Perform ? Call(Array.prototype.splice, _A_, «_start_, _deleteCount_, ..._items_»).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.unshifted">
+                <h1>Array.prototype.unshifted ( ..._args_ )</h1>
+
+                <p>When the *unshifted* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Perform ? Call(Array.prototype.unshift, _A_, «..._args_»).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
+            <emu-clause id="sec-array.prototype.with">
+                <h1>Array.prototype.with ( _index_, _value_ )</h1>
+
+                <p>When the *unshifted* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _A_ be ArrayClone(_O_).
+                    1. Let _P_ be ! ToString(𝔽(_index_)).
+                    1. Perform ? Set(_A_, _P_, _value_, *true*).
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+        </emu-clause>
+    </emu-clause>
+</emu-clause>
