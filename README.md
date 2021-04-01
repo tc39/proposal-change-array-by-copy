@@ -37,6 +37,19 @@ This proposal introduces the following function properties to `Array.prototype`:
 
 All of those methods keep the target Array untouched and returns a copy of it with the change performed instead.
 
+They will also be added to TypedArrays:
+
+- `TypedArray.prototype.popped() -> TypedArray`
+- `TypedArray.prototype.pushed(values...) -> TypedArray`
+- `TypedArray.prototype.reversed() -> TypedArray`
+- `TypedArray.prototype.shifted() -> TypedArray`
+- `TypedArray.prototype.sorted(compareFn) -> TypedArray`
+- `TypedArray.prototype.spliced(start, deleteCount, ...items) -> TypedArray`
+- `TypedArray.prototype.unshifted(...values) -> TypedArray`
+- `TypedArray.prototype.with(index, value) -> TypedArray`
+
+The returned TypedArray is of the same type as the method's caller type.
+
 ### Example
 
 ```js
@@ -44,9 +57,9 @@ const sequence = [1, 2, 3];
 sequence.reversed(); // => [3, 2, 1]
 sequence; // => [1, 2, 3]
 
-const outOfOrder = [3, 1, 2];
-outOfOrder.sorted(); // => [1, 2, 3]
-outOfOrder; // => [3, 1, 2]
+const outOfOrder = new Uint8Array([3, 1, 2]);
+outOfOrder.sorted(); // => Uint8Array [1, 2, 3]
+outOfOrder; // => Uint8Array [3, 1, 2]
 
 const correctionNeeded = [1, 1, 3];
 correctionNeeded.with(1, 2); // => [1, 2, 3]
