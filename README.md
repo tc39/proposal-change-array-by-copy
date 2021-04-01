@@ -48,7 +48,19 @@ They will also be added to TypedArrays:
 - `TypedArray.prototype.unshifted(...values) -> TypedArray`
 - `TypedArray.prototype.with(index, value) -> TypedArray`
 
-The returned TypedArray is of the same type as the method's caller type.
+For all the above methods, replace `TypedArray` with one of the following accordingly:
+
+- `Int8Array`
+- `Uint8Array`
+- `Uint8ClampedArray`
+- `Int16Array`
+- `Uint16Array`
+- `Int32Array`
+- `Uint32Array`
+- `Float32Array`
+- `Float64Array`
+- `BigInt64Array`
+- `BigUint64Array`
 
 ### Example
 
