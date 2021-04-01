@@ -18,6 +18,10 @@ This proposal is currently at [Stage 0].
 
 - Robin Ricard (Bloomberg)
 
+## Authors
+
+- Robin Ricard (Bloomberg)
+
 ## Overview
 
 This proposal introduces the following function properties to `Array.prototype`:
