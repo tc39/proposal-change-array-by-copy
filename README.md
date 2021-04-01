@@ -16,7 +16,7 @@ This proposal is currently at [Stage 0].
 
 ## Champions
 
-- Robin Ricard (@rricard)
+- Robin Ricard (Bloomberg)
 
 ## Overview
 
