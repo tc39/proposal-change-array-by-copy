@@ -21,6 +21,7 @@ This proposal is currently at [Stage 0].
 ## Authors
 
 - Robin Ricard (Bloomberg)
+- Ashley Claymore (Bloomberg)
 
 ## Overview
 
