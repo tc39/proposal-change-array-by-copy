@@ -26,6 +26,8 @@ This proposal is currently at [Stage 0].
 
 This proposal introduces the following function properties to `Array.prototype`:
 
+- `Array.prototype.filled(value, start, end) -> Array`
+- `Array.prototype.copiedWithin(copiedTarget, start, end) -> Array`
 - `Array.prototype.popped() -> Array`
 - `Array.prototype.pushed(values...) -> Array`
 - `Array.prototype.reversed() -> Array`
@@ -39,6 +41,8 @@ All of those methods keep the target Array untouched and returns a copy of it wi
 
 They will also be added to TypedArrays:
 
+- `TypedArray.prototype.filled(value, start, end) -> TypedArray`
+- `TypedArray.prototype.copiedWithin(copiedTarget, start, end) -> TypedArray`
 - `TypedArray.prototype.popped() -> TypedArray`
 - `TypedArray.prototype.pushed(values...) -> TypedArray`
 - `TypedArray.prototype.reversed() -> TypedArray`
