@@ -86,7 +86,7 @@ This proposal notably makes it easier to write code able to deal with Arrays and
 
 ## Relationship with [Record & Tuple][r-t]
 
-While this proposal is derived from [Record & Tuple][r-t], it should progress indepenedently.
+While this proposal is derived from [Record & Tuple][r-t], it should progress independently.
 
 If web compatibility prescribes it, property names defined in this proposal are going to be changed. Those changes should be reflected on [`Tuple.prototype`][tuple-proto].
 
