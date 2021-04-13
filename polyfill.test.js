@@ -120,120 +120,158 @@ tape("Array.prototype.with", (t) => {
     t.end();
 });
 
-tape("TypedArray.prototype.popped", (t) => {
-    const orig = new Int8Array([1, 2, 3]);
-    const expected = new Int8Array([1, 2]);
+[
+    Int8Array,
+    Uint8Array,
+    Uint8ClampedArray,
+    Int16Array,
+    Uint16Array,
+    Int32Array,
+    Uint32Array,
+    Float32Array,
+    Float64Array
+].forEach((TypedArray) => {
+    tape(`${TypedArray.name}.prototype.popped`, (t) => {
+        const orig = new TypedArray([1, 2, 3]);
+        const expected = new TypedArray([1, 2]);
 
-    const copy = orig.popped();
+        const copy = orig.popped();
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.pushed", (t) => {
-    const orig = new Int8Array([1, 2, 3]);
-    const push = [4, 5, 6];
-    const expected = new Int8Array([1, 2, 3, 4, 5, 6]);
+    tape(`${TypedArray.name}.prototype.pushed`, (t) => {
+        const orig = new TypedArray([1, 2, 3]);
+        const push = [4, 5, 6];
+        const expected = new TypedArray([1, 2, 3, 4, 5, 6]);
 
-    const copy = orig.pushed(...push);
+        const copy = orig.pushed(...push);
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.reversed", (t) => {
-    const orig = new Int8Array([3, 2, 1]);
-    const expected = new Int8Array([1, 2, 3]);
+    tape(`${TypedArray.name}.prototype.reversed`, (t) => {
+        const orig = new TypedArray([3, 2, 1]);
+        const expected = new TypedArray([1, 2, 3]);
 
-    const copy = orig.reversed();
+        const copy = orig.reversed();
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.shifted", (t) => {
-    const orig = new Int8Array([1, 2, 3]);
-    const expected = new Int8Array([2, 3]);
+    tape(`${TypedArray.name}.prototype.shifted`, (t) => {
+        const orig = new TypedArray([1, 2, 3]);
+        const expected = new TypedArray([2, 3]);
 
-    const copy = orig.shifted();
+        const copy = orig.shifted();
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.sorted", (t) => {
-    const orig = new Int8Array([3, 1, 2]);
-    const expected = new Int8Array([1, 2, 3]);
+    tape(`${TypedArray.name}.prototype.sorted`, (t) => {
+        const orig = new TypedArray([3, 1, 2]);
+        const expected = new TypedArray([1, 2, 3]);
 
-    const copy = orig.sorted();
+        const copy = orig.sorted();
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.sorted(compareFn)", (t) => {
-    const orig = new Int8Array([3, 1, 2]);
-    const expected = new Int8Array([3, 2, 1]);
-    function compareFn(a, b) {
-        return a > b ? -1 : 1;
-    }
+    tape(`${TypedArray.name}.prototype.sorted(compareFn)`, (t) => {
+        const orig = new TypedArray([3, 1, 2]);
+        const expected = new TypedArray([3, 2, 1]);
+        function compareFn(a, b) {
+            return a > b ? -1 : 1;
+        }
 
-    const copy = orig.sorted(compareFn);
+        const copy = orig.sorted(compareFn);
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.spliced", (t) => {
-    const orig = new Int8Array([1, -1, 0, -1, 4]);
-    const expected = new Int8Array([1, 2, 3, 4]);
-    const idx = 1;
-    const delNum = 3;
-    const ins = [2, 3];
+    tape(`${TypedArray.name}.prototype.spliced`, (t) => {
+        const orig = new TypedArray([1, -1, 0, -1, 4]);
+        const expected = new TypedArray([1, 2, 3, 4]);
+        const idx = 1;
+        const delNum = 3;
+        const ins = [2, 3];
 
-    const copy = orig.spliced(idx, delNum, ...ins);
+        const copy = orig.spliced(idx, delNum, ...ins);
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.unshifted", (t) => {
-    const orig = new Int8Array([4, 5, 6]);
-    const unshift = [1, 2, 3];
-    const expected = new Int8Array([1, 2, 3, 4, 5, 6]);
+    tape(`${TypedArray.name}.prototype.unshifted`, (t) => {
+        const orig = new TypedArray([4, 5, 6]);
+        const unshift = [1, 2, 3];
+        const expected = new TypedArray([1, 2, 3, 4, 5, 6]);
 
-    const copy = orig.unshifted(...unshift);
+        const copy = orig.unshifted(...unshift);
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
-});
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
 
-tape("TypedArray.prototype.with", (t) => {
-    const orig = new Int8Array([1, 1, 3]);
-    const expected = new Int8Array([1, 2, 3]);
-    const idx = 1;
-    const val = 2;
+    tape(`${TypedArray.name}.prototype.with`, (t) => {
+        const orig = new TypedArray([1, 1, 3]);
+        const expected = new TypedArray([1, 2, 3]);
+        const idx = 1;
+        const val = 2;
 
-    const copy = orig.with(idx, val);
+        const copy = orig.with(idx, val);
 
-    t.deepEqual(copy, expected);
-    t.notEqual(orig, copy);
-    t.notDeepEqual(orig, copy);
-    t.end();
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.with negativeIndex`, (t) => {
+        const orig = new TypedArray([1, 2, 2]);
+        const expected = new TypedArray([1, 2, 3]);
+        const idx = -1;
+        const val = 3;
+
+        const copy = orig.with(idx, val);
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.with out of bounds`, (t) => {
+        const orig = new TypedArray([1, 2, 2]);
+        const idx = 3;
+        const val = 4;
+
+        t.throws(() => {
+            orig.with(idx, val);
+        }, RangeError);
+
+        t.end();
+    });
 });

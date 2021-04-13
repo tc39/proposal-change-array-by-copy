@@ -260,7 +260,7 @@
             throw new RangeError();
         }
         const copy = typedArrayPrototype.slice.call(this);
-        copy[index] = value;
+        copy[actualIndex] = value;
         return copy;
     }
 
