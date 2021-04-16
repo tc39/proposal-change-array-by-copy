@@ -9,37 +9,6 @@ contributors: Robin Ricard, Ashley Claymore
 
 <emu-biblio href="biblio.json"></emu-biblio>
 
-<emu-clause id="sec-ordinary-and-exotic-objects-behaviour">
-    <h1>Ordinary and Exotic Objects Behaviour</h1>
-
-    <emu-clause id="sec-built-in-exotic-object-internal-methods-and-slots">
-        <h1>Built-in Exotic Object Internal Methods and Slots</h1>
-
-        <emu-clause id="sec-array-exotic-objects">
-            <h1>Array Exotic Objects</h1>
-
-            <emu-clause id="sec-arrayclone">
-                <h1>ArrayClone ( _originalArray_ )</h1>
-
-                <p>The abstract operation ArrayClone takes the argument _originalArray_. It is used to clone the Array into a new Array and return it. It performs the following steps when called:</p>
-                <emu-alg>
-                    1. Assert: IsArray(_originalArray_).
-                    1. Let _len_ be ? LengthOfArrayLike(_originalArray_).
-                    1. Let _A_ be ? ArraySpeciesCreate(_originalArray_, _len_).
-                    1. Let _k_ be 0.
-                    1. Repeat, while _k_ < _len_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _kPresent_ be ? HasProperty(_originalArray_, _Pk_).
-                        1. If _kPresent_ is *true*, then
-                            1. Let _kValue_ be ? Get(_originalArray_, _Pk_).
-                            1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _kValue_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Return _A_.
-                </emu-alg>
-            </emu-clause>
-        </emu-clause>
-    </emu-clause>
-</emu-clause>
 <emu-clause id="sec-indexed-collections">
     <h1>Indexed Collections</h1>
 
@@ -56,21 +25,41 @@ contributors: Robin Ricard, Ashley Claymore
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Perform ? Call(Array.prototype.pop, _A_, «»).
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _newLen_ be max(_len_ - 1, 0).
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _newLen_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _elementK_ be ? Get(_O_, _Pk_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
+                        1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
 
             <emu-clause id="sec-array.prototype.pushed">
-                <h1>Array.prototype.pushed ( ..._args_ )</h1>
+                <h1>Array.prototype.pushed ( ..._items_ )</h1>
 
                 <p>When the *pushed* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Perform ? Call(Array.prototype.push, _A_, «..._args_»).
+                    1. Let _itemCount_ be the number of elements in _items_.
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. let _newLen_ be _len_ + _itemCount_.
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _len_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _elementK_ be ? Get(_O_, _Pk_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
+                        1. Set _k_ to _k_ + 1.
+                    1. For each element _E_ of _items_, do
+                        1. Assert: _k_ &lt; _newLen_.
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
+                        1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
@@ -82,8 +71,15 @@ contributors: Robin Ricard, Ashley Claymore
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Perform ? Call(Array.prototype.reverse, _A_, «»).
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _len_,
+                        1. Let _from_ be ! ToString(𝔽(_len_ - _k_ - 1)).
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _fromValue_ be ? Get(_O_, _from_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
@@ -95,8 +91,16 @@ contributors: Robin Ricard, Ashley Claymore
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Perform ? Call(Array.prototype.shift, _A_, «»).
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _newLen_ be max(_len_ - 1, 0).
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _newLen_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _from_ be ! ToString(𝔽(_k_ + 1)).
+                        1. Let _fromValue_ be ? Get(_O_, _from_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
@@ -107,9 +111,23 @@ contributors: Robin Ricard, Ashley Claymore
                 <p>When the *sorted* method is called, the following steps are taken:</p>
 
                 <emu-alg>
+                    1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
                     1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Perform ? Call(Array.prototype.sort, _A_, «_compareFn_»).
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _items_ be a new empty List.
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _len_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _kValue_ be ? Get(_O_, _Pk_).
+                        1. Append _kValue_ to _items_.
+                        1. Set _k_ to _k_ + 1.
+                    1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _j_ be 0.
+                    1. For each element _E_ of _items_, do
+                        1. Let _Pj_ be ! ToString(𝔽(_j_)).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pj_, _E_).
+                        1. Set _j_ to _j_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
@@ -120,22 +138,69 @@ contributors: Robin Ricard, Ashley Claymore
                 <p>When the *spliced* method is called, the following steps are taken:</p>
 
                 <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Perform ? Call(Array.prototype.splice, _A_, «_start_, _deleteCount_, ..._items_»).
+                    1. Let _O_ be the *this* value.
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
+                    1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
+                    1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
+                    1. Else, let _actualStart_ be min(_relativeStart_, _len_).
+                    1. If _start_ is not present, then
+                        1. Let _insertCount_ be 0.
+                        1. Let _actualDeleteCount_ be 0.
+                    1. Else if _deleteCount_ is not present, then
+                        1. Let _insertCount_ be 0.
+                        1. Let _actualDeleteCount_ be _len_ - _actualStart_.
+                    1. Else,
+                        1. Let _insertCount_ be the number of elements in _items_.
+                        1. Let _dc_ be ? ToIntegerOrInfinity(_deleteCount_).
+                        1. Let _actualDeleteCount_ be the result of clamping _dc_ between 0 and _len_ - _actualStart_.
+                    1. Let _newLen_ be _len_ + _insert_Count_ - _actualDeleteCount_.
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _newLen_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _kValue_ be ? Get(_O_, _Pk_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _kValue_).
+                        1. Set _k_ to _k_ + 1.
+                    1. Let _k_ be _actualStart_.
+                    1. For each element _E_ of _items_, do
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
+                        1. Set _k_ to _k_ + 1.
+                    1. Repeat, while _k_ &lt; _newLen_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _from_ be ! ToString(𝔽(_k_ + _actualDeleteCount_ - _insertCount_)).
+                        1. Let _fromValue_ be ? Get(_O_, _from_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
 
             <emu-clause id="sec-array.prototype.unshifted">
-                <h1>Array.prototype.unshifted ( ..._args_ )</h1>
+                <h1>Array.prototype.unshifted ( ..._items_ )</h1>
 
                 <p>When the *unshifted* method is called, the following steps are taken:</p>
 
                 <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Perform ? Call(Array.prototype.unshift, _A_, «..._args_»).
+                    1. Let _itemCount_ be the number of elements in _items_.
+                    1. Let _O_ be the *this* value.
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _newLen_ be _len_ + _itemCount_.
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _k_ be 0.
+                    1. For each element _E_ of _items_, do
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
+                        1. Set _k_ to _k_ + 1.
+                    1. Let _from_ be 0.
+                    1. Repeat, while _k_ &lt; _newLen_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _Pfrom_ be ! ToString(𝔽(_from_)).
+                        1. Let _fromValue_ be ? Get(_O_, _Pfrom_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Set _k_ to _k_ + 1.
+                        1. Set _from_ to _from_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
@@ -143,13 +208,24 @@ contributors: Robin Ricard, Ashley Claymore
             <emu-clause id="sec-array.prototype.with">
                 <h1>Array.prototype.with ( _index_, _value_ )</h1>
 
-                <p>When the *unshifted* method is called, the following steps are taken:</p>
+                <p>When the *with* method is called, the following steps are taken:</p>
 
                 <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _A_ be ArrayClone(_O_).
-                    1. Let _P_ be ! ToString(𝔽(_index_)).
-                    1. Perform ? Set(_A_, _P_, _value_, *true*).
+                    1. Let _O_ be the *this* value.
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. If IsIntegralNumber(_index_) is *false*, throw a *RangeError* exception.
+                    1. If _index_ &ge; _len_, throw a *RangeError* exception.
+                    1. If _index_ &lt; 0, let _actualIndex_ be _len_ + _index_.
+                    1. Else, let _actualIndex_ be _index_.
+                    1. If _actualIndex_ &lt; 0, throw a *RangeError* exception.
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _len_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. If _k_ is _actualIndex_, let _fromValue_ be _value_.
+                        1. Else, let _fromValue_ be ? Get(_O_, _Pk_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
@@ -222,6 +298,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_len_)).
                         1. Let _k_ be _len_.
                         1. For each element _E_ of _items_, do
+                            1. Assert: _k_ &lt; _newLen_.
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
                             1. Perform ? Set(_A_, _Pk_, _E_, *true*).
                             1. Set _k_ to _k_ + 1.
@@ -278,13 +355,43 @@ contributors: Robin Ricard, Ashley Claymore
                     <p>When the *sorted* method is called, the following steps are taken:</p>
 
                     <emu-alg>
+                        1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
                         1. Let _O_ be the *this* value.
                         1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _length_ be _O_.[[ArrayLength]].
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_length_) &raquo;).
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_length_)).
-                        1. Perform ? Call(%TypedArray.prototype.sorted%, _A_, &laquo; _compareFn_ &raquo;).
+                        1. Let _len_ be _O_.[[ArrayLength]].
+                        1. Let _items_ be a new empty List.
+                        1. Let _k_ be 0.
+                        1. Repeat, while _k_ &lt; _len_,
+                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                            1. Let _kValue_ be ? Get(_O_, _Pk_).
+                            1. Append _kValue_ to _items_.
+                            1. Set _k_ to _k_ + 1.
+                        1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
+                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;).
+                        1. Let _j_ be 0.
+                        1. For each element _E_ of _items_, do
+                            1. Let _Pj_ be ! ToString(𝔽(_j_)).
+                            1. Perform ? Set(_A_, _Pj_, _E_, *true*).
+                            1. Set _j_ to _j_ + 1.
                         1. Return _A_.
+                    </emu-alg>
+                    <p>The following version of SortCompare is used by %TypedArray%`.prototype.sorted`.</p>
+                    <p>The abstract operation TypedArraySortCompare performs the following steps when called:</p>
+                    <emu-alg>
+                        1. Assert: Both Type(_x_) and Type(_y_) are Number or both are BigInt.
+                        1. If _comparefn_ is not *undefined*, then
+                            1. Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, &laquo; _x_, _y_ &raquo;)).
+                            1. If IsDetachedBuffer(_buffer_) is *true*, throw a *TypeError* exception.
+                            1. If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.
+                            1. Return _v_.
+                        1. If _x_ and _y_ are both *NaN*, return *+0*<sub>𝔽</sub>.
+                        1. If _x_ is *NaN*, return *1*<sub>𝔽</sub>.
+                        1. If _y_ is *NaN*, return *-1*<sub>𝔽</sub>.
+                        1. If _x_ &lt; _y_, return *-1*<sub>𝔽</sub>.
+                        1. If _x_ &gt; _y_, return *1*<sub>𝔽</sub>.
+                        1. If _x_ is *-0*<sub>𝔽</sub> and _y_ is *+0*<sub>𝔽</sub>, return *-1*<sub>𝔽</sub>.
+                        1. If _x_ is *+0*<sub>𝔽</sub> and _y_ is *-0*<sub>𝔽</sub>, return *1*<sub>𝔽</sub>.
+                        1. Return *+0*<sub>𝔽</sub>.
                     </emu-alg>
                 </emu-clause>
 
