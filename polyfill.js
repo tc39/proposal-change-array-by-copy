@@ -1,5 +1,19 @@
 // @ts-check
 ((arrayPrototype) => {
+    /** @type {Array["copiedWithin"]} */
+    function copiedWithin(target, start, end) {
+        const copy = [...this];
+        copy.copyWithin(target, start, end);
+        return copy;
+    }
+
+    /** @type {Array["filled"]} */
+    function filled(value, start, end) {
+        const copy = [...this];
+        copy.fill(value, start, end);
+        return copy;
+    }
+
     /** @type {Array["popped"]} */
     function popped() {
         const copy = [...this];
@@ -57,6 +71,8 @@
     }
 
     const additions = {
+        copiedWithin,
+        filled,
         popped,
         pushed,
         reversed,
@@ -121,6 +137,28 @@
         /** @type {any} */
         const con = species.constructor;
         return new con(length);
+    }
+
+    /**
+     * @this {TypedArray}
+     * @type {TypedArray["copiedWithin"]}
+     */
+    function copiedWithin(target, start, end) {
+        assertTypedArray(this);
+        const copy = typedArrayPrototype.slice.call(this);
+        copy.copyWithin(target, start, end);
+        return copy;
+    }
+
+    /**
+     * @this {TypedArray}
+     * @type {TypedArray["filled"]}
+     */
+    function filled(value, start, end) {
+        assertTypedArray(this);
+        const copy = typedArrayPrototype.slice.call(this);
+        copy.fill(value, start, end);
+        return copy;
     }
 
     /**
@@ -265,6 +303,8 @@
     }
 
     const additions = {
+        copiedWithin,
+        filled,
         popped,
         pushed,
         reversed,
