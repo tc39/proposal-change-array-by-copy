@@ -1,5 +1,7 @@
 declare global {
     interface Array<T> {
+        copiedWithin(target: number, start?: number, end?: number): T[];
+        filled(v: T, start?: number, end?: number): T[];
         popped(): T[];
         pushed(...values: T[]): T[];
         reversed(): T[];
@@ -11,6 +13,8 @@ declare global {
     }
 
     interface Int8Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -22,6 +26,8 @@ declare global {
     }
 
     interface Uint8Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -33,6 +39,8 @@ declare global {
     }
 
     interface Uint8ClampedArray {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -44,6 +52,8 @@ declare global {
     }
 
     interface Int16Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -55,6 +65,8 @@ declare global {
     }
 
     interface Uint16Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -66,6 +78,8 @@ declare global {
     }
 
     interface Int32Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -77,6 +91,8 @@ declare global {
     }
 
     interface Uint32Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -88,6 +104,8 @@ declare global {
     }
 
     interface Float32Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
@@ -99,6 +117,8 @@ declare global {
     }
 
     interface Float64Array {
+        copiedWithin(target: number, start?: number, end?: number): this;
+        filled(v: number, start?: number, end?: number): this;
         popped(): this;
         pushed(...values: number[]): this;
         reversed(): this;
