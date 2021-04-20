@@ -4,12 +4,12 @@ Provides additional methods to `Array.prototype` to enable changes on an array b
 
 ## Status
 
-This proposal is currently at [Stage 0].
+This proposal is currently at [Stage 1].
 
 - [Candidate spec text][spec]
 - [Candidate polyfill][poly]
 
-[Stage 0]: https://github.com/tc39/proposals/blob/master/stage-0-proposals.md
+[Stage 1]: https://github.com/tc39/proposals/blob/master/stage-1-proposals.md
 [spec]: http://www.rricard.me/proposal-change-array-by-copy/
 [poly]: ./polyfill.js
 
