@@ -10,7 +10,7 @@ This proposal is currently at [Stage 1].
 - [Candidate polyfill][poly]
 
 [Stage 1]: https://github.com/tc39/proposals/blob/master/stage-1-proposals.md
-[spec]: http://www.rricard.me/proposal-change-array-by-copy/
+[spec]: https://tc39.es/proposal-change-array-by-copy/
 [poly]: ./polyfill.js
 
 
