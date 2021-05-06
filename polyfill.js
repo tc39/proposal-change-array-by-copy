@@ -50,7 +50,7 @@
     }
 
     /** @type {Array["spliced"]} */
-     function spliced(start, deleteCount, ...values) {
+    function spliced(start, deleteCount, ...values) {
         const copy = [...this];
         copy.splice(start, deleteCount, ...values);
         return copy;
@@ -70,6 +70,28 @@
         return copy;
     }
 
+    /** @type {Array["getAlternateOdd"]} */
+    function getAlternateOdd() {
+        const copy = [];
+        this.forEach((e, i) => {
+            if (!(i % 2 != 0)) {
+                copy.push(e)
+            }
+        });
+        return copy;
+    }
+
+    /** @type {Array["getAlternateEven"]} */
+    function getAlternateEven() {
+        const copy = [];
+        this.forEach((e, i) => {
+            if (!(i % 2 == 0)) {
+                copy.push(e)
+            }
+        });
+        return copy;
+    }
+
     const additions = {
         copiedWithin,
         filled,
@@ -81,6 +103,8 @@
         spliced,
         unshifted,
         with: withFn,
+        getAlternateOdd,
+        getAlternateEven
     };
 
     /** @type {PropertyDescriptorMap} */
@@ -220,7 +244,7 @@
      * @this {TypedArray}
      * @type {TypedArray["spliced"]}
      */
-     function spliced(start, deleteCount, ...values) {
+    function spliced(start, deleteCount, ...values) {
         assertTypedArray(this);
         const len = this.length;
         const relativeStart = toIntegerOrInfinity(start);
