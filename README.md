@@ -17,10 +17,6 @@ This proposal is currently at [Stage 1].
 ## Champions
 
 - Robin Ricard (Bloomberg)
-
-## Authors
-
-- Robin Ricard (Bloomberg)
 - Ashley Claymore (Bloomberg)
 
 ## Overview
