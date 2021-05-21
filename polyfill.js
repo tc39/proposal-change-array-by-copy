@@ -1,86 +1,86 @@
 // @ts-check
 ((arrayPrototype) => {
-    /** @type {Array["copiedWithin"]} */
-    function copiedWithin(target, start, end) {
+    /** @type {Array["withCopiedWithin"]} */
+    function withCopiedWithin(target, start, end) {
         const copy = [...this];
         copy.copyWithin(target, start, end);
         return copy;
     }
 
-    /** @type {Array["filled"]} */
-    function filled(value, start, end) {
+    /** @type {Array["withFilled"]} */
+    function withFilled(value, start, end) {
         const copy = [...this];
         copy.fill(value, start, end);
         return copy;
     }
 
-    /** @type {Array["popped"]} */
-    function popped() {
+    /** @type {Array["withPopped"]} */
+    function withPopped() {
         const copy = [...this];
         copy.pop();
         return copy;
     }
 
-    /** @type {Array["pushed"]} */
-    function pushed(...values) {
+    /** @type {Array["withPushed"]} */
+    function withPushed(...values) {
         const copy = [...this];
         copy.push(...values);
         return copy;
     }
 
-    /** @type {Array["reversed"]} */
-    function reversed() {
+    /** @type {Array["withReversed"]} */
+    function withReversed() {
         const copy = [...this];
         copy.reverse();
         return copy;
     }
 
-    /** @type {Array["shifted"]} */
-    function shifted() {
+    /** @type {Array["withShifted"]} */
+    function withShifted() {
         const copy = [...this];
         copy.shift();
         return copy;
     }
 
-    /** @type {Array["sorted"]} */
-    function sorted(compareFn) {
+    /** @type {Array["withSorted"]} */
+    function withSorted(compareFn) {
         const copy = [...this];
         copy.sort(compareFn);
         return copy;
     }
 
-    /** @type {Array["spliced"]} */
-     function spliced(start, deleteCount, ...values) {
+    /** @type {Array["withSpliced"]} */
+     function withSpliced(start, deleteCount, ...values) {
         const copy = [...this];
         copy.splice(start, deleteCount, ...values);
         return copy;
     }
 
-    /** @type {Array["unshifted"]} */
-    function unshifted(...values) {
+    /** @type {Array["withUnshifted"]} */
+    function withUnshifted(...values) {
         const copy = [...this];
         copy.unshift(...values);
         return copy;
     }
 
-    /** @type {Array["with"]} */
-    function withFn(index, value) {
+    /** @type {Array["withAt"]} */
+    function withAt(index, value) {
         const copy = [...this];
         copy[index] = value
         return copy;
     }
 
     const additions = {
-        copiedWithin,
-        filled,
-        popped,
-        pushed,
-        reversed,
-        shifted,
-        sorted,
-        spliced,
-        unshifted,
-        with: withFn,
+        withCopiedWithin,
+        withFilled,
+        withPopped,
+        withPushed,
+        withReversed,
+        withShifted,
+        withSorted,
+        withSpliced,
+        withUnshifted,
+        withAt,
     };
 
     /** @type {PropertyDescriptorMap} */
@@ -145,9 +145,9 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["copiedWithin"]}
+     * @type {TypedArray["withCopiedWithin"]}
      */
-    function copiedWithin(target, start, end) {
+    function withCopiedWithin(target, start, end) {
         assertTypedArray(this);
         const copy = typedArrayPrototype.slice.call(this);
         copy.copyWithin(target, start, end);
@@ -156,9 +156,9 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["filled"]}
+     * @type {TypedArray["withFilled"]}
      */
-    function filled(value, start, end) {
+    function withFilled(value, start, end) {
         assertTypedArray(this);
         const copy = typedArrayPrototype.slice.call(this);
         copy.fill(value, start, end);
@@ -167,17 +167,17 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["popped"]}
+     * @type {TypedArray["withPopped"]}
      */
-    function popped() {
+    function withPopped() {
         return typedArrayPrototype.slice.call(this, 0, -1);
     }
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["pushed"]}
+     * @type {TypedArray["withPushed"]}
      */
-    function pushed(...values) {
+    function withPushed(...values) {
         assertTypedArray(this);
         const newLength = this.length + values.length;
         const copy = typedArraySpeciesCreate(this, newLength);
@@ -193,9 +193,9 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["reversed"]}
+     * @type {TypedArray["withReversed"]}
      */
-    function reversed() {
+    function withReversed() {
         assertTypedArray(this);
         const copy = typedArrayPrototype.slice.call(this);
         copy.reverse();
@@ -204,17 +204,17 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["shifted"]}
+     * @type {TypedArray["withShifted"]}
      */
-    function shifted() {
+    function withShifted() {
         return typedArrayPrototype.slice.call(this, 1);
     }
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["sorted"]}
+     * @type {TypedArray["withSorted"]}
      */
-    function sorted(compareFn) {
+    function withSorted(compareFn) {
         const copy = typedArrayPrototype.slice.call(this);
         copy.sort(compareFn);
         return copy;
@@ -222,9 +222,9 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["spliced"]}
+     * @type {TypedArray["withSpliced"]}
      */
-     function spliced(start, deleteCount, ...values) {
+     function withSpliced(start, deleteCount, ...values) {
         assertTypedArray(this);
         const len = this.length;
         const relativeStart = toIntegerOrInfinity(start);
@@ -275,9 +275,9 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["unshifted"]}
+     * @type {TypedArray["withUnshifted"]}
      */
-    function unshifted(...values) {
+    function withUnshifted(...values) {
         assertTypedArray(this);
         const newLength = values.length + this.length;
         const copy = typedArraySpeciesCreate(this, newLength);
@@ -293,9 +293,9 @@
 
     /**
      * @this {TypedArray}
-     * @type {TypedArray["with"]}
+     * @type {TypedArray["withAt"]}
      */
-    function withFn(index, value) {
+    function withAt(index, value) {
         assertTypedArray(this);
         const actualIndex = index < 0 ? this.length + index : index;
         if (actualIndex < 0 || actualIndex >= this.length) {
@@ -307,16 +307,16 @@
     }
 
     const additions = {
-        copiedWithin,
-        filled,
-        popped,
-        pushed,
-        reversed,
-        shifted,
-        sorted,
-        spliced,
-        unshifted,
-        with: withFn,
+        withCopiedWithin,
+        withFilled,
+        withPopped,
+        withPushed,
+        withReversed,
+        withShifted,
+        withSorted,
+        withSpliced,
+        withUnshifted,
+        withAt,
     };
 
     /** @type {PropertyDescriptorMap} */
