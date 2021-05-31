@@ -147,6 +147,33 @@ tape("Array.prototype.with", (t) => {
     t.end();
 });
 
+tape("Array.prototype[Symbol.unscopables]", (t) => {
+    const marker = Symbol();
+    const copiedWithin = marker;
+    const filled = marker;
+    const popped = marker;
+    const pushed = marker;
+    const reversed = marker;
+    const shifted = marker;
+    const sorted = marker;
+    const spliced = marker;
+    const unshifted = marker;
+
+    // @ts-expect-error: 'with' is unsupported
+    with ([]) {
+        t.equal(copiedWithin, marker);
+        t.equal(filled, marker);
+        t.equal(popped, marker);
+        t.equal(pushed, marker);
+        t.equal(reversed, marker);
+        t.equal(shifted, marker);
+        t.equal(sorted, marker);
+        t.equal(spliced, marker);
+        t.equal(unshifted, marker);
+    }
+    t.end();
+});
+
 [
     Int8Array,
     Uint8Array,
