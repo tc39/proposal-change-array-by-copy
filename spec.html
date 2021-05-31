@@ -18,6 +18,42 @@ contributors: Robin Ricard, Ashley Claymore
         <emu-clause id="sec-properties-of-the-array-prototype-object">
             <h1>Properties of the Array Prototype Object</h1>
 
+            <emu-clause id="sec-array.prototype.filled">
+                <h1>%Array%.prototype.filled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
+
+                <p>When the *filled* method is called, the following steps are taken:</p>
+
+                <emu-alg>
+                    1. Let _O_ be ? ToObject(*this* value).
+                    1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
+                    1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
+                    1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
+                    1. Else, let _actualStart_ be min(_relativeStart_, _len_).
+                    1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
+                    1. If _relativeEnd_ is -&infin;, let _actualEnd_ be 0.
+                    1. Else if _relativeEnd_ &lt; 0, let _actualEnd_ be max(_len_ + _relativeEnd_, 0).
+                    1. Else, let _actualEnd_ be min(_relativeEnd_, _len_).
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _actualStart_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _elementK_ be ? Get(_O_, _Pk_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
+                        1. Set _k_ to _k_ + 1.
+                    1. Repeat, while _k_ &lt; _actualEnd_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _value_).
+                        1. Set _k_ to _k_ + 1.
+                    1. Repeat, while _k_ &lt; _len_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _elementK_ be ? Get(_O_, _Pk_).
+                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
+                        1. Set _k_ to _k_ + 1.
+                    1. Return _A_.
+                </emu-alg>
+            </emu-clause>
+
             <emu-clause id="sec-array.prototype.popped">
                 <h1>Array.prototype.popped ( )</h1>
 
@@ -266,6 +302,37 @@ contributors: Robin Ricard, Ashley Claymore
 
             <emu-clause id="sec-properties-of-the-%typedarrayprototype%-object">
                 <h1>Properties of the %TypedArray% Prototype Object</h1>
+
+                <emu-clause id="sec-%typedarray%.prototype.filled">
+                    <h1>%TypedArray%.prototype.filled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
+
+                    <p>When the *filled* method is called, the following steps are taken:</p>
+
+                    <emu-alg>
+                        1. Let _O_ be the *this* value.
+                        1. Perform ? ValidateTypedArray(_O_).
+                        1. Let _len_ be _O_.[[ArrayLength]].
+                        1. If _O_.[[ContentType]] is ~BigInt~, set _value_ to ? ToBigInt(_value_).
+                        1. Otherwise, set _value_ to ? ToNumber(_value_).
+                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;).
+                        1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
+                        1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
+                        1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
+                        1. Else, let _actualStart_ be min(_relativeStart_, _len_).
+                        1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
+                        1. If _relativeEnd_ is -&infin;, let _actualEnd_ be 0.
+                        1. Else if _relativeEnd_ &lt; 0, let _actualEnd_ be max(_len_ + _relativeEnd_, 0).
+                        1. Else, let _actualEnd_ be min(_relativeEnd_, _len_).
+                        1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_actualStart_)).
+                        1. Let _k_ be _actualStart_.
+                        1. Repeat, while _k_ &lt; _actualEnd_,
+                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                            1. Perform ? Set(_A_, _Pk_, _value_, *true*).
+                            1. Set _k_ to _k_ + 1.
+                        1. Perform ? TypedArrayCopyRange(_O_, _A_, 𝔽(_actualEnd_), 𝔽(_len_)).
+                        1. Return _A_.
+                    </emu-alg>
+                </emu-clause>
 
                 <emu-clause id="sec-%typedarray%.prototype.popped">
                     <h1>%TypedArray%.prototype.popped ( )</h1>
