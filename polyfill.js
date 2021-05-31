@@ -93,6 +93,10 @@
             writable: true,
             value,
         };
+
+        if (name !== 'with') { // 'with' is already a keyword
+            arrayPrototype[Symbol.unscopables][name] = true;
+        }
     }
 
     Object.defineProperties(arrayPrototype, propertyDescriptors);

@@ -229,6 +229,36 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
+
+
+            <emu-clause id="sec-array.prototype-@@unscopables">
+                <h1>Array.prototype [ @@unscopables ]</h1>
+                <p>The initial value of the @@unscopables data property is an object created by the following steps:</p>
+                <emu-alg>
+                    1. Let _unscopableList_ be ! OrdinaryObjectCreate(*null*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"copyWithin"*, *true*).
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"copiedWithin"*, *true*).</ins>
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"entries"*, *true*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"fill"*, *true*).
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"filled"*, *true*).</ins>
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"find"*, *true*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"findIndex"*, *true*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flat"*, *true*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flatMap"*, *true*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"includes"*, *true*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"keys"*, *true*).
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"popped"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"pushed"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"reversed"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"shifted"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"sorted"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"spliced"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"unshifted"*, *true*).</ins>
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"values"*, *true*).
+                    1. Return _unscopableList_.
+                </emu-alg>
+                <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+            </emu-clause>
         </emu-clause>
     </emu-clause>
 
