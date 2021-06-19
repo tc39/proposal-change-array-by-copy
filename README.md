@@ -49,7 +49,7 @@ They will also be added to TypedArrays:
 - `TypedArray.prototype.unshifted(...values) -> TypedArray`
 - `TypedArray.prototype.with(index, value) -> TypedArray`
 
-For all the above methods, replace `TypedArray` with one of the following accordingly:
+These methods will then be avaliable on subclasses of `TypedArray`. i.e. the following:
 
 - `Int8Array`
 - `Uint8Array`
