@@ -23,31 +23,31 @@ This proposal is currently at [Stage 1].
 
 This proposal introduces the following function properties to `Array.prototype`:
 
-- `Array.prototype.filled(value, start, end) -> Array`
-- `Array.prototype.copiedWithin(copiedTarget, start, end) -> Array`
-- `Array.prototype.popped() -> Array`
-- `Array.prototype.pushed(values...) -> Array`
-- `Array.prototype.reversed() -> Array`
-- `Array.prototype.shifted() -> Array`
-- `Array.prototype.sorted(compareFn) -> Array`
-- `Array.prototype.spliced(start, deleteCount, ...items) -> Array`
-- `Array.prototype.unshifted(...values) -> Array`
-- `Array.prototype.with(index, value) -> Array`
+- `Array.prototype.withFilled(value, start, end) -> Array`
+- `Array.prototype.withCopiedWithin(copiedTarget, start, end) -> Array`
+- `Array.prototype.withPopped() -> Array`
+- `Array.prototype.withPushed(values...) -> Array`
+- `Array.prototype.withReversed() -> Array`
+- `Array.prototype.withShifted() -> Array`
+- `Array.prototype.withSorted(compareFn) -> Array`
+- `Array.prototype.withSpliced(start, deleteCount, ...items) -> Array`
+- `Array.prototype.withUnshifted(...values) -> Array`
+- `Array.prototype.withAt(index, value) -> Array`
 
 All of those methods keep the target Array untouched and returns a copy of it with the change performed instead.
 
 They will also be added to TypedArrays:
 
-- `TypedArray.prototype.filled(value, start, end) -> TypedArray`
-- `TypedArray.prototype.copiedWithin(copiedTarget, start, end) -> TypedArray`
-- `TypedArray.prototype.popped() -> TypedArray`
-- `TypedArray.prototype.pushed(values...) -> TypedArray`
-- `TypedArray.prototype.reversed() -> TypedArray`
-- `TypedArray.prototype.shifted() -> TypedArray`
-- `TypedArray.prototype.sorted(compareFn) -> TypedArray`
-- `TypedArray.prototype.spliced(start, deleteCount, ...items) -> TypedArray`
-- `TypedArray.prototype.unshifted(...values) -> TypedArray`
-- `TypedArray.prototype.with(index, value) -> TypedArray`
+- `TypedArray.prototype.withFilled(value, start, end) -> TypedArray`
+- `TypedArray.prototype.withCopiedWithin(copiedTarget, start, end) -> TypedArray`
+- `TypedArray.prototype.withPopped() -> TypedArray`
+- `TypedArray.prototype.withPushed(values...) -> TypedArray`
+- `TypedArray.prototype.withReversed() -> TypedArray`
+- `TypedArray.prototype.withShifted() -> TypedArray`
+- `TypedArray.prototype.withSorted(compareFn) -> TypedArray`
+- `TypedArray.prototype.withSpliced(start, deleteCount, ...items) -> TypedArray`
+- `TypedArray.prototype.withUnshifted(...values) -> TypedArray`
+- `TypedArray.prototype.withAt(index, value) -> TypedArray`
 
 These methods will then be avaliable on subclasses of `TypedArray`. i.e. the following:
 
@@ -67,15 +67,15 @@ These methods will then be avaliable on subclasses of `TypedArray`. i.e. the fol
 
 ```js
 const sequence = [1, 2, 3];
-sequence.reversed(); // => [3, 2, 1]
+sequence.withReversed(); // => [3, 2, 1]
 sequence; // => [1, 2, 3]
 
 const outOfOrder = new Uint8Array([3, 1, 2]);
-outOfOrder.sorted(); // => Uint8Array [1, 2, 3]
+outOfOrder.withSorted(); // => Uint8Array [1, 2, 3]
 outOfOrder; // => Uint8Array [3, 1, 2]
 
 const correctionNeeded = [1, 1, 3];
-correctionNeeded.with(1, 2); // => [1, 2, 3]
+correctionNeeded.withAt(1, 2); // => [1, 2, 3]
 correctionNeeded; // => [1, 1, 3]
 ```
 

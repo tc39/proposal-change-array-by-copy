@@ -18,10 +18,10 @@ contributors: Robin Ricard, Ashley Claymore
         <emu-clause id="sec-properties-of-the-array-prototype-object">
             <h1>Properties of the Array Prototype Object</h1>
 
-            <emu-clause id="sec-array.prototype.copiedWithin">
-                <h1>Array.prototype.copiedWithin( _target_ , _start_ [ , _end_ ] )</h1>
+            <emu-clause id="sec-array.prototype.withCopiedWithin">
+                <h1>Array.prototype.withCopiedWithin( _target_ , _start_ [ , _end_ ] )</h1>
 
-                <p>When the *copiedWithin* method is called, the following steps are taken:</p>
+                <p>When the *withCopiedWithin* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
@@ -62,10 +62,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.filled">
-                <h1>Array.prototype.filled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
+            <emu-clause id="sec-array.prototype.withFilled">
+                <h1>Array.prototype.withFilled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
 
-                <p>When the *filled* method is called, the following steps are taken:</p>
+                <p>When the *withFilled* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
@@ -98,10 +98,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.popped">
-                <h1>Array.prototype.popped ( )</h1>
+            <emu-clause id="sec-array.prototype.withPopped">
+                <h1>Array.prototype.withPopped ( )</h1>
 
-                <p>When the *popped* method is called, the following steps are taken:</p>
+                <p>When the *withPopped* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
@@ -118,10 +118,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.pushed">
-                <h1>Array.prototype.pushed ( ..._items_ )</h1>
+            <emu-clause id="sec-array.prototype.withPushed">
+                <h1>Array.prototype.withPushed ( ..._items_ )</h1>
 
-                <p>When the *pushed* method is called, the following steps are taken:</p>
+                <p>When the *withPushed* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
@@ -144,10 +144,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.reversed">
-                <h1>Array.prototype.reversed ( )</h1>
+            <emu-clause id="sec-array.prototype.withReversed">
+                <h1>Array.prototype.withReversed ( )</h1>
 
-                <p>When the *reversed* method is called, the following steps are taken:</p>
+                <p>When the *withReversed* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
@@ -164,10 +164,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.shifted">
-                <h1>Array.prototype.shifted ( )</h1>
+            <emu-clause id="sec-array.prototype.withShifted">
+                <h1>Array.prototype.withShifted ( )</h1>
 
-                <p>When the *shifted* method is called, the following steps are taken:</p>
+                <p>When the *withShifted* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
@@ -185,10 +185,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.sorted">
-                <h1>Array.prototype.sorted ( _compareFn_ )</h1>
+            <emu-clause id="sec-array.prototype.withSorted">
+                <h1>Array.prototype.withSorted ( _compareFn_ )</h1>
 
-                <p>When the *sorted* method is called, the following steps are taken:</p>
+                <p>When the *withSorted* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
@@ -212,10 +212,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.spliced">
-                <h1>Array.prototype.spliced ( _start_, _deleteCount_, ..._items_ )</h1>
+            <emu-clause id="sec-array.prototype.withSpliced">
+                <h1>Array.prototype.withSpliced ( _start_, _deleteCount_, ..._items_ )</h1>
 
-                <p>When the *spliced* method is called, the following steps are taken:</p>
+                <p>When the *withSpliced* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be the *this* value.
@@ -257,10 +257,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.unshifted">
-                <h1>Array.prototype.unshifted ( ..._items_ )</h1>
+            <emu-clause id="sec-array.prototype.withUnshifted">
+                <h1>Array.prototype.withUnshifted ( ..._items_ )</h1>
 
-                <p>When the *unshifted* method is called, the following steps are taken:</p>
+                <p>When the *withUnshifted* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _itemCount_ be the number of elements in _items_.
@@ -285,10 +285,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.with">
-                <h1>Array.prototype.with ( _index_, _value_ )</h1>
+            <emu-clause id="sec-array.prototype.withAt">
+                <h1>Array.prototype.withAt ( _index_, _value_ )</h1>
 
-                <p>When the *with* method is called, the following steps are taken:</p>
+                <p>When the *withAt* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be the *this* value.
@@ -317,23 +317,24 @@ contributors: Robin Ricard, Ashley Claymore
                 <emu-alg>
                     1. Let _unscopableList_ be ! OrdinaryObjectCreate(*null*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"copyWithin"*, *true*).
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"copiedWithin"*, *true*).</ins>
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"entries"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"fill"*, *true*).
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"filled"*, *true*).</ins>
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"find"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"findIndex"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flat"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flatMap"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"includes"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"keys"*, *true*).
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"popped"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"pushed"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"reversed"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"shifted"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"sorted"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"spliced"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"unshifted"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withAt"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withCopiedWithin"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withFilled"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withPopped"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withPushed"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withReversed"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withShifted"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withSorted"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withSpliced"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withUnshifted"*, *true*).</ins>
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"values"*, *true*).
                     1. Return _unscopableList_.
                 </emu-alg>
@@ -377,10 +378,10 @@ contributors: Robin Ricard, Ashley Claymore
             <emu-clause id="sec-properties-of-the-%typedarrayprototype%-object">
                 <h1>Properties of the %TypedArray% Prototype Object</h1>
 
-                <emu-clause id="sec-%typedarray%.prototype.copiedWithin">
-                    <h1>%TypedArray%.prototype.copiedWithin( _target_ , _start_ [ , _end_ ] )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withCopiedWithin">
+                    <h1>%TypedArray%.prototype.withCopiedWithin( _target_ , _start_ [ , _end_ ] )</h1>
 
-                    <p>When the *copiedWithin* method is called, the following steps are taken:</p>
+                    <p>When the *withCopiedWithin* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be ? ToObject(*this* value).
@@ -414,10 +415,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.filled">
-                    <h1>%TypedArray%.prototype.filled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withFilled">
+                    <h1>%TypedArray%.prototype.withFilled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
 
-                    <p>When the *filled* method is called, the following steps are taken:</p>
+                    <p>When the *withFilled* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
@@ -445,10 +446,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.popped">
-                    <h1>%TypedArray%.prototype.popped ( )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withPopped">
+                    <h1>%TypedArray%.prototype.withPopped ( )</h1>
 
-                    <p>When the *popped* method is called, the following steps are taken:</p>
+                    <p>When the *withPopped* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
@@ -461,10 +462,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.pushed">
-                    <h1>%TypedArray%.prototype.pushed ( ..._items_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withPushed">
+                    <h1>%TypedArray%.prototype.withPushed ( ..._items_ )</h1>
 
-                    <p>When the *pushed* method is called, the following steps are taken:</p>
+                    <p>When the *withPushed* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _itemCount_ be the number of elements in _items_.
@@ -484,10 +485,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.reversed">
-                    <h1>%TypedArray%.prototype.reversed ( )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withReversed">
+                    <h1>%TypedArray%.prototype.withReversed ( )</h1>
 
-                    <p>When the *reversed* method is called, the following steps are taken:</p>
+                    <p>When the *withReversed* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
@@ -505,10 +506,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.shifted">
-                    <h1>%TypedArray%.prototype.shifted ( )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withShifted">
+                    <h1>%TypedArray%.prototype.withShifted ( )</h1>
 
-                    <p>When the *shifted* method is called, the following steps are taken:</p>
+                    <p>When the *withShifted* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
@@ -527,10 +528,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.sorted">
-                    <h1>%TypedArray%.prototype.sorted ( _compareFn_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withSorted">
+                    <h1>%TypedArray%.prototype.withSorted ( _compareFn_ )</h1>
 
-                    <p>When the *sorted* method is called, the following steps are taken:</p>
+                    <p>When the *withSorted* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
@@ -553,7 +554,7 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Set _j_ to _j_ + 1.
                         1. Return _A_.
                     </emu-alg>
-                    <p>The following version of SortCompare is used by %TypedArray%`.prototype.sorted`.</p>
+                    <p>The following version of SortCompare is used by %TypedArray%`.prototype.withSorted`.</p>
                     <p>The abstract operation TypedArraySortCompare performs the following steps when called:</p>
                     <emu-alg>
                         1. Assert: Both Type(_x_) and Type(_y_) are Number or both are BigInt.
@@ -573,10 +574,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.spliced">
-                    <h1>%TypedArray%.prototype.spliced ( _start_, _deleteCount_, ..._items_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withSpliced">
+                    <h1>%TypedArray%.prototype.withSpliced ( _start_, _deleteCount_, ..._items_ )</h1>
 
-                    <p>When the *spliced* method is called, the following steps are taken:</p>
+                    <p>When the *withSpliced* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
@@ -614,10 +615,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.unshifted">
-                    <h1>%TypedArray%.prototype.unshifted ( ..._items_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withUnshifted">
+                    <h1>%TypedArray%.prototype.withUnshifted ( ..._items_ )</h1>
 
-                    <p>When the *unshifted* method is called, the following steps are taken:</p>
+                    <p>When the *withUnshifted* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _itemCount_ be the number of elements in _items_.
@@ -643,10 +644,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.with">
-                    <h1>%TypedArray%.prototype.with ( _index_, _value_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.withAt">
+                    <h1>%TypedArray%.prototype.withAt ( _index_, _value_ )</h1>
 
-                    <p>When the *with* method is called, the following steps are taken:</p>
+                    <p>When the *withAt* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
