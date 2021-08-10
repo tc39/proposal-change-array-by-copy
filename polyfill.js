@@ -1,118 +1,15 @@
 // @ts-check
-((arrayPrototype) => {
-    /** @type {Array["withCopiedWithin"]} */
-    function withCopiedWithin(target, start, end) {
-        const copy = [...this];
-        copy.copyWithin(target, start, end);
-        return copy;
-    }
+/// <reference path="./polyfill.d.ts" />
 
-    /** @type {Array["withFilled"]} */
-    function withFilled(value, start, end) {
-        const copy = [...this];
-        copy.fill(value, start, end);
-        return copy;
-    }
-
-    /** @type {Array["withPopped"]} */
-    function withPopped() {
-        const copy = [...this];
-        copy.pop();
-        return copy;
-    }
-
-    /** @type {Array["withPushed"]} */
-    function withPushed(...values) {
-        const copy = [...this];
-        copy.push(...values);
-        return copy;
-    }
-
-    /** @type {Array["withReversed"]} */
-    function withReversed() {
-        const copy = [...this];
-        copy.reverse();
-        return copy;
-    }
-
-    /** @type {Array["withShifted"]} */
-    function withShifted() {
-        const copy = [...this];
-        copy.shift();
-        return copy;
-    }
-
-    /** @type {Array["withSorted"]} */
-    function withSorted(compareFn) {
-        const copy = [...this];
-        copy.sort(compareFn);
-        return copy;
-    }
-
-    /** @type {Array["withSpliced"]} */
-     function withSpliced(start, deleteCount, ...values) {
-        const copy = [...this];
-        copy.splice(start, deleteCount, ...values);
-        return copy;
-    }
-
-    /** @type {Array["withUnshifted"]} */
-    function withUnshifted(...values) {
-        const copy = [...this];
-        copy.unshift(...values);
-        return copy;
-    }
-
-    /** @type {Array["withAt"]} */
-    function withAt(index, value) {
-        const copy = [...this];
-        copy[index] = value
-        return copy;
-    }
-
-    const additions = {
-        withCopiedWithin,
-        withFilled,
-        withPopped,
-        withPushed,
-        withReversed,
-        withShifted,
-        withSorted,
-        withSpliced,
-        withUnshifted,
-        withAt,
-    };
-
-    /** @type {PropertyDescriptorMap} */
-    const propertyDescriptors = {};
-
-    for (const [name, value] of Object.entries(additions)) {
-        propertyDescriptors[name] = {
-            enumerable: false,
-            configurable: true,
-            writable: true,
-            value,
-        };
-
-        if (name !== 'with') { // 'with' is already a keyword
-            arrayPrototype[Symbol.unscopables][name] = true;
-        }
-    }
-
-    Object.defineProperties(arrayPrototype, propertyDescriptors);
-})(Array.prototype);
-
-((typedArrayPrototype) => {
-    /** @typedef {Int8Array} TypedArray */
-
+((arrayPrototype, typedArrayPrototype) => {
     function toIntegerOrInfinity(arg) {
         let n = Number(arg);
         if (Number.isNaN(n) || n === 0) {
             return 0;
         }
         if (n === Number.POSITIVE_INFINITY) {
-            return Number.POSITIVE_INFINITY
-        };
+            return Number.POSITIVE_INFINITY;
+        }
         if (n === Number.NEGATIVE_INFINITY) {
             return Number.NEGATIVE_INFINITY;
         }
@@ -124,11 +21,41 @@
     }
 
     /**
+     * @param {number} index
+     * @param {number} length
+     */
+    function resolveRelativeIndex(index, length) {
+        const target = toIntegerOrInfinity(index);
+        if (target === Number.NEGATIVE_INFINITY) {
+            return 0;
+        }
+        if (target < 0) {
+            return Math.max(0, length + target);
+        }
+        return Math.min(target, length);
+    }
+
+    function lengthOfArrayLike(arr) {
+        if (!(typeof arr === "object" && arr !== null)) {
+            throw new TypeError();
+        }
+        let len = toIntegerOrInfinity(arr["length"]);
+        if (!Number.isFinite(len)) {
+            len = 0;
+        }
+        return Math.max(0, Math.min(len, Number.MAX_SAFE_INTEGER));
+    }
+
+    /** @typedef {Int8Array} TypedArray */
+
+    /**
      * @param {unknown} v
-     * @returns {asserts v is TypedArray}
+     * @returns {TypedArray}
      */
     function assertTypedArray(v) {
         typedArrayPrototype.keys.call(v);
+        // @ts-expect-error
+        return v;
     }
 
     /**
@@ -138,104 +65,232 @@
      */
     function typedArraySpeciesCreate(species, length) {
         assertTypedArray(species);
-        /** @type {any} */
         const con = species.constructor;
+        // @ts-expect-error
         return new con(length);
     }
 
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withCopiedWithin"]}
-     */
-    function withCopiedWithin(target, start, end) {
-        assertTypedArray(this);
-        const copy = typedArrayPrototype.slice.call(this);
-        copy.copyWithin(target, start, end);
-        return copy;
-    }
-
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withFilled"]}
-     */
-    function withFilled(value, start, end) {
-        assertTypedArray(this);
-        const copy = typedArrayPrototype.slice.call(this);
-        copy.fill(value, start, end);
-        return copy;
-    }
-
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withPopped"]}
-     */
-    function withPopped() {
-        return typedArrayPrototype.slice.call(this, 0, -1);
-    }
-
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withPushed"]}
-     */
-    function withPushed(...values) {
-        assertTypedArray(this);
-        const newLength = this.length + values.length;
-        const copy = typedArraySpeciesCreate(this, newLength);
-        let k = 0;
-        for (const v of this) {
-            copy[k++] = v;
+    function transfer({ count, src, srcStart, srcStep = 1, target, targetStart, targetStep = srcStep }) {
+        let from = srcStart;
+        let to = targetStart;
+        for (let i = 0; i < count; i++) {
+            target[to] = src[from];
+            from += srcStep;
+            to += targetStep;
         }
-        for (const v of values) {
-            copy[k++] = v;
+    }
+
+    /** @type {Array["withCopiedWithin"]} */
+    function arrayCopiedWithin(target, start, end) {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const a = [];
+        const actualTarget = resolveRelativeIndex(target, len);
+        const actualStart = start === void 0 ? 0 : resolveRelativeIndex(start, len);
+        const actualEnd = end === void 0 ? len : resolveRelativeIndex(end, len);
+        let to = 0;
+        while (to < actualTarget) {
+            a[to] = o[to];
+            to++;
         }
-        return copy;
+        let from = actualStart;
+        while (from < actualEnd) {
+            a[to] = o[from];
+            from++;
+            to++;
+        }
+        while (to < len) {
+            a[to] = o[to];
+            to++;
+        }
+        return a;
     }
 
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withReversed"]}
-     */
-    function withReversed() {
-        assertTypedArray(this);
-        const copy = typedArrayPrototype.slice.call(this);
-        copy.reverse();
-        return copy;
+    /** @type {TypedArray["withCopiedWithin"]} */
+    function typedArrayCopiedWithin(target, start, end) {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const a = typedArraySpeciesCreate(o, len);
+        const actualTarget = resolveRelativeIndex(target, len);
+        const actualStart = start === void 0 ? 0 : resolveRelativeIndex(start, len);
+        const actualEnd = end === void 0 ? len : resolveRelativeIndex(end, len);
+        let to = 0;
+        while (to < actualTarget) {
+            a[to] = o[to];
+            to++;
+        }
+        let from = actualStart;
+        while (from < actualEnd) {
+            a[to] = o[from];
+            from++;
+            to++;
+        }
+        while (to < len) {
+            a[to] = o[to];
+            to++;
+        }
+        return a;
     }
 
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withShifted"]}
-     */
-    function withShifted() {
-        return typedArrayPrototype.slice.call(this, 1);
+    /** @type {Array["withFilled"]} */
+    function arrayFilled(value, start, end) {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const a = [];
+        const actualStart = start === void 0 ? 0 : resolveRelativeIndex(start, len);
+        const actualEnd = end === void 0 ? len : resolveRelativeIndex(end, len);
+        let to = 0;
+        while (to < actualStart) {
+            a[to] = o[to];
+            to++;
+        }
+        while (to < actualEnd) {
+            a[to] = value;
+            to++;
+        }
+        while (to < len) {
+            a[to] = o[to];
+            to++;
+        }
+        return a;
     }
 
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withSorted"]}
-     */
-    function withSorted(compareFn) {
-        const copy = typedArrayPrototype.slice.call(this);
-        copy.sort(compareFn);
-        return copy;
+    /** @type {TypedArray["withFilled"]} */
+    function typedArrayFilled(value, start, end) {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const a = typedArraySpeciesCreate(o, len);
+        const actualStart = start === void 0 ? 0 : resolveRelativeIndex(start, len);
+        const actualEnd = end === void 0 ? len : resolveRelativeIndex(end, len);
+        let to = 0;
+        while (to < actualStart) {
+            a[to] = o[to];
+            to++;
+        }
+        while (to < actualEnd) {
+            a[to] = value;
+            to++;
+        }
+        while (to < len) {
+            a[to] = o[to];
+            to++;
+        }
+        return a;
     }
 
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withSpliced"]}
-     */
-     function withSpliced(start, deleteCount, ...values) {
-        assertTypedArray(this);
-        const len = this.length;
+    /** @type {Array["withPopped"]} */
+    function arrayPopped() {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const newLen = Math.max(0, len - 1);
+        const a = [];
+        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: newLen });
+        return a;
+    }
+
+    /** @type {TypedArray["withPopped"]} */
+    function typedArrayPopped() {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const newLen = Math.max(0, len - 1);
+        const a = typedArraySpeciesCreate(o, newLen);
+        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: newLen });
+        return a;
+    }
+
+    /** @type {Array["withPushed"]} */
+    function arrayPushed(...values) {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const a = [];
+        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
+        transfer({ src: values, srcStart: 0, target: a, targetStart: len, count: values.length });
+        return a;
+    }
+
+    /** @type {TypedArray["withPushed"]} */
+    function typedArrayPushed(...values) {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const newLen = len + values.length;
+        const a = typedArraySpeciesCreate(o, newLen);
+        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
+        transfer({ src: values, srcStart: 0, target: a, targetStart: len, count: values.length });
+        return a;
+    }
+
+    /** @type {Array["withReversed"]} */
+    function arrayReversed() {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const a = [];
+        transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
+        return a;
+    }
+
+    /** @type {TypedArray["withReversed"]} */
+    function typedArrayReversed() {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const a = typedArraySpeciesCreate(o, len);
+        transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
+        return a;
+    }
+
+    /** @type {Array["withShifted"]} */
+    function arrayShifted() {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const newLen = Math.max(0, len - 1);
+        const a = [];
+        transfer({ src: o, srcStart: 1, target: a, targetStart: 0, count: newLen });
+        return a;
+    }
+
+    /** @type {TypedArray["withShifted"]} */
+    function typedArrayShifted() {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const newLen = Math.max(0, len - 1);
+        const a = typedArraySpeciesCreate(o, newLen);
+        transfer({ src: o, srcStart: 1, target: a, targetStart: 0, count: newLen });
+        return a;
+    }
+
+    /** @type {Array["withSorted"]} */
+    function arraySorted(compareFn) {
+        if (compareFn !== void 0 && typeof compareFn !== "function") {
+            throw new TypeError();
+        }
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const a = [];
+        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
+        arrayPrototype.sort.call(a, compareFn);
+        return a;
+    }
+
+    /** @type {TypedArray["withSorted"]} */
+    function typedArraySorted(compareFn) {
+        if (compareFn !== void 0 && typeof compareFn !== "function") {
+            throw new TypeError();
+        }
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const a = typedArraySpeciesCreate(o, len);
+        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
+        typedArrayPrototype.sort.call(a, compareFn);
+        return a;
+    }
+
+    function calculateSlice({ start, len, deleteCount, values }) {
         const relativeStart = toIntegerOrInfinity(start);
         let actualStart;
         if (relativeStart === -Infinity) {
             actualStart = 0;
-        }
-        else if (relativeStart < 0) {
+        } else if (relativeStart < 0) {
             actualStart = Math.max(len + relativeStart, 0);
-        }
-        else {
+        } else {
             actualStart = Math.min(relativeStart, len);
         }
         let insertCount;
@@ -243,93 +298,152 @@
         if (start === void 0) {
             insertCount = 0;
             actualDeleteCount = 0;
-        }
-        else if (deleteCount === void 0) {
+        } else if (deleteCount === void 0) {
             insertCount = 0;
             actualDeleteCount = len - actualStart;
-        }
-        else {
+        } else {
             insertCount = values.length;
             const dc = toIntegerOrInfinity(deleteCount);
-            actualDeleteCount = Math.max(0, Math.min(dc, len - actualStart))
+            actualDeleteCount = Math.max(0, Math.min(dc, len - actualStart));
         }
         const newLen = len + insertCount - actualDeleteCount;
-        const copy = typedArraySpeciesCreate(this, newLen);
+        return { actualStart, newLen, actualDeleteCount };
+    }
+
+    function doSlice({ src, target, actualStart, actualDeleteCount, values, newLen }) {
         let k = 0;
         while (k < actualStart) {
-            copy[k] = this[k]
+            target[k] = src[k];
             k++;
         }
         for (const E of values) {
-            copy[k] = E;
+            target[k] = E;
             k++;
         }
         while (k < newLen) {
-            let from = k + actualDeleteCount - insertCount;
-            let fromValue = this[from];
-            copy[k] = fromValue;
+            let from = k + actualDeleteCount - values.length;
+            let fromValue = src[from];
+            target[k] = fromValue;
             k++;
         }
-        return copy;
     }
 
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withUnshifted"]}
-     */
-    function withUnshifted(...values) {
-        assertTypedArray(this);
-        const newLength = values.length + this.length;
-        const copy = typedArraySpeciesCreate(this, newLength);
-        let k = 0;
-        for (const v of values) {
-            copy[k++] = v;
-        }
-        for (const v of this) {
-            copy[k++] = v;
-        }
-        return copy;
+    /** @type {Array["withSpliced"]} */
+    function arraySpliced(start, deleteCount, ...values) {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const { actualStart, actualDeleteCount, newLen } = calculateSlice({ start, deleteCount, len, values });
+        const a = [];
+        doSlice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
+        return a;
     }
 
-    /**
-     * @this {TypedArray}
-     * @type {TypedArray["withAt"]}
-     */
-    function withAt(index, value) {
-        assertTypedArray(this);
-        const actualIndex = index < 0 ? this.length + index : index;
-        if (actualIndex < 0 || actualIndex >= this.length) {
+    /** @type {TypedArray["withSpliced"]} */
+    function typedArraySpliced(start, deleteCount, ...values) {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const { actualStart, actualDeleteCount, newLen } = calculateSlice({ start, deleteCount, len, values });
+        const a = typedArraySpeciesCreate(o, newLen);
+        doSlice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
+        return a;
+    }
+
+    /** @type {Array["withUnshifted"]} */
+    function arrayUnshifted(...values) {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const a = [];
+        transfer({ src: values, srcStart: 0, target: a, targetStart: 0, count: values.length });
+        transfer({ src: o, srcStart: 0, target: a, targetStart: values.length, count: len });
+        return a;
+    }
+
+    /** @type {TypedArray["withUnshifted"]} */
+    function typedArrayUnshifted(...values) {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const newLength = values.length + len;
+        const a = typedArraySpeciesCreate(o, newLength);
+        transfer({ src: values, srcStart: 0, target: a, targetStart: 0, count: values.length });
+        transfer({ src: o, srcStart: 0, target: a, targetStart: values.length, count: len });
+        return a;
+    }
+
+    /** @type {Array["withAt"]} */
+    function arrayWithAt(index, value) {
+        const o = Object(this);
+        const len = lengthOfArrayLike(o);
+        const actualIndex = index < 0 ? len + index : index;
+        if (actualIndex < 0 || actualIndex >= len) {
             throw new RangeError();
         }
-        const copy = typedArrayPrototype.slice.call(this);
-        copy[actualIndex] = value;
-        return copy;
+        const a = [];
+        for (let k = 0; k < len; k++) {
+            const v = k === actualIndex ? value : o[k];
+            a[k] = v;
+        }
+        return a;
     }
 
-    const additions = {
-        withCopiedWithin,
-        withFilled,
-        withPopped,
-        withPushed,
-        withReversed,
-        withShifted,
-        withSorted,
-        withSpliced,
-        withUnshifted,
-        withAt,
-    };
-
-    /** @type {PropertyDescriptorMap} */
-    const propertyDescriptors = {};
-
-    for (const [name, value] of Object.entries(additions)) {
-        propertyDescriptors[name] = {
-            enumerable: false,
-            configurable: true,
-            writable: true,
-            value,
-        };
+    /** @type {TypedArray["withAt"]} */
+    function typedArrayWithAt(index, value) {
+        const o = assertTypedArray(this);
+        const len = o.length;
+        const actualIndex = index < 0 ? len + index : index;
+        if (actualIndex < 0 || actualIndex >= len) {
+            throw new RangeError();
+        }
+        const a = typedArraySpeciesCreate(o, len);
+        for (let k = 0; k < len; k++) {
+            const v = k === actualIndex ? value : o[k];
+            a[k] = v;
+        }
+        return a;
     }
 
-    Object.defineProperties(typedArrayPrototype, propertyDescriptors);
-})(Object.getPrototypeOf(Int8Array.prototype));
+    /**
+     * @param {object} prototype
+     * @param {{ [name: string]: Function }} additions
+     */
+    function addToPrototype(prototype, additions) {
+        /** @type {PropertyDescriptorMap} */
+        const propertyDescriptors = {};
+
+        for (const [name, value] of Object.entries(additions)) {
+            propertyDescriptors[name] = {
+                enumerable: false,
+                configurable: true,
+                writable: true,
+                value,
+            };
+        }
+
+        Object.defineProperties(prototype, propertyDescriptors);
+    }
+
+    addToPrototype(arrayPrototype, {
+        withCopiedWithin: arrayCopiedWithin,
+        withFilled: arrayFilled,
+        withPopped: arrayPopped,
+        withPushed: arrayPushed,
+        withReversed: arrayReversed,
+        withShifted: arrayShifted,
+        withSorted: arraySorted,
+        withSpliced: arraySpliced,
+        withUnshifted: arrayUnshifted,
+        withAt: arrayWithAt,
+    });
+
+    addToPrototype(typedArrayPrototype, {
+        withCopiedWithin: typedArrayCopiedWithin,
+        withFilled: typedArrayFilled,
+        withPopped: typedArrayPopped,
+        withPushed: typedArrayPushed,
+        withReversed: typedArrayReversed,
+        withShifted: typedArrayShifted,
+        withSorted: typedArraySorted,
+        withSpliced: typedArraySpliced,
+        withUnshifted: typedArrayUnshifted,
+        withAt: typedArrayWithAt,
+    });
+})(Array.prototype, Object.getPrototypeOf(Int8Array.prototype));

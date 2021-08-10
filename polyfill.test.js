@@ -41,6 +41,43 @@ tape("Array.prototype.withPopped", (t) => {
     t.end();
 });
 
+tape("Array.prototype.withPopped works with array-like values", (t) => {
+    const orig = {
+        0: 1,
+        1: 2,
+        2: 3,
+        length: 3
+    };
+    const expected = [1, 2];
+
+    const copy = Array.prototype.withPopped.call(orig);
+
+    t.deepEqual(copy, expected);
+    t.notEqual(orig, copy);
+    t.notDeepEqual(orig, copy);
+    t.end();
+});
+
+tape("Array.prototype.withPopped reads minimum number of properties from callee", (t) => {
+    let readExcessProperties = false;
+    const orig = {
+        0: 1,
+        1: 2,
+        get "2"() {
+            readExcessProperties = true;
+            return 3;
+        },
+        length: 3
+    };
+    const expected = [1, 2];
+
+    const copy = Array.prototype.withPopped.call(orig);
+
+    t.deepEqual(copy, expected);
+    t.assert(!readExcessProperties);
+    t.end();
+});
+
 tape("Array.prototype.withPushed", (t) => {
     const orig = [1, 2, 3];
     const push = [4, 5, 6];
@@ -144,6 +181,32 @@ tape("Array.prototype.withAt", (t) => {
     t.deepEqual(copy, expected);
     t.notEqual(orig, copy);
     t.notDeepEqual(orig, copy);
+    t.end();
+});
+
+tape(`Array.prototype.withAt negativeIndex`, (t) => {
+    const orig = [1, 2, 2];
+    const expected = [1, 2, 3];
+    const idx = -1;
+    const val = 3;
+
+    const copy = orig.withAt(idx, val);
+
+    t.deepEqual(copy, expected);
+    t.notEqual(orig, copy);
+    t.notDeepEqual(orig, copy);
+    t.end();
+});
+
+tape(`Array.prototype.withAt out of bounds`, (t) => {
+    const orig = [1, 2, 2];
+    const idx = 3;
+    const val = 4;
+
+    t.throws(() => {
+        orig.withAt(idx, val);
+    }, RangeError);
+
     t.end();
 });
 
