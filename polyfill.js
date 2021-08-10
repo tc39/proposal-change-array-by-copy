@@ -46,7 +46,7 @@
         return Math.max(0, Math.min(len, Number.MAX_SAFE_INTEGER));
     }
 
-    /** @typedef {Int8Array} TypedArray */
+    /** @typedef {Int8Array|Uint8Array|Uint8ClampedArray|Int16Array|Uint16Array|Int32Array|Uint32Array|Float32Array|Float64Array} TypedArray */
 
     /**
      * @param {unknown} v
@@ -59,15 +59,46 @@
     }
 
     /**
-     * @param {TypedArray} species
+     * @param {TypedArray} arr
+     * @returns {TypedArray[typeof Symbol.toStringTag]}
+     */
+    function typedArrayNameInternalSlot(arr) {
+        return Object.getOwnPropertyDescriptor(typedArrayPrototype, Symbol.toStringTag)
+            .get.call(arr);
+    }
+
+    /**
+     * @param {TypedArray} example
      * @param {number} length
      * @returns {TypedArray}
      */
-    function typedArraySpeciesCreate(species, length) {
-        assertTypedArray(species);
-        const con = species.constructor;
-        // @ts-expect-error
-        return new con(length);
+    function typedArrayCreate(example, length) {
+        assertTypedArray(example);
+        const arrayName = typedArrayNameInternalSlot(example);
+        switch (arrayName) {
+            case 'Int8Array':
+                return new Int8Array(length);
+            case 'Uint8Array':
+                return new Uint8Array(length);
+            case 'Uint8ClampedArray':
+                return new Uint8ClampedArray(length);
+            case 'Int16Array':
+                return new Int16Array(length);
+            case 'Uint16Array':
+                return new Uint16Array(length);
+            case 'Int32Array':
+                return new Int32Array(length);
+            case 'Uint32Array':
+                return new Uint32Array(length);
+            case 'Float32Array':
+                return new Float32Array(length);
+            case 'Float64Array':
+                return new Float64Array(length);
+            default:
+                /** @type {never} */
+                const n = arrayName;
+                throw new Error(`Unexpected TypedArray name ${n}`);
+        }
     }
 
     function transfer({ count, src, srcStart, srcStep = 1, target, targetStart, targetStep = srcStep }) {
@@ -110,7 +141,7 @@
     function typedArrayCopiedWithin(target, start, end) {
         const o = assertTypedArray(this);
         const len = o.length;
-        const a = typedArraySpeciesCreate(o, len);
+        const a = typedArrayCreate(o, len);
         const actualTarget = resolveRelativeIndex(target, len);
         const actualStart = start === void 0 ? 0 : resolveRelativeIndex(start, len);
         const actualEnd = end === void 0 ? len : resolveRelativeIndex(end, len);
@@ -159,7 +190,7 @@
     function typedArrayFilled(value, start, end) {
         const o = assertTypedArray(this);
         const len = o.length;
-        const a = typedArraySpeciesCreate(o, len);
+        const a = typedArrayCreate(o, len);
         const actualStart = start === void 0 ? 0 : resolveRelativeIndex(start, len);
         const actualEnd = end === void 0 ? len : resolveRelativeIndex(end, len);
         let to = 0;
@@ -193,7 +224,7 @@
         const o = assertTypedArray(this);
         const len = o.length;
         const newLen = Math.max(0, len - 1);
-        const a = typedArraySpeciesCreate(o, newLen);
+        const a = typedArrayCreate(o, newLen);
         transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: newLen });
         return a;
     }
@@ -213,7 +244,7 @@
         const o = assertTypedArray(this);
         const len = o.length;
         const newLen = len + values.length;
-        const a = typedArraySpeciesCreate(o, newLen);
+        const a = typedArrayCreate(o, newLen);
         transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
         transfer({ src: values, srcStart: 0, target: a, targetStart: len, count: values.length });
         return a;
@@ -232,7 +263,7 @@
     function typedArrayReversed() {
         const o = assertTypedArray(this);
         const len = o.length;
-        const a = typedArraySpeciesCreate(o, len);
+        const a = typedArrayCreate(o, len);
         transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
         return a;
     }
@@ -252,7 +283,7 @@
         const o = assertTypedArray(this);
         const len = o.length;
         const newLen = Math.max(0, len - 1);
-        const a = typedArraySpeciesCreate(o, newLen);
+        const a = typedArrayCreate(o, newLen);
         transfer({ src: o, srcStart: 1, target: a, targetStart: 0, count: newLen });
         return a;
     }
@@ -277,7 +308,7 @@
         }
         const o = assertTypedArray(this);
         const len = o.length;
-        const a = typedArraySpeciesCreate(o, len);
+        const a = typedArrayCreate(o, len);
         transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
         typedArrayPrototype.sort.call(a, compareFn);
         return a;
@@ -343,7 +374,7 @@
         const o = assertTypedArray(this);
         const len = o.length;
         const { actualStart, actualDeleteCount, newLen } = calculateSlice({ start, deleteCount, len, values });
-        const a = typedArraySpeciesCreate(o, newLen);
+        const a = typedArrayCreate(o, newLen);
         doSlice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
         return a;
     }
@@ -363,7 +394,7 @@
         const o = assertTypedArray(this);
         const len = o.length;
         const newLength = values.length + len;
-        const a = typedArraySpeciesCreate(o, newLength);
+        const a = typedArrayCreate(o, newLength);
         transfer({ src: values, srcStart: 0, target: a, targetStart: 0, count: values.length });
         transfer({ src: o, srcStart: 0, target: a, targetStart: values.length, count: len });
         return a;
@@ -393,7 +424,7 @@
         if (actualIndex < 0 || actualIndex >= len) {
             throw new RangeError();
         }
-        const a = typedArraySpeciesCreate(o, len);
+        const a = typedArrayCreate(o, len);
         for (let k = 0; k < len; k++) {
             const v = k === actualIndex ? value : o[k];
             a[k] = v;
