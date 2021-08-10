@@ -26,7 +26,7 @@ contributors: Robin Ricard, Ashley Claymore
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Let _relativeTarget_ be ? ToIntegerOrInfinity(_target_).
                     1. If _relativeTarget_ is -&infin;, let _actualTarget_ be 0.
                     1. Else if _relativeTarget_ &lt; 0, let _actualTarget_ be max(_len_ + _relativeTarget_, 0).
@@ -70,7 +70,7 @@ contributors: Robin Ricard, Ashley Claymore
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
                     1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
                     1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
@@ -107,7 +107,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _O_ be ? ToObject(*this* value).
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
                     1. Let _newLen_ be max(_len_ - 1, 0).
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _newLen_,
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
@@ -128,7 +128,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _itemCount_ be the number of elements in _items_.
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
                     1. let _newLen_ be _len_ + _itemCount_.
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _len_,
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
@@ -152,7 +152,7 @@ contributors: Robin Ricard, Ashley Claymore
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _len_,
                         1. Let _from_ be ! ToString(𝔽(_len_ - _k_ - 1)).
@@ -173,7 +173,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _O_ be ? ToObject(*this* value).
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
                     1. Let _newLen_ be max(_len_ - 1, 0).
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _newLen_,
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
@@ -202,7 +202,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Append _kValue_ to _items_.
                         1. Set _k_ to _k_ + 1.
                     1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Let _j_ be 0.
                     1. For each element _E_ of _items_, do
                         1. Let _Pj_ be ! ToString(𝔽(_j_)).
@@ -235,7 +235,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _dc_ be ? ToIntegerOrInfinity(_deleteCount_).
                         1. Let _actualDeleteCount_ be the result of clamping _dc_ between 0 and _len_ - _actualStart_.
                     1. Let _newLen_ be _len_ + _insert_Count_ - _actualDeleteCount_.
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _newLen_,
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
@@ -267,7 +267,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _O_ be the *this* value.
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
                     1. Let _newLen_ be _len_ + _itemCount_.
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_newLen_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
                     1. Let _k_ be 0.
                     1. For each element _E_ of _items_, do
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
@@ -298,7 +298,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. If _index_ &lt; 0, let _actualIndex_ be _len_ + _index_.
                     1. Else, let _actualIndex_ be _index_.
                     1. If _actualIndex_ &lt; 0, throw a *RangeError* exception.
-                    1. Let _A_ be ? ArraySpeciesCreate(_O_, 𝔽(_len_)).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _len_,
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
