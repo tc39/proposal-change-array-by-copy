@@ -210,6 +210,31 @@ tape(`Array.prototype.withAt out of bounds`, (t) => {
     t.end();
 });
 
+tape(`Array does not use Symbol.species for the new methods`, (t) => {
+    class SubClass extends Array {}
+
+    const orig = new SubClass([1, 2, 3]);
+
+    function assertType(arr) {
+        t.equal(arr instanceof SubClass, false);
+        t.equal(arr instanceof Array, true);
+    }
+
+    assertType(orig.withAt(0, 0));
+    assertType(orig.withAt(0, 0));
+    assertType(orig.withCopiedWithin(0, 0, 0));
+    assertType(orig.withFilled(0));
+    assertType(orig.withPopped());
+    assertType(orig.withPushed(0));
+    assertType(orig.withReversed());
+    assertType(orig.withShifted());
+    assertType(orig.withSorted());
+    assertType(orig.withSpliced(0, 0));
+    assertType(orig.withUnshifted(0));
+
+    t.end();
+});
+
 tape("Array.prototype[Symbol.unscopables]", (t) => {
     const marker = Symbol();
     const copiedWithin = marker;
@@ -415,6 +440,32 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.throws(() => {
             orig.withAt(idx, val);
         }, RangeError);
+
+        t.end();
+    });
+
+    tape(`${TypedArray.name} does not use Symbol.species for the new methods`, (t) => {
+        class SubClass extends TypedArray {}
+
+        function assertType(arr) {
+            t.equal(arr instanceof SubClass, false);
+            t.equal(arr instanceof TypedArray, true);
+        }
+
+        /** @type {Uint8Array} */
+        // @ts-ignore
+        const orig = new SubClass([1, 2, 3]);
+
+        assertType(orig.withAt(0, 0));
+        assertType(orig.withCopiedWithin(0, 0, 0));
+        assertType(orig.withFilled(0));
+        assertType(orig.withPopped());
+        assertType(orig.withPushed(0));
+        assertType(orig.withReversed());
+        assertType(orig.withShifted());
+        assertType(orig.withSorted());
+        assertType(orig.withSpliced(0, 0));
+        assertType(orig.withUnshifted(0));
 
         t.end();
     });
