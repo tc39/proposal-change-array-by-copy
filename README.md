@@ -1,15 +1,15 @@
 # Change Array by copy
 
-Provides additional methods to `Array.prototype` to enable changes on an array by returning a new copy of it with the change.
+Provides additional methods on `Array.prototype` and `TypedArray.prototype` to enable changes on the array by returning a new copy of it with the change.
 
 ## Status
 
-This proposal is currently at [Stage 1].
+This proposal is currently at [Stage 2].
 
 - [Candidate spec text][spec]
 - [Candidate polyfill][poly]
 
-[Stage 1]: https://github.com/tc39/proposals/blob/master/stage-1-proposals.md
+[Stage 2]: https://github.com/tc39/proposals#stage-2
 [spec]: https://tc39.es/proposal-change-array-by-copy/
 [poly]: ./polyfill.js
 
@@ -23,30 +23,18 @@ This proposal is currently at [Stage 1].
 
 This proposal introduces the following function properties to `Array.prototype`:
 
-- `Array.prototype.withFilled(value, start, end) -> Array`
-- `Array.prototype.withCopiedWithin(copiedTarget, start, end) -> Array`
-- `Array.prototype.withPopped() -> Array`
-- `Array.prototype.withPushed(values...) -> Array`
 - `Array.prototype.withReversed() -> Array`
-- `Array.prototype.withShifted() -> Array`
 - `Array.prototype.withSorted(compareFn) -> Array`
 - `Array.prototype.withSpliced(start, deleteCount, ...items) -> Array`
-- `Array.prototype.withUnshifted(...values) -> Array`
 - `Array.prototype.withAt(index, value) -> Array`
 
 All of those methods keep the target Array untouched and returns a copy of it with the change performed instead.
 
 They will also be added to TypedArrays:
 
-- `TypedArray.prototype.withFilled(value, start, end) -> TypedArray`
-- `TypedArray.prototype.withCopiedWithin(copiedTarget, start, end) -> TypedArray`
-- `TypedArray.prototype.withPopped() -> TypedArray`
-- `TypedArray.prototype.withPushed(values...) -> TypedArray`
 - `TypedArray.prototype.withReversed() -> TypedArray`
-- `TypedArray.prototype.withShifted() -> TypedArray`
 - `TypedArray.prototype.withSorted(compareFn) -> TypedArray`
 - `TypedArray.prototype.withSpliced(start, deleteCount, ...items) -> TypedArray`
-- `TypedArray.prototype.withUnshifted(...values) -> TypedArray`
 - `TypedArray.prototype.withAt(index, value) -> TypedArray`
 
 These methods will then be avaliable on subclasses of `TypedArray`. i.e. the following:
@@ -81,7 +69,7 @@ correctionNeeded; // => [1, 1, 3]
 
 ## Motivation
 
-The [`Tuple.prototype`][tuple-proto] introduces those functions as a way to deal with the immutable aspect of the Tuples in [Record & Tuple][r-t]. While Arrays are not immutable by nature, this style of programming can be beneficial to users dealing with frozen arrays for instance.
+The [`Tuple.prototype`][tuple-proto] introduces these functions as a way to deal with the immutable aspect of the Tuples in [Record & Tuple][r-t]. While Arrays are not immutable by nature, this style of programming can be beneficial to users dealing with frozen arrays for instance.
 
 This proposal notably makes it easier to write code able to deal with Arrays and Tuples interchangeably.
 
