@@ -3,7 +3,7 @@
 
 <pre class="metadata">
 title: Change Array by copy
-stage: 0
+stage: 2
 contributors: Robin Ricard, Ashley Claymore
 </pre>
 
@@ -18,132 +18,6 @@ contributors: Robin Ricard, Ashley Claymore
         <emu-clause id="sec-properties-of-the-array-prototype-object">
             <h1>Properties of the Array Prototype Object</h1>
 
-            <emu-clause id="sec-array.prototype.withCopiedWithin">
-                <h1>Array.prototype.withCopiedWithin( _target_ , _start_ [ , _end_ ] )</h1>
-
-                <p>When the *withCopiedWithin* method is called, the following steps are taken:</p>
-
-                <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
-                    1. Let _relativeTarget_ be ? ToIntegerOrInfinity(_target_).
-                    1. If _relativeTarget_ is -&infin;, let _actualTarget_ be 0.
-                    1. Else if _relativeTarget_ &lt; 0, let _actualTarget_ be max(_len_ + _relativeTarget_, 0).
-                    1. Else, let _actualTarget_ be min(_actualTarget_, _len_).
-                    1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
-                    1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
-                    1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
-                    1. Else, let _actualStart_ be min(_relativeStart_, _len_).
-                    1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
-                    1. If _relativeEnd_ is -&infin;, let _actualEnd 0.
-                    1. Else if _relativeEnd_ &lt; 0, let _actualEnd max(_len_ + _relativeEnd_, 0).
-                    1. Else, let _actualEnd_ be min(_relativeEnd_, _len_).
-                    1. Let _k_ be 0.
-                    1. Repeat, while _k_ &lt; _actualTarget_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _elementK_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Let _from_ be _actualStart_.
-                    1. Repeat, while _from_ &lt; _actualEnd_ and _k_ &lt; _len_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _Pfrom_ be ! ToString(𝔽(_from_)).
-                        1. Let _fromValue_ be ? Get(_O_, _Pfrom_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
-                        1. Set _k_ to _k_ + 1.
-                        1. Set _from_ to _from_ + 1.
-                    1. Repeat, while _k_ &lt; _len_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _elementK_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Return _A_.
-                </emu-alg>
-            </emu-clause>
-
-            <emu-clause id="sec-array.prototype.withFilled">
-                <h1>Array.prototype.withFilled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
-
-                <p>When the *withFilled* method is called, the following steps are taken:</p>
-
-                <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
-                    1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
-                    1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
-                    1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
-                    1. Else, let _actualStart_ be min(_relativeStart_, _len_).
-                    1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
-                    1. If _relativeEnd_ is -&infin;, let _actualEnd_ be 0.
-                    1. Else if _relativeEnd_ &lt; 0, let _actualEnd_ be max(_len_ + _relativeEnd_, 0).
-                    1. Else, let _actualEnd_ be min(_relativeEnd_, _len_).
-                    1. Let _k_ be 0.
-                    1. Repeat, while _k_ &lt; _actualStart_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _elementK_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Repeat, while _k_ &lt; _actualEnd_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _value_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Repeat, while _k_ &lt; _len_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _elementK_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Return _A_.
-                </emu-alg>
-            </emu-clause>
-
-            <emu-clause id="sec-array.prototype.withPopped">
-                <h1>Array.prototype.withPopped ( )</h1>
-
-                <p>When the *withPopped* method is called, the following steps are taken:</p>
-
-                <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _newLen_ be max(_len_ - 1, 0).
-                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
-                    1. Let _k_ be 0.
-                    1. Repeat, while _k_ &lt; _newLen_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _elementK_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Return _A_.
-                </emu-alg>
-            </emu-clause>
-
-            <emu-clause id="sec-array.prototype.withPushed">
-                <h1>Array.prototype.withPushed ( ..._items_ )</h1>
-
-                <p>When the *withPushed* method is called, the following steps are taken:</p>
-
-                <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _itemCount_ be the number of elements in _items_.
-                    1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. let _newLen_ be _len_ + _itemCount_.
-                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
-                    1. Let _k_ be 0.
-                    1. Repeat, while _k_ &lt; _len_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _elementK_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _elementK_).
-                        1. Set _k_ to _k_ + 1.
-                    1. For each element _E_ of _items_, do
-                        1. Assert: _k_ &lt; _newLen_.
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Return _A_.
-                </emu-alg>
-            </emu-clause>
-
             <emu-clause id="sec-array.prototype.withReversed">
                 <h1>Array.prototype.withReversed ( )</h1>
 
@@ -157,27 +31,6 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Repeat, while _k_ &lt; _len_,
                         1. Let _from_ be ! ToString(𝔽(_len_ - _k_ - 1)).
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _fromValue_ be ? Get(_O_, _from_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Return _A_.
-                </emu-alg>
-            </emu-clause>
-
-            <emu-clause id="sec-array.prototype.withShifted">
-                <h1>Array.prototype.withShifted ( )</h1>
-
-                <p>When the *withShifted* method is called, the following steps are taken:</p>
-
-                <emu-alg>
-                    1. Let _O_ be ? ToObject(*this* value).
-                    1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _newLen_ be max(_len_ - 1, 0).
-                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
-                    1. Let _k_ be 0.
-                    1. Repeat, while _k_ &lt; _newLen_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _from_ be ! ToString(𝔽(_k_ + 1)).
                         1. Let _fromValue_ be ? Get(_O_, _from_).
                         1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
                         1. Set _k_ to _k_ + 1.
@@ -257,34 +110,6 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.withUnshifted">
-                <h1>Array.prototype.withUnshifted ( ..._items_ )</h1>
-
-                <p>When the *withUnshifted* method is called, the following steps are taken:</p>
-
-                <emu-alg>
-                    1. Let _itemCount_ be the number of elements in _items_.
-                    1. Let _O_ be the *this* value.
-                    1. Let _len_ be ? LengthOfArrayLike(_O_).
-                    1. Let _newLen_ be _len_ + _itemCount_.
-                    1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
-                    1. Let _k_ be 0.
-                    1. For each element _E_ of _items_, do
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Let _from_ be 0.
-                    1. Repeat, while _k_ &lt; _newLen_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _Pfrom_ be ! ToString(𝔽(_from_)).
-                        1. Let _fromValue_ be ? Get(_O_, _Pfrom_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
-                        1. Set _k_ to _k_ + 1.
-                        1. Set _from_ to _from_ + 1.
-                    1. Return _A_.
-                </emu-alg>
-            </emu-clause>
-
             <emu-clause id="sec-array.prototype.withAt">
                 <h1>Array.prototype.withAt ( _index_, _value_ )</h1>
 
@@ -326,15 +151,9 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"includes"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"keys"*, *true*).
                     1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withAt"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withCopiedWithin"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withFilled"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withPopped"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withPushed"*, *true*).</ins>
                     1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withReversed"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withShifted"*, *true*).</ins>
                     1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withSorted"*, *true*).</ins>
                     1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withSpliced"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withUnshifted"*, *true*).</ins>
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"values"*, *true*).
                     1. Return _unscopableList_.
                 </emu-alg>
@@ -365,25 +184,6 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="typedarray-copy-range" aoid="TypedArrayCopyRange">
-                <h1>TypedArrayCopyRange ( _src_, _target_, _start_, _limit_ )</h1>
-                <p>The abstract operation TypedArrayCopyRange takes arguments _src_ (a TypedArray object), _target_ (a TypedArray object), _start_ (a non-negative integer), and _limit_ (a non-negative integer). It performs the following steps when called:</p>
-                <emu-alg>
-                    1. Assert: _src_ is an Object that has [[TypedArrayName]] and [[ContentType]] internal slots.
-                    1. Assert: _target_ is an Object that has [[TypedArrayName]] and [[ContentType]] internal slots.
-                    1. Assert: _start_ is a non-negative integer.
-                    1. Assert: _limit_ is a non-negative integer.
-                    1. Assert: _limit_ is &le; the length of _src_.
-                    1. Assert: _limit_ is &le; the length of _target_.
-                    1. Assert: _src_.[[TypedArrayName]] is _target_.[[TypedArrayName]].
-                    1. Let _k_ be _start_.
-                    1. Repeat, while _k_ &lt; _limit_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _kValue_ be ! Get(_src_, _Pk_).
-                        1. Perform ? Set(_target_, _Pk_, _kValue_, *true*).
-                        1. Set _k_ to _k_ + 1.
-                </emu-alg>
-            </emu-clause>
         </emu-clause>
 
         <emu-clause id="sec-%typedarray%-intrinsic-object">
@@ -391,113 +191,6 @@ contributors: Robin Ricard, Ashley Claymore
 
             <emu-clause id="sec-properties-of-the-%typedarrayprototype%-object">
                 <h1>Properties of the %TypedArray% Prototype Object</h1>
-
-                <emu-clause id="sec-%typedarray%.prototype.withCopiedWithin">
-                    <h1>%TypedArray%.prototype.withCopiedWithin( _target_ , _start_ [ , _end_ ] )</h1>
-
-                    <p>When the *withCopiedWithin* method is called, the following steps are taken:</p>
-
-                    <emu-alg>
-                        1. Let _O_ be ? ToObject(*this* value).
-                        1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _len_ be ? LengthOfArrayLike(_O_).
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;, *true*).
-                        1. Let _relativeTarget_ be ? ToIntegerOrInfinity(_target_).
-                        1. If _relativeTarget_ is -&infin;, let _actualTarget_ be 0.
-                        1. Else if _relativeTarget_ &lt; 0, let _actualTarget_ be max(_len_ + _relativeTarget_, 0).
-                        1. Else, let _actualTarget_ be min(_actualTarget_, _len_).
-                        1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
-                        1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
-                        1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
-                        1. Else, let _actualStart_ be min(_relativeStart_, _len_).
-                        1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
-                        1. If _relativeEnd_ is -&infin;, let _actualEnd 0.
-                        1. Else if _relativeEnd_ &lt; 0, let _actualEnd max(_len_ + _relativeEnd_, 0).
-                        1. Else, let _actualEnd_ be min(_relativeEnd_, _len_).
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_actualTarget_)).
-                        1. Let _to_ be _actualTarget_.
-                        1. Let _from_ be _actualStart_.
-                        1. Repeat, while _from_ &lt; _actualEnd_ and _to_ &lt; _len_,
-                            1. Let _Pto_ be ! ToString(𝔽(_to_)).
-                            1. Let _Pfrom_ be ! ToString(𝔽(_from_)).
-                            1. Let _fromValue_ be ? Get(_O_, _Pfrom_).
-                            1. Perform ? Set(_A_, _Pto_, _fromValue_, *true*).
-                            1. Set _to_ to _to_ + 1.
-                            1. Set _from_ to _from_ + 1.
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, 𝔽(_to_), 𝔽(_len_)).
-                        1. Return _A_.
-                    </emu-alg>
-                </emu-clause>
-
-                <emu-clause id="sec-%typedarray%.prototype.withFilled">
-                    <h1>%TypedArray%.prototype.withFilled ( _value_ [ , _start_ [ , _end_ ] ] )</h1>
-
-                    <p>When the *withFilled* method is called, the following steps are taken:</p>
-
-                    <emu-alg>
-                        1. Let _O_ be the *this* value.
-                        1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _len_ be _O_.[[ArrayLength]].
-                        1. If _O_.[[ContentType]] is ~BigInt~, set _value_ to ? ToBigInt(_value_).
-                        1. Otherwise, set _value_ to ? ToNumber(_value_).
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;, *true*).
-                        1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
-                        1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
-                        1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
-                        1. Else, let _actualStart_ be min(_relativeStart_, _len_).
-                        1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
-                        1. If _relativeEnd_ is -&infin;, let _actualEnd_ be 0.
-                        1. Else if _relativeEnd_ &lt; 0, let _actualEnd_ be max(_len_ + _relativeEnd_, 0).
-                        1. Else, let _actualEnd_ be min(_relativeEnd_, _len_).
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_actualStart_)).
-                        1. Let _k_ be _actualStart_.
-                        1. Repeat, while _k_ &lt; _actualEnd_,
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Perform ? Set(_A_, _Pk_, _value_, *true*).
-                            1. Set _k_ to _k_ + 1.
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, 𝔽(_actualEnd_), 𝔽(_len_)).
-                        1. Return _A_.
-                    </emu-alg>
-                </emu-clause>
-
-                <emu-clause id="sec-%typedarray%.prototype.withPopped">
-                    <h1>%TypedArray%.prototype.withPopped ( )</h1>
-
-                    <p>When the *withPopped* method is called, the following steps are taken:</p>
-
-                    <emu-alg>
-                        1. Let _O_ be the *this* value.
-                        1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _len_ be _O_.[[ArrayLength]].
-                        1. Let _newLen_ be max(_len_ - 1, 0).
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_newLen_) &raquo;, *true*).
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_newLen_)).
-                        1. Return _A_.
-                    </emu-alg>
-                </emu-clause>
-
-                <emu-clause id="sec-%typedarray%.prototype.withPushed">
-                    <h1>%TypedArray%.prototype.withPushed ( ..._items_ )</h1>
-
-                    <p>When the *withPushed* method is called, the following steps are taken:</p>
-
-                    <emu-alg>
-                        1. Let _itemCount_ be the number of elements in _items_.
-                        1. Let _O_ be the *this* value.
-                        1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _len_ be _O_.[[ArrayLength]].
-                        1. Let _newLen_ be _len_ + _itemCount_.
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_newLen_) &raquo;, *true*).
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_len_)).
-                        1. Let _k_ be _len_.
-                        1. For each element _E_ of _items_, do
-                            1. Assert: _k_ &lt; _newLen_.
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Perform ? Set(_A_, _Pk_, _E_, *true*).
-                            1. Set _k_ to _k_ + 1.
-                        1. Return _A_.
-                    </emu-alg>
-                </emu-clause>
 
                 <emu-clause id="sec-%typedarray%.prototype.withReversed">
                     <h1>%TypedArray%.prototype.withReversed ( )</h1>
@@ -515,28 +208,6 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
                             1. Let _fromValue_ be ! Get(_O_, _from_).
                             1. Perform ? Set(_A_, _Pk_, _kValue_, *true*).
-                            1. Set _k_ to _k_ + 1.
-                        1. Return _A_.
-                    </emu-alg>
-                </emu-clause>
-
-                <emu-clause id="sec-%typedarray%.prototype.withShifted">
-                    <h1>%TypedArray%.prototype.withShifted ( )</h1>
-
-                    <p>When the *withShifted* method is called, the following steps are taken:</p>
-
-                    <emu-alg>
-                        1. Let _O_ be the *this* value.
-                        1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _len_ be _O_.[[ArrayLength]].
-                        1. Let _newLen_ be max(_len_ - 1, 0).
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_newLen_) &raquo;, *true*).
-                        1. Let _k_ be 0.
-                        1. Repeat, while _k_ &lt; _newLen_,
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Let _from_ be ! ToString(𝔽(_k_ + 1)).
-                            1. Let _fromValue_ be ! Get(_O_, _from_).
-                            1. Perform ? Set(_A_, _Pk_, _fromValue_, *true*).
                             1. Set _k_ to _k_ + 1.
                         1. Return _A_.
                     </emu-alg>
@@ -613,8 +284,12 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _actualDeleteCount_ be the result of clamping _dc_ between 0 and _len_ - _actualStart_.
                         1. Let _newLen_ be _len_ + _insert_Count_ - _actualDeleteCount_.
                         1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_newLen_) &raquo;, *true*).
-                        1. Perform ? TypedArrayCopyRange(_O_, _A_, *0*<sub>𝔽</sub>, 𝔽(_actualStart_)).
-                        1. Let _k_ be _actualStart_.
+                        1. Let _k_ be 0.
+                        1. Repeat, while _k_ &lt; _actualStart_,
+                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                            1. Let _kValue_ be ! Get(_src_, _Pk_).
+                            1. Perform ? Set(_target_, _Pk_, _kValue_, *true*).
+                            1. Set _k_ to _k_ + 1.
                         1. For each element _E_ of _items_, do
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
                             1. Perform ? Set(_A_, _Pk_, _E_, *true*).
@@ -625,35 +300,6 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _fromValue_ be ! Get(_O_, _from_).
                             1. Perform ? Set(_A_, _Pk_, _fromValue_, *true*).
                             1. Set _k_ to _k_ + 1.
-                        1. Return _A_.
-                    </emu-alg>
-                </emu-clause>
-
-                <emu-clause id="sec-%typedarray%.prototype.withUnshifted">
-                    <h1>%TypedArray%.prototype.withUnshifted ( ..._items_ )</h1>
-
-                    <p>When the *withUnshifted* method is called, the following steps are taken:</p>
-
-                    <emu-alg>
-                        1. Let _itemCount_ be the number of elements in _items_.
-                        1. Let _O_ be the *this* value.
-                        1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _len_ be _O_.[[ArrayLength]].
-                        1. Let _newLen_ be _len_ + _itemCount_.
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_newLen_) &raquo;, *true*).
-                        1. Let _k_ be 0.
-                        1. For each element _E_ of _items_, do
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Perform ? Set(_A_, _Pk_, _E_, *true*).
-                            1. Set _k_ to _k_ + 1.
-                        1. Let _from_ be 0.
-                        1. Repeat, while _k_ &lt; _newLen_,
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Let _Pfrom_ be ! ToString(𝔽(_from_)).
-                            1. Let _fromValue_ be ! Get(_O_, _Pfrom_).
-                            1. Perform ? Set(_A_, _Pk_, _fromValue_, *true*).
-                            1. Set _k_ to _k_ + 1.
-                            1. Set _from_ to _from_ + 1.
                         1. Return _A_.
                     </emu-alg>
                 </emu-clause>
