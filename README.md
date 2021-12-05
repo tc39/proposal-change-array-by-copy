@@ -19,6 +19,12 @@ This proposal is currently at [Stage 2].
 - Robin Ricard (Bloomberg)
 - Ashley Claymore (Bloomberg)
 
+## Reviewers
+
+- [Jordan Harband](https://github.com/ljharb)
+- [Justin Ridgewell](https://github.com/jridgewell)
+- [Sergey Rubanov](https://github.com/chicoxyzzy)
+
 ## Overview
 
 This proposal introduces the following function properties to `Array.prototype`:
