@@ -29,19 +29,19 @@ This proposal is currently at [Stage 2].
 
 This proposal introduces the following function properties to `Array.prototype`:
 
-- `Array.prototype.withReversed() -> Array`
-- `Array.prototype.withSorted(compareFn) -> Array`
-- `Array.prototype.withSpliced(start, deleteCount, ...items) -> Array`
-- `Array.prototype.withAt(index, value) -> Array`
+- `Array.prototype.toReversed() -> Array`
+- `Array.prototype.toSorted(compareFn) -> Array`
+- `Array.prototype.toSpliced(start, deleteCount, ...items) -> Array`
+- `Array.prototype.with(index, value) -> Array`
 
 All of those methods keep the target Array untouched and returns a copy of it with the change performed instead.
 
 They will also be added to TypedArrays:
 
-- `TypedArray.prototype.withReversed() -> TypedArray`
-- `TypedArray.prototype.withSorted(compareFn) -> TypedArray`
-- `TypedArray.prototype.withSpliced(start, deleteCount, ...items) -> TypedArray`
-- `TypedArray.prototype.withAt(index, value) -> TypedArray`
+- `TypedArray.prototype.toReversed() -> TypedArray`
+- `TypedArray.prototype.toSorted(compareFn) -> TypedArray`
+- `TypedArray.prototype.toSpliced(start, deleteCount, ...items) -> TypedArray`
+- `TypedArray.prototype.with(index, value) -> TypedArray`
 
 These methods will then be avaliable on subclasses of `TypedArray`. i.e. the following:
 
@@ -61,15 +61,15 @@ These methods will then be avaliable on subclasses of `TypedArray`. i.e. the fol
 
 ```js
 const sequence = [1, 2, 3];
-sequence.withReversed(); // => [3, 2, 1]
+sequence.toReversed(); // => [3, 2, 1]
 sequence; // => [1, 2, 3]
 
 const outOfOrder = new Uint8Array([3, 1, 2]);
-outOfOrder.withSorted(); // => Uint8Array [1, 2, 3]
+outOfOrder.toSorted(); // => Uint8Array [1, 2, 3]
 outOfOrder; // => Uint8Array [3, 1, 2]
 
 const correctionNeeded = [1, 1, 3];
-correctionNeeded.withAt(1, 2); // => [1, 2, 3]
+correctionNeeded.with(1, 2); // => [1, 2, 3]
 correctionNeeded; // => [1, 1, 3]
 ```
 

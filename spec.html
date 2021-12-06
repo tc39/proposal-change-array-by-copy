@@ -18,10 +18,10 @@ contributors: Robin Ricard, Ashley Claymore
         <emu-clause id="sec-properties-of-the-array-prototype-object">
             <h1>Properties of the Array Prototype Object</h1>
 
-            <emu-clause id="sec-array.prototype.withReversed">
-                <h1>Array.prototype.withReversed ( )</h1>
+            <emu-clause id="sec-array.prototype.toReversed">
+                <h1>Array.prototype.toReversed ( )</h1>
 
-                <p>When the *withReversed* method is called, the following steps are taken:</p>
+                <p>When the *toReversed* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be ? ToObject(*this* value).
@@ -38,10 +38,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.withSorted">
-                <h1>Array.prototype.withSorted ( _compareFn_ )</h1>
+            <emu-clause id="sec-array.prototype.toSorted">
+                <h1>Array.prototype.toSorted ( _compareFn_ )</h1>
 
-                <p>When the *withSorted* method is called, the following steps are taken:</p>
+                <p>When the *toSorted* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
@@ -65,10 +65,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.withSpliced">
-                <h1>Array.prototype.withSpliced ( _start_, _deleteCount_, ..._items_ )</h1>
+            <emu-clause id="sec-array.prototype.toSpliced">
+                <h1>Array.prototype.toSpliced ( _start_, _deleteCount_, ..._items_ )</h1>
 
-                <p>When the *withSpliced* method is called, the following steps are taken:</p>
+                <p>When the *toSpliced* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be the *this* value.
@@ -109,10 +109,10 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-array.prototype.withAt">
-                <h1>Array.prototype.withAt ( _index_, _value_ )</h1>
+            <emu-clause id="sec-array.prototype.with">
+                <h1>Array.prototype.with ( _index_, _value_ )</h1>
 
-                <p>When the *withAt* method is called, the following steps are taken:</p>
+                <p>When the *with* method is called, the following steps are taken:</p>
 
                 <emu-alg>
                     1. Let _O_ be the *this* value.
@@ -149,10 +149,9 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"flatMap"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"includes"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"keys"*, *true*).
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withAt"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withReversed"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withSorted"*, *true*).</ins>
-                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"withSpliced"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"toReversed"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"toSorted"*, *true*).</ins>
+                    1. <ins>Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"toSpliced"*, *true*).</ins>
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"values"*, *true*).
                     1. Return _unscopableList_.
                 </emu-alg>
@@ -191,10 +190,10 @@ contributors: Robin Ricard, Ashley Claymore
             <emu-clause id="sec-properties-of-the-%typedarrayprototype%-object">
                 <h1>Properties of the %TypedArray% Prototype Object</h1>
 
-                <emu-clause id="sec-%typedarray%.prototype.withReversed">
-                    <h1>%TypedArray%.prototype.withReversed ( )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.toReversed">
+                    <h1>%TypedArray%.prototype.toReversed ( )</h1>
 
-                    <p>When the *withReversed* method is called, the following steps are taken:</p>
+                    <p>When the *toReversed* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
@@ -212,10 +211,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.withSorted">
-                    <h1>%TypedArray%.prototype.withSorted ( _compareFn_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.toSorted">
+                    <h1>%TypedArray%.prototype.toSorted ( _compareFn_ )</h1>
 
-                    <p>When the *withSorted* method is called, the following steps are taken:</p>
+                    <p>When the *toSorted* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
@@ -238,7 +237,7 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Set _j_ to _j_ + 1.
                         1. Return _A_.
                     </emu-alg>
-                    <p>The following version of SortCompare is used by %TypedArray%`.prototype.withSorted`.</p>
+                    <p>The following version of SortCompare is used by %TypedArray%`.prototype.toSorted`.</p>
                     <p>The abstract operation TypedArraySortCompare performs the following steps when called:</p>
                     <emu-alg>
                         1. Assert: Both Type(_x_) and Type(_y_) are Number or both are BigInt.
@@ -258,10 +257,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.withSpliced">
-                    <h1>%TypedArray%.prototype.withSpliced ( _start_, _deleteCount_, ..._items_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.toSpliced">
+                    <h1>%TypedArray%.prototype.toSpliced ( _start_, _deleteCount_, ..._items_ )</h1>
 
-                    <p>When the *withSpliced* method is called, the following steps are taken:</p>
+                    <p>When the *toSpliced* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
@@ -303,10 +302,10 @@ contributors: Robin Ricard, Ashley Claymore
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-%typedarray%.prototype.withAt">
-                    <h1>%TypedArray%.prototype.withAt ( _index_, _value_ )</h1>
+                <emu-clause id="sec-%typedarray%.prototype.with">
+                    <h1>%TypedArray%.prototype.with ( _index_, _value_ )</h1>
 
-                    <p>When the *withAt* method is called, the following steps are taken:</p>
+                    <p>When the *with* method is called, the following steps are taken:</p>
 
                     <emu-alg>
                         1. Let _O_ be the *this* value.
