@@ -96,7 +96,7 @@
         }
     }
 
-    /** @type {Array["withReversed"]} */
+    /** @type {Array["toReversed"]} */
     function arrayReversed() {
         const o = Object(this);
         const len = lengthOfArrayLike(o);
@@ -105,7 +105,7 @@
         return a;
     }
 
-    /** @type {TypedArray["withReversed"]} */
+    /** @type {TypedArray["toReversed"]} */
     function typedArrayReversed() {
         const o = assertTypedArray(this);
         const len = o.length;
@@ -114,7 +114,7 @@
         return a;
     }
 
-    /** @type {Array["withSorted"]} */
+    /** @type {Array["toSorted"]} */
     function arraySorted(compareFn) {
         if (compareFn !== void 0 && typeof compareFn !== "function") {
             throw new TypeError();
@@ -127,7 +127,7 @@
         return a;
     }
 
-    /** @type {TypedArray["withSorted"]} */
+    /** @type {TypedArray["toSorted"]} */
     function typedArraySorted(compareFn) {
         if (compareFn !== void 0 && typeof compareFn !== "function") {
             throw new TypeError();
@@ -185,7 +185,7 @@
         }
     }
 
-    /** @type {Array["withSpliced"]} */
+    /** @type {Array["toSpliced"]} */
     function arraySpliced(start, deleteCount, ...values) {
         const o = Object(this);
         const len = lengthOfArrayLike(o);
@@ -195,7 +195,7 @@
         return a;
     }
 
-    /** @type {TypedArray["withSpliced"]} */
+    /** @type {TypedArray["toSpliced"]} */
     function typedArraySpliced(start, deleteCount, ...values) {
         const o = assertTypedArray(this);
         const len = o.length;
@@ -205,8 +205,8 @@
         return a;
     }
 
-    /** @type {Array["withAt"]} */
-    function arrayWithAt(index, value) {
+    /** @type {Array["with"]} */
+    function arrayWith(index, value) {
         const o = Object(this);
         const len = lengthOfArrayLike(o);
         const actualIndex = index < 0 ? len + index : index;
@@ -221,8 +221,8 @@
         return a;
     }
 
-    /** @type {TypedArray["withAt"]} */
-    function typedArrayWithAt(index, value) {
+    /** @type {TypedArray["with"]} */
+    function typedArrayWith(index, value) {
         const o = assertTypedArray(this);
         const len = o.length;
         const actualIndex = index < 0 ? len + index : index;
@@ -258,22 +258,25 @@
     }
 
     const arrayMethods = {
-        withAt: arrayWithAt,
-        withReversed: arrayReversed,
-        withSorted: arraySorted,
-        withSpliced: arraySpliced,
+        with: arrayWith,
+        toReversed: arrayReversed,
+        toSorted: arraySorted,
+        toSpliced: arraySpliced,
     };
 
     addToPrototype(arrayPrototype, arrayMethods);
 
     for (const method of Object.keys(arrayMethods)) {
+        if (method === 'with') {
+            continue; // 'with' is already a keyword
+        }
         arrayPrototype[Symbol.unscopables][method] = true;
     }
 
     addToPrototype(typedArrayPrototype, {
-        withAt: typedArrayWithAt,
-        withReversed: typedArrayReversed,
-        withSorted: typedArraySorted,
-        withSpliced: typedArraySpliced,
+        with: typedArrayWith,
+        toReversed: typedArrayReversed,
+        toSorted: typedArraySorted,
+        toSpliced: typedArraySpliced,
     });
 })(Array.prototype, Object.getPrototypeOf(Int8Array.prototype));
