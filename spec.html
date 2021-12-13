@@ -54,8 +54,8 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _kValue_ be ? Get(_O_, _Pk_).
                         1. Append _kValue_ to _items_.
                         1. Set _k_ to _k_ + 1.
-                    1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
                     1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
+                    1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
                     1. Let _j_ be 0.
                     1. For each element _E_ of _items_, do
                         1. Let _Pj_ be ! ToString(𝔽(_j_)).
@@ -225,8 +225,8 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _kValue_ be ? Get(_O_, _Pk_).
                             1. Append _kValue_ to _items_.
                             1. Set _k_ to _k_ + 1.
-                        1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
                         1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;, *true*).
+                        1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
                         1. Let _j_ be 0.
                         1. For each element _E_ of _items_, do
                             1. Let _Pj_ be ! ToString(𝔽(_j_)).
