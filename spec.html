@@ -47,6 +47,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
                     1. Let _O_ be ? ToObject(*this* value).
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
+                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Let _items_ be a new empty List.
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _len_,
@@ -54,7 +55,6 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _kValue_ be ? Get(_O_, _Pk_).
                         1. Append _kValue_ to _items_.
                         1. Set _k_ to _k_ + 1.
-                    1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
                     1. Let _j_ be 0.
                     1. For each element _E_ of _items_, do
@@ -218,6 +218,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _O_ be the *this* value.
                         1. Perform ? ValidateTypedArray(_O_).
                         1. Let _len_ be _O_.[[ArrayLength]].
+                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;, *true*).
                         1. Let _items_ be a new empty List.
                         1. Let _k_ be 0.
                         1. Repeat, while _k_ &lt; _len_,
@@ -225,7 +226,6 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _kValue_ be ? Get(_O_, _Pk_).
                             1. Append _kValue_ to _items_.
                             1. Set _k_ to _k_ + 1.
-                        1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;, *true*).
                         1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
                         1. Let _j_ be 0.
                         1. For each element _E_ of _items_, do
