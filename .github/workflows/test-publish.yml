@@ -24,4 +24,4 @@ jobs:
     - name: Install dev deps
       run: npm install
     - name: Test the polyfill
-      run: npm run build
+      run: npm run test
