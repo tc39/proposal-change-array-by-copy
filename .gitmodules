@@ -1,0 +1,4 @@
+[submodule "test262"]
+	path = test262
+	url = https://github.com/nicolo-ribaudo/test262.git
+	branch = change-array-by-copy
