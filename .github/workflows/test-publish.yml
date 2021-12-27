@@ -17,6 +17,14 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: out
+  test262:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dev deps
+      run: npm install
+    - name: Run test262 tests
+      run: npm run test262
   test:
     runs-on: ubuntu-latest
     steps:
