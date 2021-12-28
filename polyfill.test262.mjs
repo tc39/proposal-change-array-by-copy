@@ -25,6 +25,7 @@ const testsPaths = [
 	["TypedArray", "toReversed"],
 	["TypedArray", "toSorted"],
 	["TypedArray", "toSpliced"],
+	["TypedArray", "with"],
 ].map(
 	([constructor, method]) => `test/built-ins/${constructor}/prototype/${method}`
 );
