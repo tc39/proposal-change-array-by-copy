@@ -96,49 +96,53 @@
         }
     }
 
-    /** @type {Array["toReversed"]} */
-    function arrayReversed() {
-        const o = Object(this);
-        const len = lengthOfArrayLike(o);
-        const a = [];
-        transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
-        return a;
-    }
+    defineArrayMethods({
+        toReversed() {
+            const o = Object(this);
+            const len = lengthOfArrayLike(o);
+            const a = [];
+            transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
+            return a;
+        },
+    });
 
-    /** @type {TypedArray["toReversed"]} */
-    function typedArrayReversed() {
-        const o = assertTypedArray(this);
-        const len = o.length;
-        const a = typedArrayCreate(o, len);
-        transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
-        return a;
-    }
+    defineTypedArrayMethods({
+        toReversed() {
+            const o = assertTypedArray(this);
+            const len = o.length;
+            const a = typedArrayCreate(o, len);
+            transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
+            return a;
+        },
+    });
 
-    /** @type {Array["toSorted"]} */
-    function arraySorted(compareFn) {
-        if (compareFn !== void 0 && typeof compareFn !== "function") {
-            throw new TypeError();
-        }
-        const o = Object(this);
-        const len = lengthOfArrayLike(o);
-        const a = [];
-        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
-        arrayPrototype.sort.call(a, compareFn);
-        return a;
-    }
+    defineArrayMethods({
+        toSorted(compareFn) {
+            if (compareFn !== void 0 && typeof compareFn !== "function") {
+                throw new TypeError();
+            }
+            const o = Object(this);
+            const len = lengthOfArrayLike(o);
+            const a = [];
+            transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
+            arrayPrototype.sort.call(a, compareFn);
+            return a;
+        },
+    });
 
-    /** @type {TypedArray["toSorted"]} */
-    function typedArraySorted(compareFn) {
-        if (compareFn !== void 0 && typeof compareFn !== "function") {
-            throw new TypeError();
-        }
-        const o = assertTypedArray(this);
-        const len = o.length;
-        const a = typedArrayCreate(o, len);
-        transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
-        typedArrayPrototype.sort.call(a, compareFn);
-        return a;
-    }
+    defineTypedArrayMethods({
+        toSorted(compareFn) {
+            if (compareFn !== void 0 && typeof compareFn !== "function") {
+                throw new TypeError();
+            }
+            const o = assertTypedArray(this);
+            const len = o.length;
+            const a = typedArrayCreate(o, len);
+            transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
+            typedArrayPrototype.sort.call(a, compareFn);
+            return a;
+        },
+    });
 
     function calculateSplice({ start, len, deleteCount, values }) {
         const relativeStart = toIntegerOrInfinity(start);
@@ -185,98 +189,85 @@
         }
     }
 
-    /** @type {Array["toSpliced"]} */
-    function arraySpliced(start, deleteCount, ...values) {
-        const o = Object(this);
-        const len = lengthOfArrayLike(o);
-        const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
-        const a = [];
-        doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
-        return a;
+    defineArrayMethods({
+        toSpliced(start, deleteCount, ...values) {
+            const o = Object(this);
+            const len = lengthOfArrayLike(o);
+            const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
+            const a = [];
+            doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
+            return a;
+        }
+    });
+
+    defineTypedArrayMethods({
+        toSpliced(start, deleteCount, ...values) {
+            const o = assertTypedArray(this);
+            const len = o.length;
+            const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
+            const a = typedArrayCreate(o, newLen);
+            doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
+            return a;
+        }
+    });
+
+    defineArrayMethods({
+        with(index, value) {
+            const o = Object(this);
+            const len = lengthOfArrayLike(o);
+            const actualIndex = index < 0 ? len + index : index;
+            if (actualIndex < 0 || actualIndex >= len) {
+                throw new RangeError();
+            }
+            const a = [];
+            for (let k = 0; k < len; k++) {
+                const v = k === actualIndex ? value : o[k];
+                a[k] = v;
+            }
+            return a;
+        }
+    });
+
+    defineTypedArrayMethods({
+        with(index, value) {
+            const o = assertTypedArray(this);
+            const len = o.length;
+            const actualIndex = index < 0 ? len + index : index;
+            if (actualIndex < 0 || actualIndex >= len) {
+                throw new RangeError();
+            }
+            const a = typedArrayCreate(o, len);
+            for (let k = 0; k < len; k++) {
+                const v = k === actualIndex ? value : o[k];
+                a[k] = v;
+            }
+            return a;
+        }
+    });
+
+    /** @type {(def: { [N in "with" | "toReversed" | "toSorted" | "toSpliced"]?: typeof Array.prototype[N] }) => void} */
+    function defineArrayMethods(def) {
+        defineMethods(arrayPrototype, def).forEach(name => {
+            if (name !== 'with') { // 'with' is already a keyword
+                arrayPrototype[Symbol.unscopables][name] = true;
+            }
+        });
     }
 
-    /** @type {TypedArray["toSpliced"]} */
-    function typedArraySpliced(start, deleteCount, ...values) {
-        const o = assertTypedArray(this);
-        const len = o.length;
-        const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
-        const a = typedArrayCreate(o, newLen);
-        doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
-        return a;
+    /** @type {(def: { [N in "with" | "toReversed" | "toSorted" | "toSpliced"]?: (this: TypedArray, ...args: Parameters<Uint8Array[N]>) => TypedArray }) => void} */
+    function defineTypedArrayMethods(def) {
+        defineMethods(typedArrayPrototype, def);
     }
 
-    /** @type {Array["with"]} */
-    function arrayWith(index, value) {
-        const o = Object(this);
-        const len = lengthOfArrayLike(o);
-        const actualIndex = index < 0 ? len + index : index;
-        if (actualIndex < 0 || actualIndex >= len) {
-            throw new RangeError();
-        }
-        const a = [];
-        for (let k = 0; k < len; k++) {
-            const v = k === actualIndex ? value : o[k];
-            a[k] = v;
-        }
-        return a;
-    }
-
-    /** @type {TypedArray["with"]} */
-    function typedArrayWith(index, value) {
-        const o = assertTypedArray(this);
-        const len = o.length;
-        const actualIndex = index < 0 ? len + index : index;
-        if (actualIndex < 0 || actualIndex >= len) {
-            throw new RangeError();
-        }
-        const a = typedArrayCreate(o, len);
-        for (let k = 0; k < len; k++) {
-            const v = k === actualIndex ? value : o[k];
-            a[k] = v;
-        }
-        return a;
-    }
-
-    /**
-     * @param {object} prototype
-     * @param {{ [name: string]: Function }} additions
-     */
-    function addToPrototype(prototype, additions) {
-        /** @type {PropertyDescriptorMap} */
-        const propertyDescriptors = {};
-
-        for (const [name, value] of Object.entries(additions)) {
-            propertyDescriptors[name] = {
+    function defineMethods(obj, def) {
+        return Object.entries(def).map(([name, method]) => {
+            Object.defineProperty(obj, name, {
+                value: method,
                 enumerable: false,
                 configurable: true,
                 writable: true,
-                value,
-            };
-        }
-
-        Object.defineProperties(prototype, propertyDescriptors);
+            });
+            return name;
+        });
     }
-
-    const arrayMethods = {
-        with: arrayWith,
-        toReversed: arrayReversed,
-        toSorted: arraySorted,
-        toSpliced: arraySpliced,
-    };
-
-    addToPrototype(arrayPrototype, arrayMethods);
-
-    for (const method of Object.keys(arrayMethods)) {
-        if (method === 'with') {
-            continue; // 'with' is already a keyword
-        }
-        arrayPrototype[Symbol.unscopables][method] = true;
-    }
-
-    addToPrototype(typedArrayPrototype, {
-        with: typedArrayWith,
-        toReversed: typedArrayReversed,
-        toSorted: typedArraySorted,
-        toSpliced: typedArraySpliced,
-    });
 })(Array.prototype, Object.getPrototypeOf(Int8Array.prototype));
