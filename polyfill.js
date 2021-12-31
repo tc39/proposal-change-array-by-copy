@@ -20,6 +20,13 @@
         return i;
     }
 
+    function toObject(val) {
+        if (val === null || val === undefined) {
+            throw new TypeError(`${val} is not an object`);
+        }
+        return Object(val);
+    }
+
     function lengthOfArrayLike(arr) {
         if (!(typeof arr === "object" && arr !== null)) {
             throw new TypeError();
@@ -98,7 +105,7 @@
 
     defineArrayMethods({
         toReversed() {
-            const o = Object(this);
+            const o = toObject(this);
             const len = lengthOfArrayLike(o);
             const a = [];
             transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
@@ -121,7 +128,7 @@
             if (compareFn !== void 0 && typeof compareFn !== "function") {
                 throw new TypeError();
             }
-            const o = Object(this);
+            const o = toObject(this);
             const len = lengthOfArrayLike(o);
             const a = [];
             transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
@@ -191,7 +198,7 @@
 
     defineArrayMethods({
         toSpliced(start, deleteCount, ...values) {
-            const o = Object(this);
+            const o = toObject(this);
             const len = lengthOfArrayLike(o);
             const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
             const a = [];
@@ -213,7 +220,7 @@
 
     defineArrayMethods({
         with(index, value) {
-            const o = Object(this);
+            const o = toObject(this);
             const len = lengthOfArrayLike(o);
             const actualIndex = index < 0 ? len + index : index;
             if (actualIndex < 0 || actualIndex >= len) {
