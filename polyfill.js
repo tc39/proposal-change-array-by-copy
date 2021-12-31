@@ -100,7 +100,7 @@
         toReversed() {
             const o = Object(this);
             const len = lengthOfArrayLike(o);
-            const a = [];
+            const a = new Array(len);
             transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
             return a;
         },
@@ -123,7 +123,7 @@
             }
             const o = Object(this);
             const len = lengthOfArrayLike(o);
-            const a = [];
+            const a = new Array(len);;
             transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
             arrayPrototype.sort.call(a, compareFn);
             return a;
@@ -194,7 +194,7 @@
             const o = Object(this);
             const len = lengthOfArrayLike(o);
             const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
-            const a = [];
+            const a = new Array(newLen);
             doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
             return a;
         }
@@ -219,7 +219,7 @@
             if (actualIndex < 0 || actualIndex >= len) {
                 throw new RangeError();
             }
-            const a = [];
+            const a = new Array(len);
             for (let k = 0; k < len; k++) {
                 const v = k === actualIndex ? value : o[k];
                 a[k] = v;
