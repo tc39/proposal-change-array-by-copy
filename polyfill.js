@@ -153,7 +153,7 @@
         },
     });
 
-    function calculateSplice({ start, len, deleteCount, values }) {
+    function calculateSplice({ start, len, deleteCount, values, argsCount }) {
         const relativeStart = toIntegerOrInfinity(start);
         let actualStart;
         if (relativeStart === -Infinity) {
@@ -163,16 +163,13 @@
         } else {
             actualStart = Math.min(relativeStart, len);
         }
-        let insertCount;
+        const insertCount = values.length;
         let actualDeleteCount;
-        if (start === void 0) {
-            insertCount = 0;
+        if (/* start is not present */ argsCount === 0) {
             actualDeleteCount = 0;
-        } else if (deleteCount === void 0) {
-            insertCount = 0;
+        } else if (/* deleteCount is not present */ argsCount === 1) {
             actualDeleteCount = len - actualStart;
         } else {
-            insertCount = values.length;
             const dc = toIntegerOrInfinity(deleteCount);
             actualDeleteCount = Math.max(0, Math.min(dc, len - actualStart));
         }
@@ -202,7 +199,7 @@
         toSpliced(start, deleteCount, ...values) {
             const o = toObject(this);
             const len = lengthOfArrayLike(o);
-            const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
+            const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values, argsCount: arguments.length });
             const a = new Array(newLen);
             doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
             return a;
@@ -213,7 +210,7 @@
         toSpliced(start, deleteCount, ...values) {
             const o = assertTypedArray(this);
             const len = o.length;
-            const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values });
+            const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values, argsCount: arguments.length });
             const a = typedArrayCreate(o, newLen);
             doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
             return a;
