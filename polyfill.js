@@ -2,6 +2,8 @@
 /// <reference path="./polyfill.d.ts" />
 
 ((arrayPrototype, typedArrayPrototype) => {
+    "use strict";
+
     function toIntegerOrInfinity(arg) {
         let n = Number(arg);
         if (Number.isNaN(n) || n === 0) {
