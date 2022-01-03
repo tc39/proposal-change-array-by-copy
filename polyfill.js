@@ -225,7 +225,8 @@
         with(index, value) {
             const o = toObject(this);
             const len = lengthOfArrayLike(o);
-            const actualIndex = index < 0 ? len + index : index;
+            const relativeIndex = toIntegerOrInfinity(index);
+            const actualIndex = relativeIndex < 0 ? len + relativeIndex : relativeIndex;
             if (actualIndex < 0 || actualIndex >= len) {
                 throw new RangeError();
             }
@@ -242,7 +243,8 @@
         with(index, value) {
             const o = assertTypedArray(this);
             const len = typedArrayLength(o);
-            const actualIndex = index < 0 ? len + index : index;
+            const relativeIndex = toIntegerOrInfinity(index);
+            const actualIndex = relativeIndex < 0 ? len + relativeIndex : relativeIndex;
             if (actualIndex < 0 || actualIndex >= len) {
                 throw new RangeError();
             }
