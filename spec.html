@@ -18,6 +18,65 @@ contributors: Robin Ricard, Ashley Claymore
         <emu-clause id="sec-properties-of-the-array-prototype-object">
             <h1>Properties of the Array Prototype Object</h1>
 
+            <emu-clause id="sec-array.prototype.sort">
+                <h1>Array.prototype.sort ( _comparefn_ )</h1>
+
+                <emu-note type="editor">This algorithm has not been updated. The only difference is that _comparefn_ is now passed explicitly to SortCompare.</emu-note>
+
+                <p>When the `sort` method is called, the following steps are taken:</p>
+                <emu-alg>
+                    1. [id="step-array-sort-comparefn"] If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
+                    1. Let _obj_ be ? ToObject(*this* value).
+                    1. [id="step-array-sort-len"] Let _len_ be ? LengthOfArrayLike(_obj_).
+                    1. Let _items_ be a new empty List.
+                    1. Let _k_ be 0.
+                    1. Repeat, while _k_ &lt; _len_,
+                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
+                        1. Let _kPresent_ be ? HasProperty(_obj_, _Pk_).
+                        1. If _kPresent_ is *true*, then
+                        1. Let _kValue_ be ? Get(_obj_, _Pk_).
+                        1. Append _kValue_ to _items_.
+                        1. Set _k_ to _k_ + 1.
+                    1. Let _itemCount_ be the number of elements in _items_.
+                    1. [id="step-array-sort"] Sort _items_ using an implementation-defined sequence of calls to SortCompare <ins>with arguments &laquo; _comparefn_, _a_, _b_ &raquo;, where _a_ and _b_ are the two elements of _items_ to compare</ins>. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
+                    1. Let _j_ be 0.
+                    1. Repeat, while _j_ &lt; _itemCount_,
+                        1. Perform ? Set(_obj_, ! ToString(𝔽(_j_)), _items_[_j_], *true*).
+                        1. Set _j_ to _j_ + 1.
+                    1. Repeat, while _j_ &lt; _len_,
+                        1. Perform ? DeletePropertyOrThrow(_obj_, ! ToString(𝔽(_j_))).
+                        1. Set _j_ to _j_ + 1.
+                    1. Return _obj_.
+                </emu-alg>
+
+                <emu-clause id="sec-sortcompare" type="abstract operation">
+                    <h1>
+                        SortCompare (
+                            <ins>_comparefn_</ins>: <ins>an ECMAScript language value</ins>,
+                            _x_: unknown,
+                            _y_: unknown,
+                        )
+                    </h1>
+                    <dl class="header"></dl>
+                    <emu-alg>
+                        1. If _x_ and _y_ are both *undefined*, return *+0*<sub>𝔽</sub>.
+                        1. If _x_ is *undefined*, return *1*<sub>𝔽</sub>.
+                        1. If _y_ is *undefined*, return *-1*<sub>𝔽</sub>.
+                        1. If _comparefn_ is not *undefined*, then
+                            1. Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, &laquo; _x_, _y_ &raquo;)).
+                            1. If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.
+                            1. Return _v_.
+                        1. [id="step-sortcompare-tostring-x"] Let _xString_ be ? ToString(_x_).
+                        1. [id="step-sortcompare-tostring-y"] Let _yString_ be ? ToString(_y_).
+                        1. Let _xSmaller_ be IsLessThan(_xString_, _yString_, *true*).
+                        1. If _xSmaller_ is *true*, return *-1*<sub>𝔽</sub>.
+                        1. Let _ySmaller_ be IsLessThan(_yString_, _xString_, *true*).
+                        1. If _ySmaller_ is *true*, return *1*<sub>𝔽</sub>.
+                        1. Return *+0*<sub>𝔽</sub>.
+                    </emu-alg>
+                </emu-clause>
+            </emu-clause>
+
             <emu-clause id="sec-array.prototype.toReversed">
                 <h1>Array.prototype.toReversed ( )</h1>
 
@@ -39,7 +98,7 @@ contributors: Robin Ricard, Ashley Claymore
             </emu-clause>
 
             <emu-clause id="sec-array.prototype.toSorted">
-                <h1>Array.prototype.toSorted ( _compareFn_ )</h1>
+                <h1>Array.prototype.toSorted ( _comparefn_ )</h1>
 
                 <p>When the *toSorted* method is called, the following steps are taken:</p>
 
@@ -55,7 +114,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _kValue_ be ? Get(_O_, _Pk_).
                         1. Append _kValue_ to _items_.
                         1. Set _k_ to _k_ + 1.
-                    1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
+                    1. Sort _items_ using an implementation-defined sequence of calls to SortCompare with arguments &laquo; _comparefn_, _a_, _b_ &raquo;, where _a_ and _b_ are the two elements of _items_ to compare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
                     1. Let _j_ be 0.
                     1. For each element _E_ of _items_, do
                         1. Let _Pj_ be ! ToString(𝔽(_j_)).
@@ -187,6 +246,58 @@ contributors: Robin Ricard, Ashley Claymore
             <emu-clause id="sec-properties-of-the-%typedarrayprototype%-object">
                 <h1>Properties of the %TypedArray% Prototype Object</h1>
 
+                <emu-clause id="sec-%typedarray%.prototype.sort">
+                    <h1>%TypedArray%.prototype.sort ( _comparefn_ )</h1>
+
+                    <emu-note type="editor">This algorithm has not been updated. The only difference is that _comparefn_ and _buffer_ are now passed explicitly to TypedArraySortCompare.</emu-note>
+
+                    <p>Upon entry, the following steps are performed to initialize evaluation of the `sort` function. These steps are used instead of steps <emu-xref href="#step-array-sort-comparefn"></emu-xref>–<emu-xref href="#step-array-sort-len"></emu-xref> in <emu-xref href="#sec-array.prototype.sort"></emu-xref>:</p>
+                    <emu-alg>
+                        1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
+                        1. Let _obj_ be the *this* value.
+                        1. Perform ? ValidateTypedArray(_obj_).
+                        1. Let _buffer_ be _obj_.[[ViewedArrayBuffer]].
+                        1. Let _len_ be _obj_.[[ArrayLength]].
+                    </emu-alg>
+
+                    <p><ins>Instead of calling SortCompare with arguments &laquo; _comparefn_, _a_, _b_ &raquo;, it calls TypedArraySortCompare with arguments &laquo; _comparefn_, _buffer_, _a_, _b_ &raquo;.</ins></p>
+
+                    <emu-clause id="sec-typedarraysortcompare" type="abstract operation">
+                        <h1>
+                            TypedArraySortCompare (
+                                <ins>_comparefn_</ins>: <ins>an ECMAScript language value</ins>,
+                                <ins>_buffer_</ins>: <ins>unknown</ins>,
+                                _x_: a Number or BigInt,
+                                _y_: a Number or BigInt,
+                            )
+                        </h1>
+                        <dl class="header">
+                            <dt>description</dt>
+                            <dd>It performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-array.prototype.sort"></emu-xref>.</dd>
+                        </dl>
+
+                    </p>
+                    <emu-alg>
+                        1. Assert: Both Type(_x_) and Type(_y_) are Number or both are BigInt.
+                        1. If _comparefn_ is not *undefined*, then
+                            1. Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, &laquo; _x_, _y_ &raquo;)).
+                            1. If IsDetachedBuffer(_buffer_) is *true*, throw a *TypeError* exception.
+                            1. If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.
+                            1. Return _v_.
+                        1. If _x_ and _y_ are both *NaN*, return *+0*<sub>𝔽</sub>.
+                        1. If _x_ is *NaN*, return *1*<sub>𝔽</sub>.
+                        1. If _y_ is *NaN*, return *-1*<sub>𝔽</sub>.
+                        1. If _x_ &lt; _y_, return *-1*<sub>𝔽</sub>.
+                        1. If _x_ &gt; _y_, return *1*<sub>𝔽</sub>.
+                        1. If _x_ is *-0*<sub>𝔽</sub> and _y_ is *+0*<sub>𝔽</sub>, return *-1*<sub>𝔽</sub>.
+                        1. If _x_ is *+0*<sub>𝔽</sub> and _y_ is *-0*<sub>𝔽</sub>, return *1*<sub>𝔽</sub>.
+                        1. Return *+0*<sub>𝔽</sub>.
+                    </emu-alg>
+                    <emu-note>
+                        <p>Because *NaN* always compares greater than any other value, *NaN* property values always sort to the end of the result when _comparefn_ is not provided.</p>
+                    </emu-note>
+                </emu-clause>
+
                 <emu-clause id="sec-%typedarray%.prototype.toReversed">
                     <h1>%TypedArray%.prototype.toReversed ( )</h1>
 
@@ -209,7 +320,7 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-clause>
 
                 <emu-clause id="sec-%typedarray%.prototype.toSorted">
-                    <h1>%TypedArray%.prototype.toSorted ( _compareFn_ )</h1>
+                    <h1>%TypedArray%.prototype.toSorted ( _comparefn_ )</h1>
 
                     <p>When the *toSorted* method is called, the following steps are taken:</p>
 
@@ -217,6 +328,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
                         1. Let _O_ be the *this* value.
                         1. Perform ? ValidateTypedArray(_O_).
+                        1. Let _buffer_ be _obj_.[[ViewedArrayBuffer]].
                         1. Let _len_ be _O_.[[ArrayLength]].
                         1. Let _A_ be ? TypedArraySpeciesCreate(_O_, &laquo; 𝔽(_len_) &raquo;, *true*).
                         1. Let _items_ be a new empty List.
@@ -226,31 +338,13 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _kValue_ be ? Get(_O_, _Pk_).
                             1. Append _kValue_ to _items_.
                             1. Set _k_ to _k_ + 1.
-                        1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
+                        1. Sort _items_ using an implementation-defined sequence of calls to TypedArraySortCompare with arguments &laquo; _comparefn_, _buffer_, _a_, _b_ &raquo;, where _a_ and _b_ are the two elements of _items_ to compare. If any such call returns an abrupt completion, stop before performing any further calls to TypedArraySortCompare or steps in this algorithm and return that completion.
                         1. Let _j_ be 0.
                         1. For each element _E_ of _items_, do
                             1. Let _Pj_ be ! ToString(𝔽(_j_)).
                             1. Perform ? Set(_A_, _Pj_, _E_, *true*).
                             1. Set _j_ to _j_ + 1.
                         1. Return _A_.
-                    </emu-alg>
-                    <p>The following version of SortCompare is used by %TypedArray%`.prototype.toSorted`.</p>
-                    <p>The abstract operation TypedArraySortCompare performs the following steps when called:</p>
-                    <emu-alg>
-                        1. Assert: Both Type(_x_) and Type(_y_) are Number or both are BigInt.
-                        1. If _comparefn_ is not *undefined*, then
-                            1. Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, &laquo; _x_, _y_ &raquo;)).
-                            1. If IsDetachedBuffer(_buffer_) is *true*, throw a *TypeError* exception.
-                            1. If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.
-                            1. Return _v_.
-                        1. If _x_ and _y_ are both *NaN*, return *+0*<sub>𝔽</sub>.
-                        1. If _x_ is *NaN*, return *1*<sub>𝔽</sub>.
-                        1. If _y_ is *NaN*, return *-1*<sub>𝔽</sub>.
-                        1. If _x_ &lt; _y_, return *-1*<sub>𝔽</sub>.
-                        1. If _x_ &gt; _y_, return *1*<sub>𝔽</sub>.
-                        1. If _x_ is *-0*<sub>𝔽</sub> and _y_ is *+0*<sub>𝔽</sub>, return *-1*<sub>𝔽</sub>.
-                        1. If _x_ is *+0*<sub>𝔽</sub> and _y_ is *-0*<sub>𝔽</sub>, return *1*<sub>𝔽</sub>.
-                        1. Return *+0*<sub>𝔽</sub>.
                     </emu-alg>
                 </emu-clause>
 
