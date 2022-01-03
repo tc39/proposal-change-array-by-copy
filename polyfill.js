@@ -4,6 +4,10 @@
 ((arrayPrototype, typedArrayPrototype) => {
     "use strict";
 
+    const typedArrayLength = Function.call.bind(
+        Object.getOwnPropertyDescriptor(typedArrayPrototype, "length").get
+    );
+
     function toIntegerOrInfinity(arg) {
         let n = Number(arg);
         if (Number.isNaN(n) || n === 0) {
@@ -118,7 +122,7 @@
     defineTypedArrayMethods({
         toReversed() {
             const o = assertTypedArray(this);
-            const len = o.length;
+            const len = typedArrayLength(o);
             const a = typedArrayCreate(o, len);
             transfer({ src: o, srcStart: len - 1, srcStep: -1, target: a, targetStart: 0, targetStep: 1, count: len });
             return a;
@@ -145,7 +149,7 @@
                 throw new TypeError();
             }
             const o = assertTypedArray(this);
-            const len = o.length;
+            const len = typedArrayLength(o);
             const a = typedArrayCreate(o, len);
             transfer({ src: o, srcStart: 0, target: a, targetStart: 0, count: len });
             typedArrayPrototype.sort.call(a, compareFn);
@@ -209,7 +213,7 @@
     defineTypedArrayMethods({
         toSpliced(start, deleteCount, ...values) {
             const o = assertTypedArray(this);
-            const len = o.length;
+            const len = typedArrayLength(o);
             const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values, argsCount: arguments.length });
             const a = typedArrayCreate(o, newLen);
             doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
@@ -237,7 +241,7 @@
     defineTypedArrayMethods({
         with(index, value) {
             const o = assertTypedArray(this);
-            const len = o.length;
+            const len = typedArrayLength(o);
             const actualIndex = index < 0 ? len + index : index;
             if (actualIndex < 0 || actualIndex >= len) {
                 throw new RangeError();
