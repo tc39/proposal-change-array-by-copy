@@ -308,7 +308,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _relativeIndex_ be ? ToIntegerOrInfinity(_index_).
                         1. If _relativeIndex_ &ge; 0, let _actualIndex_ be _relativeIndex_.
                         1. Else, let _actualIndex_ be _len_ + _relativeIndex_.
-                        1. If ! IsValidIntegerIndex(_O_, _actualIndex_) is *false*, throw a *RangeError* exception.
+                        1. If ! IsValidIntegerIndex(_O_, 𝔽(_actualIndex_)) is *false*, throw a *RangeError* exception.
                         1. Let _A_ be ? TypedArrayCreateSameType(_O_, &laquo; 𝔽(_len_) &raquo;).
                         1. Let _k_ be 0.
                         1. Repeat, while _k_ &lt; _len_,
