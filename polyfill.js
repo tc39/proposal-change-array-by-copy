@@ -204,6 +204,9 @@
             const o = toObject(this);
             const len = lengthOfArrayLike(o);
             const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values, argsCount: arguments.length });
+            if (newLen > Number.MAX_SAFE_INTEGER) {
+                throw new TypeError();
+            }
             const a = new Array(newLen);
             doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
             return a;
