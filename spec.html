@@ -86,6 +86,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _dc_ be ? ToIntegerOrInfinity(_deleteCount_).
                         1. Let _actualDeleteCount_ be the result of clamping _dc_ between 0 and _len_ - _actualStart_.
                     1. Let _newLen_ be _len_ + _insertCount_ - _actualDeleteCount_.
+                    1. If _newLen_ &gt; 2<sup>53</sup> - 1, throw a *TypeError* exception.
                     1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
                     1. Let _k_ be 0.
                     1. Repeat, while _k_ &lt; _actualStart_,
