@@ -132,12 +132,12 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-alg>
             </emu-clause>
 
-
             <emu-clause id="sec-array.prototype-@@unscopables">
                 <h1>Array.prototype [ @@unscopables ]</h1>
                 <p>The initial value of the @@unscopables data property is an object created by the following steps:</p>
                 <emu-alg>
                     1. Let _unscopableList_ be ! OrdinaryObjectCreate(*null*).
+                    1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"at"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"copyWithin"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"entries"*, *true*).
                     1. Perform ! CreateDataPropertyOrThrow(_unscopableList_, *"fill"*, *true*).
@@ -164,9 +164,17 @@ contributors: Robin Ricard, Ashley Claymore
         <emu-clause id="sec-abstract-operations-for-typedarray-objects">
             <h1>Abstract Operations for TypedArray Objects</h1>
 
-            <emu-clause id="typedarray-create-same-type">
-                <h1>TypedArrayCreateSameType ( _exemplar_, _argumentList_ )</h1>
-                <p>The abstract operation TypedArrayCreateSameType takes arguments _exemplar_ and _argumentList_. It is used to specify the creation of a new TypedArray object using the same constructor function that was used for _exemplar_. It performs the following steps when called:</p>
+            <emu-clause id="typedarray-create-same-type" type="abstract operation">
+                <h1>
+                  TypedArrayCreateSameType (
+                    _exemplar_: a TypedArray,
+                    _argumentList_: unknown,
+                  )
+                </h1>
+                <dl class="header">
+                    <dt>description</dt>
+                    <dd>It is used to specify the creation of a new TypedArray using a constructor function that is derived from _exemplar_. Unlike TypedArraySpeciesCreate, which can construct custom TypedArray subclasses through the use of @@species, this operation always uses one of the built-in TypedArray constructors.</dd>
+                </dl>
                 <emu-alg>
                 1. Assert: _exemplar_ is an Object that has [[TypedArrayName]] and [[ContentType]] internal slots.
                 1. Let _constructor_ be the intrinsic object listed in column one of <emu-xref href="#table-the-typedarray-constructors"></emu-xref> for _exemplar_.[[TypedArrayName]].
@@ -176,7 +184,6 @@ contributors: Robin Ricard, Ashley Claymore
                 1. Return _result_.
                 </emu-alg>
             </emu-clause>
-
         </emu-clause>
 
         <emu-clause id="sec-%typedarray%-intrinsic-object">
