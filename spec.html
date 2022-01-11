@@ -32,7 +32,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _from_ be ! ToString(𝔽(_len_ - _k_ - 1)).
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
                         1. Let _fromValue_ be ? Get(_O_, _from_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
                         1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
@@ -59,7 +59,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _j_ be 0.
                     1. For each element _E_ of _items_, do
                         1. Let _Pj_ be ! ToString(𝔽(_j_)).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pj_, _E_).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pj_, _E_).
                         1. Set _j_ to _j_ + 1.
                     1. Return _A_.
                 </emu-alg>
@@ -92,17 +92,17 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Repeat, while _k_ &lt; _actualStart_,
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
                         1. Let _kValue_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _kValue_).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _kValue_).
                         1. Set _k_ to _k_ + 1.
                     1. For each element _E_ of _items_, do
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
                         1. Set _k_ to _k_ + 1.
                     1. Repeat, while _k_ &lt; _newLen_,
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
                         1. Let _from_ be ! ToString(𝔽(_k_ + _actualDeleteCount_ - _insertCount_)).
                         1. Let _fromValue_ be ? Get(_O_, _from_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
                         1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
@@ -126,7 +126,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _Pk_ be ! ToString(𝔽(_k_)).
                         1. If _k_ is _actualIndex_, let _fromValue_ be _value_.
                         1. Else, let _fromValue_ be ? Get(_O_, _Pk_).
-                        1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
                         1. Set _k_ to _k_ + 1.
                     1. Return _A_.
                 </emu-alg>
@@ -207,7 +207,7 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _from_ be ! ToString(𝔽(_length_ - _k_ - 1)).
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
                             1. Let _fromValue_ be ! Get(_O_, _from_).
-                            1. Perform ? Set(_A_, _Pk_, _kValue_, *true*).
+                            1. Perform ! Set(_A_, _Pk_, _kValue_, *true*).
                             1. Set _k_ to _k_ + 1.
                         1. Return _A_.
                     </emu-alg>
@@ -235,7 +235,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _j_ be 0.
                         1. For each element _E_ of _items_, do
                             1. Let _Pj_ be ! ToString(𝔽(_j_)).
-                            1. Perform ? Set(_A_, _Pj_, _E_, *true*).
+                            1. Perform ! Set(_A_, _Pj_, _E_, *true*).
                             1. Set _j_ to _j_ + 1.
                         1. Return _A_.
                     </emu-alg>
@@ -288,7 +288,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Repeat, while _k_ &lt; _actualStart_,
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
                             1. Let _kValue_ be ! Get(_src_, _Pk_).
-                            1. Perform ? Set(_target_, _Pk_, _kValue_, *true*).
+                            1. Perform ! Set(_target_, _Pk_, _kValue_, *true*).
                             1. Set _k_ to _k_ + 1.
                         1. For each element _E_ of _items_, do
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
@@ -298,7 +298,7 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
                             1. Let _from_ be ! ToString(𝔽(_k_ + _actualDeleteCount_ - _insertCount_)).
                             1. Let _fromValue_ be ! Get(_O_, _from_).
-                            1. Perform ? Set(_A_, _Pk_, _fromValue_, *true*).
+                            1. Perform ! Set(_A_, _Pk_, _fromValue_, *true*).
                             1. Set _k_ to _k_ + 1.
                         1. Return _A_.
                     </emu-alg>
