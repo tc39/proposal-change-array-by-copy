@@ -9,6 +9,13 @@ declare global {
         };
     }
 
+    interface ReadonlyArray<T> {
+        with(index: number, value: T): T[];
+        toReversed(): T[];
+        toSorted(compareFn?: (a: T, b: T) => number): T[];
+        toSpliced(start: number, deleteCount?: number, ...values: T[]): T[];
+    }
+
     interface Int8Array {
         with(index: number, value: number): this;
         toReversed(): this;
