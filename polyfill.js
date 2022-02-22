@@ -182,20 +182,21 @@
     }
 
     function doSplice({ src, target, actualStart, actualDeleteCount, values, newLen }) {
-        let k = 0;
-        while (k < actualStart) {
-            target[k] = src[k];
-            k++;
+        let i = 0;
+        while (i < actualStart) {
+            target[i] = src[i];
+            i++;
         }
         for (const E of values) {
-            target[k] = E;
-            k++;
+            target[i] = E;
+            i++;
         }
-        while (k < newLen) {
-            let from = k + actualDeleteCount - values.length;
-            let fromValue = src[from];
-            target[k] = fromValue;
-            k++;
+        let r = actualStart + actualDeleteCount;
+        while (i < newLen) {
+            let fromValue = src[r];
+            target[i] = fromValue;
+            i++;
+            r++;
         }
     }
 

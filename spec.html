@@ -88,22 +88,24 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _newLen_ be _len_ + _insertCount_ - _actualDeleteCount_.
                     1. If _newLen_ &gt; 2<sup>53</sup> - 1, throw a *TypeError* exception.
                     1. Let _A_ be ? ArrayCreate(𝔽(_newLen_)).
-                    1. Let _k_ be 0.
-                    1. Repeat, while _k_ &lt; _actualStart_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _kValue_ be ? Get(_O_, _Pk_).
-                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _kValue_).
-                        1. Set _k_ to _k_ + 1.
+                    1. Let _i_ be 0.
+                    1. Let _r_ be _actualStart_ + _actualDeleteCount_.
+                    1. Repeat, while _i_ &lt; _actualStart_,
+                        1. Let _Pi_ be ! ToString(𝔽(_i_)).
+                        1. Let _iValue_ be ? Get(_O_, _Pi_).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pi_, _iValue_).
+                        1. Set _i_ to _i_ + 1.
                     1. For each element _E_ of _items_, do
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _E_).
-                        1. Set _k_ to _k_ + 1.
-                    1. Repeat, while _k_ &lt; _newLen_,
-                        1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                        1. Let _from_ be ! ToString(𝔽(_k_ + _actualDeleteCount_ - _insertCount_)).
+                        1. Let _Pi_ be ! ToString(𝔽(_i_)).
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pi_, _E_).
+                        1. Set _i_ to _i_ + 1.
+                    1. Repeat, while _i_ &lt; _newLen_,
+                        1. Let _Pi_ be ! ToString(𝔽(_i_)).
+                        1. Let _from_ be ! ToString(𝔽(_r_)).
                         1. Let _fromValue_ be ? Get(_O_, _from_).
-                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pk_, _fromValue_).
-                        1. Set _k_ to _k_ + 1.
+                        1. Perform ! CreateDataPropertyOrThrow(_A_, _Pi_, _fromValue_).
+                        1. Set _i_ to _i_ + 1.
+                        1. Set _r_ to _r_ + 1.
                     1. Return _A_.
                 </emu-alg>
             </emu-clause>
@@ -231,7 +233,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _k_ be 0.
                         1. Repeat, while _k_ &lt; _len_,
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Let _kValue_ be ? Get(_O_, _Pk_).
+                            1. Let _kValue_ be ! Get(_O_, _Pk_).
                             1. Append _kValue_ to _items_.
                             1. Set _k_ to _k_ + 1.
                         1. Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
@@ -275,36 +277,39 @@ contributors: Robin Ricard, Ashley Claymore
                         1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
                         1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
                         1. Else, let _actualStart_ be min(_relativeStart_, _len_).
+                        1. Let _insertCount_ be the number of elements in _items_.
                         1. If _start_ is not present, then
-                            1. Let _insertCount_ be 0.
                             1. Let _actualDeleteCount_ be 0.
                         1. Else if _deleteCount_ is not present, then
-                            1. Let _insertCount_ be 0.
                             1. Let _actualDeleteCount_ be _len_ - _actualStart_.
                         1. Else,
-                            1. Let _insertCount_ be the number of elements in _items_.
                             1. Let _dc_ be ? ToIntegerOrInfinity(_deleteCount_).
                             1. Let _actualDeleteCount_ be the result of clamping _dc_ between 0 and _len_ - _actualStart_.
-                        1. Let _newLen_ be _len_ + _insert_Count_ - _actualDeleteCount_.
+                        1. Let _newLen_ be _len_ + _insertCount_ - _actualDeleteCount_.
                         1. Let _A_ be ? TypedArrayCreateSameType(_O_, &laquo; 𝔽(_newLen_) &raquo;).
-                        1. Let _k_ be 0.
-                        1. Repeat, while _k_ &lt; _actualStart_,
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Let _kValue_ be ! Get(_src_, _Pk_).
-                            1. Perform ! Set(_target_, _Pk_, _kValue_, *true*).
-                            1. Set _k_ to _k_ + 1.
+                        1. Let _i_ be 0.
+                        1. Let _r_ be _actualStart_ + _actualDeleteCount_.
+                        1. Repeat, while _i_ &lt; _actualStart_,
+                            1. Let _Pi_ be ! ToString(𝔽(_i_)).
+                            1. Let _iValue_ be ! Get(_src_, _Pi_).
+                            1. Perform ! Set(_target_, _Pi_, _iValue_, *true*).
+                            1. Set _i_ to _i_ + 1.
                         1. For each element _E_ of _items_, do
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Perform ? Set(_A_, _Pk_, _E_, *true*).
-                            1. Set _k_ to _k_ + 1.
-                        1. Repeat, while _k_ &lt; _newLen_,
-                            1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. Let _from_ be ! ToString(𝔽(_k_ + _actualDeleteCount_ - _insertCount_)).
+                            1. Let _Pi_ be ! ToString(𝔽(_i_)).
+                            1. [id="step-typedarray-tospliced-set"] Perform ? Set(_A_, _Pi_, _E_, *true*).
+                            1. Set _i_ to _i_ + 1.
+                        1. Repeat, while _r_ &lt; _newLen_,
+                            1. Let _Pi_ be ! ToString(𝔽(_i_)).
+                            1. Let _from_ be ! ToString(𝔽(_r_)).
                             1. Let _fromValue_ be ! Get(_O_, _from_).
-                            1. Perform ! Set(_A_, _Pk_, _fromValue_, *true*).
-                            1. Set _k_ to _k_ + 1.
+                            1. Perform ! Set(_A_, _Pi_, _fromValue_, *true*).
+                            1. Set _i_ to _i_ + 1.
+                            1. Set _r_ to _r_ + 1.
                         1. Return _A_.
                     </emu-alg>
+                    <emu-note>
+                        Step <emu-xref href="#step-typedarray-tospliced-set"></emu-xref> may return an abrupt completion because _E_ is a value of any ECMAScript language type and is passed to ToBigInt or ToNumber.
+                    </emu-note>
                 </emu-clause>
 
                 <emu-clause id="sec-%typedarray%.prototype.with">
@@ -324,12 +329,17 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _k_ be 0.
                         1. Repeat, while _k_ &lt; _len_,
                             1. Let _Pk_ be ! ToString(𝔽(_k_)).
-                            1. If _k_ is _actualIndex_, let _fromValue_ be _value_.
-                            1. Else, let _fromValue_ be ! Get(_O_, _Pk_).
-                            1. Perform ? Set(_A_, _Pk_, _fromValue_, *true*).
+                            1. If _k_ is _actualIndex_, then
+                                1. [id="step-typedarray-with-set"] Perform ? Set(_A_, _Pk_, _value_, *true*).
+                            1. Else,
+                                1. Let _fromValue_ be ! Get(_O_, _Pk_).
+                                1. Perform ! Set(_A_, _Pk_, _fromValue_, *true*).
                             1. Set _k_ to _k_ + 1.
                         1. Return _A_.
                     </emu-alg>
+                    <emu-note>
+                        Step <emu-xref href="#step-typedarray-with-set"></emu-xref> may return an abrupt completion because _value_ is a value of any ECMAScript language type and is passed to ToBigInt or ToNumber.
+                    </emu-note>
                 </emu-clause>
             </emu-clause>
         </emu-clause>
