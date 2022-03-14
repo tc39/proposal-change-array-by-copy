@@ -104,8 +104,7 @@ contributors: Robin Ricard, Ashley Claymore
                   1. [id="step-array-sort"] Sort _items_ using an implementation-defined sequence of calls to _SortCompare_. If any such call returns an abrupt completion, stop before performing any further calls to _SortCompare_ or steps in this algorithm and return that Completion Record.
                   1. Let _j_ be 0.
                   1. Repeat, while _j_ &lt; _itemCount_,
-                    1. <del>Perform ? Set(_obj_, ! ToString(𝔽(_j_)), _items_[_j_], *true*).</del>
-                    1. <ins>Perform ? Set(_out_, ! ToString(𝔽(_j_)), _items_[_j_], *true*).</ins>
+                    1. Perform ? Set(<del>_obj_</del><ins>_out_</ins>, ! ToString(𝔽(_j_)), _items_[_j_], *true*).
                     1. Set _j_ to _j_ + 1.
                   1. <ins>Assert: If _checkHasProperty_ is *false* _j_ will now equal _len_.</ins>
                   1. Repeat, while _j_ &lt; _len_,
@@ -377,8 +376,8 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _len_ be _O_.[[ArrayLength]].
                         1. Let _A_ be ? TypedArrayCreateSameType(_O_, &laquo; 𝔽(_len_) &raquo;).
                         1. NOTE: The following closure performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-array.prototype.toSorted"></emu-xref>.
-                        1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _comparefn_ and _buffer_ and performs the following steps when called:
-                            1. Return ? TypedArraySortComparison(_x_, _y_, _comparefn_).
+                        1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _compareFn__ and _buffer_ and performs the following steps when called:
+                            1. Return ? TypedArraySortComparison(_x_, _y_, _compareFn_).
                         1. Return ? SortIndexedProperties(_obj_, _A_, _len_, _SortCompare_, *false*).
                     </emu-alg>
                 </emu-clause>
