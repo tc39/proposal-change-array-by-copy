@@ -42,7 +42,17 @@ contributors: Robin Ricard, Ashley Claymore
                     1. <del>If _ySmaller_ is *true*, return *1*<sub>𝔽</sub>.</del>
                     1. <del>Return *+0*<sub>𝔽</sub>.</del>
                     1. <ins>Return ? CompareArrayElements(_x_, _y_, _comparefn_).</ins>
-                1. Return ? SortIndexedProperties(_obj_, <ins>_obj_</ins>, _len_, _SortCompare_, <ins>*true*</ins>).
+                1. <del>Return ? SortIndexedProperties(_obj_, _len_, _SortCompare_).</del>
+                1. <ins>Let _sortedList_ be ? SortIndexedProperties(_obj_, _len_, _SortCompare_, *true*).</ins>
+                1. <ins>Let _itemCount_ be the number of elements in _sortedList_.</ins>
+                1. <ins>Let _j_ be 0.</ins>
+                1. <ins>Repeat, while _j_ &lt; _itemCount_,</ins>
+                  1. <ins>Perform ? CreateDataPropertyOrThrow(_obj_, ! ToString(𝔽(_j_)), _sortedList_[_j_]).</ins>
+                  1. <ins>Set _j_ to _j_ + 1.</ins>
+                1. <ins>Repeat, while _j_ &lt; _len_,</ins>
+                  1. <ins>Perform ? DeletePropertyOrThrow(_obj_, ! ToString(𝔽(_j_))).</ins>
+                  1. <ins>Set _j_ to _j_ + 1.</ins>
+                1. <ins>Return _obj_.</ins>
                 </emu-alg>
             </emu-clause>
 
@@ -78,11 +88,10 @@ contributors: Robin Ricard, Ashley Claymore
                 <h1>
                   SortIndexedProperties (
                     _obj_: an Object,
-                    <ins>_out_: an Object,</ins>
                     _len_: a non-negative integer,
                     _SortCompare_: an Abstract Closure with two parameters,
                     <ins>_checkHasProperty_: a Boolean</ins>
-                  ): either a normal completion containing an Object or an abrupt completion
+                  ): either a normal completion containing <del>an Object</del><ins>a List</ins> or an abrupt completion
                 </h1>
                 <dl class="header">
                 </dl>
@@ -100,17 +109,17 @@ contributors: Robin Ricard, Ashley Claymore
                       1. Let _kValue_ be ? Get(_obj_, _Pk_).
                       1. Append _kValue_ to _items_.
                     1. Set _k_ to _k_ + 1.
-                  1. Let _itemCount_ be the number of elements in _items_.
+                  1. <del>Let _itemCount_ be the number of elements in _items_.</del>
                   1. [id="step-array-sort"] Sort _items_ using an implementation-defined sequence of calls to _SortCompare_. If any such call returns an abrupt completion, stop before performing any further calls to _SortCompare_ or steps in this algorithm and return that Completion Record.
-                  1. Let _j_ be 0.
-                  1. Repeat, while _j_ &lt; _itemCount_,
-                    1. Perform ? Set(<del>_obj_</del><ins>_out_</ins>, ! ToString(𝔽(_j_)), _items_[_j_], *true*).
-                    1. Set _j_ to _j_ + 1.
-                  1. <ins>Assert: If _checkHasProperty_ is *false* _j_ will now equal _len_.</ins>
-                  1. Repeat, while _j_ &lt; _len_,
-                    1. Perform ? DeletePropertyOrThrow(<del>_obj_</del><ins>_out_</ins>, ! ToString(𝔽(_j_))).</del>
-                    1. Set _j_ to _j_ + 1.
-                  1. Return <del>_obj_</del><ins>_out_</ins>.
+                  1. <del>Let _j_ be 0.</del>
+                  1. <del>Repeat, while _j_ &lt; _itemCount_,</del>
+                    1. <del>Perform ? Set(_obj_, ! ToString(𝔽(_j_)), _items_[_j_], *true*).</del>
+                    1. <del>Set _j_ to _j_ + 1.</del>
+                  1. <del>Repeat, while _j_ &lt; _len_,</del>
+                    1. <del>Perform ? DeletePropertyOrThrow(_obj_, ! ToString(𝔽(_j_))).</del>
+                    1. <del>Set _j_ to _j_ + 1.</del>
+                  1. <del>Return _obj_.</del>
+                  1. <ins>Return _items_.</ins>
                 </emu-alg>
 
             <emu-clause id="sec-array.prototype.toReversed">
@@ -134,7 +143,7 @@ contributors: Robin Ricard, Ashley Claymore
             </emu-clause>
 
             <emu-clause id="sec-array.prototype.toSorted">
-                <h1>Array.prototype.toSorted ( _compareFn_ )</h1>
+                <h1>Array.prototype.toSorted ( _comparefn_ )</h1>
 
                 <p>When the *toSorted* method is called, the following steps are taken:</p>
 
@@ -143,9 +152,14 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _O_ be ? ToObject(*this* value).
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
                     1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
-                    1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _compareFn_ and performs the following steps when called:
-                        1. Return ? CompareArrayElements(_x_, _y_, _compareFn_).
-                    1. Return ? SortIndexedProperties(_obj_, _A_, _len_, _SortCompare_, *false*).
+                    1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _comparefn_ and performs the following steps when called:
+                        1. Return ? CompareArrayElements(_x_, _y_, _comparefn_).
+                    1. Let _sortedList_ be ? SortIndexedProperties(_obj_, _len_, _SortCompare_, *false*).
+                    1. Let _j_ be 0.
+                    1. Repeat, while _j_ &lt; _len_,
+                      1. Perform ! CreateDataPropertyOrThrow(_A_, ! ToString(𝔽(_j_)), _sortedList_[_j_]).
+                      1. Set _j_ to _j_ + 1.
+                    1. Return _A_.
                 </emu-alg>
             </emu-clause>
 
@@ -307,8 +321,14 @@ contributors: Robin Ricard, Ashley Claymore
                         1. <del>If _x_ is *-0*<sub>𝔽</sub> and _y_ is *+0*<sub>𝔽</sub>, return *-1*<sub>𝔽</sub>.</del>
                         1. <del>If _x_ is *+0*<sub>𝔽</sub> and _y_ is *-0*<sub>𝔽</sub>, return *1*<sub>𝔽</sub>.</del>
                         1. <del>Return *+0*<sub>𝔽</sub>.</del>
-                        1. <ins>Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_).</ins>
-                      1. Return ? SortIndexedProperties(_obj_, <ins>_obj_</ins>, _len_, _SortCompare_, <ins>*false*</ins>).
+                        1. <ins>Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_, _buffer_).</ins>
+                      1. <del>Return ? SortIndexedProperties(_obj_, _len_, _SortCompare_).</del>
+                      1. <ins>Let _sortedList_ be ? SortIndexedProperties(_obj_, _len_, _SortCompare_, *false*).</ins>
+                      1. <ins>Let _j_ be 0.</ins>
+                      1. <ins>Repeat, while _j_ &lt; _len_,</ins>
+                        1. <ins>Perform ! Set(_obj_, ! ToString(𝔽(_j_)), _sortedList_[_j_], *true*).</ins>
+                        1. <ins>Set _j_ to _j_ + 1.</ins>
+                      1. <ins>Return _obj_.</ins>
                     </emu-alg>
                 </emu-clause>
 
@@ -317,7 +337,8 @@ contributors: Robin Ricard, Ashley Claymore
                     CompareTypedArrayElements(
                         _x_: unknown,
                         _y_: unknown,
-                        _comparefn_: unknown
+                        _comparefn_: unknown,
+                        _buffer_: An ArrayBuffer
                     ): either a normal completion containing a Number or an abrupt completion
                     </h1>
                     <dl class="header">
@@ -365,7 +386,7 @@ contributors: Robin Ricard, Ashley Claymore
                 </emu-clause>
 
                 <emu-clause id="sec-%typedarray%.prototype.toSorted">
-                    <h1>%TypedArray%.prototype.toSorted ( _compareFn_ )</h1>
+                    <h1>%TypedArray%.prototype.toSorted ( _comparefn_ )</h1>
 
                     <p>When the *toSorted* method is called, the following steps are taken:</p>
 
@@ -373,12 +394,18 @@ contributors: Robin Ricard, Ashley Claymore
                         1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
                         1. Let _O_ be the *this* value.
                         1. Perform ? ValidateTypedArray(_O_).
+                        1. Let _buffer_ be _obj_.[[ViewedArrayBuffer]].
                         1. Let _len_ be _O_.[[ArrayLength]].
                         1. Let _A_ be ? TypedArrayCreateSameType(_O_, &laquo; 𝔽(_len_) &raquo;).
                         1. NOTE: The following closure performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-array.prototype.toSorted"></emu-xref>.
-                        1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _compareFn__ and _buffer_ and performs the following steps when called:
-                            1. Return ? CompareTypedArrayElements(_x_, _y_, _compareFn_).
-                        1. Return ? SortIndexedProperties(_obj_, _A_, _len_, _SortCompare_, *false*).
+                        1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _comparefn_ and _buffer_ and performs the following steps when called:
+                            1. Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_, _buffer_).
+                        1. Let _sortedList_ be ? SortIndexedProperties(_obj_, _len_, _SortCompare_, *false*).
+                        1. Let _j_ be 0.
+                        1. Repeat, while _j_ &lt; _len_,
+                          1. Perform ! Set(_A_, ! ToString(𝔽(_j_)), _sortedList_[_j_], *true*).
+                          1. Set _j_ to _j_ + 1.
+                        1. Return _A_.
                     </emu-alg>
                 </emu-clause>
 
