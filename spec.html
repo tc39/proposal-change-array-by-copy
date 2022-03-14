@@ -41,14 +41,14 @@ contributors: Robin Ricard, Ashley Claymore
                     1. <del>Let _ySmaller_ be ! IsLessThan(_yString_, _xString_, *true*).</del>
                     1. <del>If _ySmaller_ is *true*, return *1*<sub>𝔽</sub>.</del>
                     1. <del>Return *+0*<sub>𝔽</sub>.</del>
-                    1. <ins>Return ? ArraySortComparison(_x_, _y_, _comparefn_).</ins>
+                    1. <ins>Return ? CompareArrayElements(_x_, _y_, _comparefn_).</ins>
                 1. Return ? SortIndexedProperties(_obj_, <ins>_obj_</ins>, _len_, _SortCompare_, <ins>*true*</ins>).
                 </emu-alg>
             </emu-clause>
 
-            <emu-clause id="sec-arraysortcomparison" type="abstract operation">
+            <emu-clause id="sec-comparearrayelements" type="abstract operation">
                 <h1>
-                  ArraySortComparison(
+                  CompareArrayElements(
                     _x_: unknown,
                     _y_: unknown,
                     _comparefn_: unknown
@@ -144,7 +144,7 @@ contributors: Robin Ricard, Ashley Claymore
                     1. Let _len_ be ? LengthOfArrayLike(_O_).
                     1. Let _A_ be ? ArrayCreate(𝔽(_len_)).
                     1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _compareFn_ and performs the following steps when called:
-                        1. Return ? ArraySortComparison(_x_, _y_, _compareFn_).
+                        1. Return ? CompareArrayElements(_x_, _y_, _compareFn_).
                     1. Return ? SortIndexedProperties(_obj_, _A_, _len_, _SortCompare_, *false*).
                 </emu-alg>
             </emu-clause>
@@ -307,14 +307,14 @@ contributors: Robin Ricard, Ashley Claymore
                         1. <del>If _x_ is *-0*<sub>𝔽</sub> and _y_ is *+0*<sub>𝔽</sub>, return *-1*<sub>𝔽</sub>.</del>
                         1. <del>If _x_ is *+0*<sub>𝔽</sub> and _y_ is *-0*<sub>𝔽</sub>, return *1*<sub>𝔽</sub>.</del>
                         1. <del>Return *+0*<sub>𝔽</sub>.</del>
-                        1. <ins>Return ? TypedArraySortComparison(_x_, _y_, _comparefn_).</ins>
+                        1. <ins>Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_).</ins>
                       1. Return ? SortIndexedProperties(_obj_, <ins>_obj_</ins>, _len_, _SortCompare_, <ins>*false*</ins>).
                     </emu-alg>
                 </emu-clause>
 
-                <emu-clause id="sec-typedarraysortcomparison" type="abstract operation">
+                <emu-clause id="sec-comparetypedarrayelements" type="abstract operation">
                     <h1>
-                    TypedArraySortComparison(
+                    CompareTypedArrayElements(
                         _x_: unknown,
                         _y_: unknown,
                         _comparefn_: unknown
@@ -339,7 +339,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Return *+0*<sub>𝔽</sub>.
                     </emu-alg>
                     <emu-note>
-                        This performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-arraysortcomparison"></emu-xref>.
+                        This performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-comparearrayelements"></emu-xref>.
                     </emu-note>
                 </emu-clause>
 
@@ -377,7 +377,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _A_ be ? TypedArrayCreateSameType(_O_, &laquo; 𝔽(_len_) &raquo;).
                         1. NOTE: The following closure performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-array.prototype.toSorted"></emu-xref>.
                         1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _compareFn__ and _buffer_ and performs the following steps when called:
-                            1. Return ? TypedArraySortComparison(_x_, _y_, _compareFn_).
+                            1. Return ? CompareTypedArrayElements(_x_, _y_, _compareFn_).
                         1. Return ? SortIndexedProperties(_obj_, _A_, _len_, _SortCompare_, *false*).
                     </emu-alg>
                 </emu-clause>
