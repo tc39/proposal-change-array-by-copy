@@ -43,7 +43,7 @@ They will also be added to TypedArrays:
 - `TypedArray.prototype.toSpliced(start, deleteCount, ...items) -> TypedArray`
 - `TypedArray.prototype.with(index, value) -> TypedArray`
 
-These methods will then be avaliable on subclasses of `TypedArray`. i.e. the following:
+These methods will then be available on subclasses of `TypedArray`. i.e. the following:
 
 - `Int8Array`
 - `Uint8Array`
