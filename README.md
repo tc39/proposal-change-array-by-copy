@@ -4,12 +4,12 @@ Provides additional methods on `Array.prototype` and `TypedArray.prototype` to e
 
 ## Status
 
-This proposal is currently at [Stage 2].
+This proposal is currently at [Stage 3].
 
 - [Candidate spec text][spec]
 - [Candidate polyfill][poly]
 
-[Stage 2]: https://github.com/tc39/proposals#stage-2
+[Stage 3]: https://github.com/tc39/proposals#stage-3
 [spec]: https://tc39.es/proposal-change-array-by-copy/
 [poly]: ./polyfill.js
 
