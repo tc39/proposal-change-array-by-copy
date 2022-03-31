@@ -87,3 +87,11 @@ If web compatibility prescribes it, property names defined in this proposal are 
 
 [tuple-proto]: https://tc39.es/proposal-record-tuple/#sec-properties-of-the-tuple-prototype-object
 [r-t]: https://github.com/tc39/proposal-record-tuple
+
+## Implementations
+
+ - [es-shims](https://github.com/es-shims):
+   - [`array.prototype.tosorted`](https://www.npmjs.com/package/array.prototype.tosorted)
+   - [`array.prototype.toreversed`](https://www.npmjs.com/package/array.prototype.toreversed)
+   - [`array.prototype.tospliced`](https://www.npmjs.com/package/array.prototype.tospliced)
+   - [`array.prototype.with`](https://www.npmjs.com/package/array.prototype.with)
