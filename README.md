@@ -4,14 +4,12 @@ Provides additional methods on `Array.prototype` and `TypedArray.prototype` to e
 
 ## Status
 
-This proposal is currently at [Stage 2].
+This proposal is currently at [Stage 3].
 
 - [Candidate spec text][spec]
 
-## Polyfills
-
-- A polyfill is available in the [core-js] library. You can find it in the [ECMAScript proposals section][core-js-section].
-- A simple polyfill is available [in this repo][poly].
+[Stage 3]: https://github.com/tc39/proposals#stage-3
+[spec]: https://tc39.es/proposal-change-array-by-copy/
 
 ## Champions
 
@@ -84,10 +82,18 @@ While this proposal is derived from [Record & Tuple][r-t], it should progress in
 
 If web compatibility prescribes it, property names defined in this proposal are going to be changed. Those changes should be reflected on [`Tuple.prototype`][tuple-proto].
 
-[Stage 2]: https://github.com/tc39/proposals#stage-2
-[spec]: https://tc39.es/proposal-change-array-by-copy/
-[core-js]: https://github.com/zloirock/core-js
-[core-js-section]: https://github.com/zloirock/core-js#change-array-by-copy
-[poly]: ./polyfill.js
 [tuple-proto]: https://tc39.es/proposal-record-tuple/#sec-properties-of-the-tuple-prototype-object
 [r-t]: https://github.com/tc39/proposal-record-tuple
+
+## Implementations
+
+ - [core-js](https://github.com/zloirock/core-js)
+   - [change-array-by-copy](https://github.com/zloirock/core-js#change-array-by-copy)
+
+ - [es-shims](https://github.com/es-shims):
+   - [`array.prototype.tosorted`](https://www.npmjs.com/package/array.prototype.tosorted)
+   - [`array.prototype.toreversed`](https://www.npmjs.com/package/array.prototype.toreversed)
+   - [`array.prototype.tospliced`](https://www.npmjs.com/package/array.prototype.tospliced)
+   - [`array.prototype.with`](https://www.npmjs.com/package/array.prototype.with)
+
+- [./polyfill.js](./polyfill.js) (minimalistic reference implementation)
