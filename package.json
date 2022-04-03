@@ -5,14 +5,19 @@
   "scripts": {
     "prebuild": "mkdirp out/",
     "test": "tape ./polyfill.test.js",
+    "test262": "git submodule init && git submodule update --depth 1 && tape ./polyfill.test262.mjs",
     "build": "ecmarkup spec.html out/index.html",
     "prestart": "npm run build",
     "start": "serve out/"
   },
   "dependencies": {
-    "ecmarkup": "^7.0.3",
+    "ecmarkup": "^9.7.1",
     "mkdirp": "^1.0.4",
     "serve": "^11.3.2",
     "tape": "^5.2.2"
+  },
+  "devDependencies": {
+    "eshost": "^8.2.0",
+    "test262-stream": "^1.4.0"
   }
 }

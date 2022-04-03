@@ -4,6 +4,16 @@ declare global {
         toReversed(): T[];
         toSorted(compareFn?: (a: T, b: T) => number): T[];
         toSpliced(start: number, deleteCount?: number, ...values: T[]): T[];
+        [Symbol.unscopables]: {
+            [N in keyof typeof Array.prototype as N extends "with" ? never : N]: true;
+        };
+    }
+
+    interface ReadonlyArray<T> {
+        with(index: number, value: T): T[];
+        toReversed(): T[];
+        toSorted(compareFn?: (a: T, b: T) => number): T[];
+        toSpliced(start: number, deleteCount?: number, ...values: T[]): T[];
     }
 
     interface Int8Array {

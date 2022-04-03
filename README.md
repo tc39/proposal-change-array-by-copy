@@ -40,7 +40,7 @@ They will also be added to TypedArrays:
 - `TypedArray.prototype.toSpliced(start, deleteCount, ...items) -> TypedArray`
 - `TypedArray.prototype.with(index, value) -> TypedArray`
 
-These methods will then be avaliable on subclasses of `TypedArray`. i.e. the following:
+These methods will then be available on subclasses of `TypedArray`. i.e. the following:
 
 - `Int8Array`
 - `Uint8Array`
@@ -96,4 +96,4 @@ If web compatibility prescribes it, property names defined in this proposal are 
    - [`array.prototype.tospliced`](https://www.npmjs.com/package/array.prototype.tospliced)
    - [`array.prototype.with`](https://www.npmjs.com/package/array.prototype.with)
 
-- [./polyfill.js](./polyfill.js) (minimalistic reference implementation)
+- [./polyfill.js](./polyfill.js) (minimalist reference implementation)

@@ -1,22 +1,19 @@
-name: Polyfill test & spec publish
+name: Polyfill test
 on:
   push:
     branches: [ main ]
+  pull_request:
 jobs:
-  build:
+  test262:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - name: Install dev deps
       run: npm install
-    - name: Build the spec
-      run: npm run build
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@releases/v3
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: out
+    - name: Run test262 tests
+      run: npm run test262
   test:
     runs-on: ubuntu-latest
     steps:
@@ -24,4 +21,4 @@ jobs:
     - name: Install dev deps
       run: npm install
     - name: Test the polyfill
-      run: npm run build
+      run: npm run test
