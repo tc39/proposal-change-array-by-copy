@@ -7,12 +7,9 @@ Provides additional methods on `Array.prototype` and `TypedArray.prototype` to e
 This proposal is currently at [Stage 3].
 
 - [Candidate spec text][spec]
-- [Candidate polyfill][poly]
 
 [Stage 3]: https://github.com/tc39/proposals#stage-3
 [spec]: https://tc39.es/proposal-change-array-by-copy/
-[poly]: ./polyfill.js
-
 
 ## Champions
 
@@ -43,7 +40,7 @@ They will also be added to TypedArrays:
 - `TypedArray.prototype.toSpliced(start, deleteCount, ...items) -> TypedArray`
 - `TypedArray.prototype.with(index, value) -> TypedArray`
 
-These methods will then be avaliable on subclasses of `TypedArray`. i.e. the following:
+These methods will then be available on subclasses of `TypedArray`. i.e. the following:
 
 - `Int8Array`
 - `Uint8Array`
@@ -90,8 +87,13 @@ If web compatibility prescribes it, property names defined in this proposal are 
 
 ## Implementations
 
+ - [core-js](https://github.com/zloirock/core-js)
+   - [change-array-by-copy](https://github.com/zloirock/core-js#change-array-by-copy)
+
  - [es-shims](https://github.com/es-shims):
    - [`array.prototype.tosorted`](https://www.npmjs.com/package/array.prototype.tosorted)
    - [`array.prototype.toreversed`](https://www.npmjs.com/package/array.prototype.toreversed)
    - [`array.prototype.tospliced`](https://www.npmjs.com/package/array.prototype.tospliced)
    - [`array.prototype.with`](https://www.npmjs.com/package/array.prototype.with)
+
+- [./polyfill.js](./polyfill.js) (minimalist reference implementation)
