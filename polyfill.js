@@ -1,5 +1,6 @@
 // @ts-check
 /// <reference path="./polyfill.d.ts" />
+/// <reference lib="es2020" />
 
 ((arrayPrototype, typedArrayPrototype) => {
     "use strict";
@@ -44,7 +45,7 @@
         return Math.max(0, Math.min(len, Number.MAX_SAFE_INTEGER));
     }
 
-    /** @typedef {Int8Array|Uint8Array|Uint8ClampedArray|Int16Array|Uint16Array|Int32Array|Uint32Array|Float32Array|Float64Array} TypedArray */
+    /** @typedef {Int8Array|Uint8Array|Uint8ClampedArray|Int16Array|Uint16Array|Int32Array|Uint32Array|Float32Array|Float64Array|BigInt64Array|BigUint64Array} TypedArray */
 
     /**
      * @param {unknown} v
@@ -92,11 +93,30 @@
                 return new Float32Array(length);
             case 'Float64Array':
                 return new Float64Array(length);
+            case 'BigInt64Array':
+                return new BigInt64Array(length);
+            case 'BigUint64Array':
+                return new BigUint64Array(length);
             default:
                 /** @type {never} */
                 const n = arrayName;
                 throw new Error(`Unexpected TypedArray name ${n}`);
         }
+    }
+
+    /**
+     * @param {TypedArray} example
+     * @returns {boolean}
+     */
+    function isBigIntArray(example) {
+        assertTypedArray(example);
+        const arrayName = typedArrayNameInternalSlot(example);
+        switch (arrayName) {
+            case 'BigInt64Array':
+            case 'BigUint64Array':
+                return true;
+        }
+        return false;
     }
 
     function transfer({ count, src, srcStart, srcStep = 1, target, targetStart, targetStep = srcStep }) {
@@ -249,12 +269,22 @@
             const len = typedArrayLength(o);
             const relativeIndex = toIntegerOrInfinity(index);
             const actualIndex = relativeIndex < 0 ? len + relativeIndex : relativeIndex;
+            let asNumber;
+            {
+                if (isBigIntArray(o)) {
+                    asNumber = 0n;
+                } else {
+                    asNumber = -0; // important to use `-0` and not `0`
+                }
+                // @ts-ignore : using `+=` to emulate ToBigInt or ToNumber
+                asNumber += value;
+            }
             if (actualIndex < 0 || actualIndex >= len) {
                 throw new RangeError();
             }
             const a = typedArrayCreate(o, len);
             for (let k = 0; k < len; k++) {
-                const v = k === actualIndex ? value : o[k];
+                const v = k === actualIndex ? asNumber : o[k];
                 a[k] = v;
             }
             return a;
