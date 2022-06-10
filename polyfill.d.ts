@@ -78,5 +78,19 @@ declare global {
         toSorted(compareFn?: (a: number, b: number) => number): this;
         toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
+
+    interface BigInt64Array {
+        with(index: number, value: bigint): this;
+        toReversed(): this;
+        toSorted(compareFn?: (a: bigint, b: bigint) => number | bigint): this;
+        toSpliced(start: number, deleteCount?: number, ...values: bigint[]): this;
+    }
+
+    interface BigUint64Array {
+        with(index: number, value: bigint): this;
+        toReversed(): this;
+        toSorted(compareFn?: (a: bigint, b: bigint) => number | bigint): this;
+        toSpliced(start: number, deleteCount?: number, ...values: bigint[]): this;
+    }
 }
 export {};

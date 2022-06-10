@@ -259,6 +259,29 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
+    tape(`${TypedArray.name}.prototype.with executes 'user code' before starting copy`, (t) => {
+        const orig = new TypedArray([1, 2, 3]);
+        const idx = 1;
+        const valueUserCodeWillInsert = 4;
+        const userCodeReturnValue = 5;
+        const expected = new TypedArray([valueUserCodeWillInsert, userCodeReturnValue, 3]);
+        let userCodeExecuted = false;
+        /** @type any */
+        const val = {
+            valueOf() {
+                userCodeExecuted = true;
+                orig[0] = valueUserCodeWillInsert;
+                return userCodeReturnValue;
+            }
+        };
+
+        const copy = orig.with(idx, val);
+        t.assert(userCodeExecuted);
+        t.deepEqual(copy, expected);
+
+        t.end();
+    });
+
     tape(`${TypedArray.name} does not use Symbol.species for the new methods`, (t) => {
         class SubClass extends TypedArray { }
 
@@ -272,6 +295,161 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         const orig = new SubClass([1, 2, 3]);
 
         assertType(orig.with(0, 0));
+        assertType(orig.toReversed());
+        assertType(orig.toSorted());
+        assertType(orig.toSpliced(0, 0));
+
+        t.end();
+    });
+});
+
+[
+    BigInt64Array,
+    BigUint64Array
+].forEach((TypedArray) => {
+    tape(`${TypedArray.name}.prototype.toReversed`, (t) => {
+        const orig = new TypedArray([3n, 2n, 1n]);
+        const expected = new TypedArray([1n, 2n, 3n]);
+
+        const copy = orig.toReversed();
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.toSorted`, (t) => {
+        const orig = new TypedArray([3n, 1n, 2n]);
+        const expected = new TypedArray([1n, 2n, 3n]);
+
+        const copy = orig.toSorted();
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.toSorted(compareFn)`, (t) => {
+        const orig = new TypedArray([3n, 1n, 2n]);
+        const expected = new TypedArray([3n, 2n, 1n]);
+        function compareFn(a, b) {
+            return a > b ? -1 : 1;
+        }
+
+        const copy = orig.toSorted(compareFn);
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.toSpliced`, (t) => {
+        const orig = new TypedArray([1n, -1n, 0n, -1n, 4n]);
+        const expected = new TypedArray([1n, 2n, 3n, 4n]);
+        const idx = 1;
+        const delNum = 3;
+        const ins = [2n, 3n];
+
+        const copy = orig.toSpliced(idx, delNum, ...ins);
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.with`, (t) => {
+        const orig = new TypedArray([1n, 1n, 3n]);
+        const expected = new TypedArray([1n, 2n, 3n]);
+        const idx = 1;
+        const val = 2n;
+
+        const copy = orig.with(idx, val);
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.with non bigint throws`, (t) => {
+        const orig = new TypedArray([1n, 2n, 2n]);
+        const idx = 3;
+        const val = 4;
+
+        t.throws(() => {
+            // @ts-expect-error inserting number instead of bigint
+            orig.with(idx, val);
+        }, TypeError);
+
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.with negativeIndex`, (t) => {
+        const orig = new TypedArray([1n, 2n, 2n]);
+        const expected = new TypedArray([1n, 2n, 3n]);
+        const idx = -1;
+        const val = 3n;
+
+        const copy = orig.with(idx, val);
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.with out of bounds`, (t) => {
+        const orig = new TypedArray([1n, 2n, 2n]);
+        const idx = 3;
+        const val = 4n;
+
+        t.throws(() => {
+            orig.with(idx, val);
+        }, RangeError);
+
+        t.end();
+    });
+
+    tape(`${TypedArray.name}.prototype.with executes 'user code' before starting copy`, (t) => {
+        const orig = new TypedArray([1n, 2n, 3n]);
+        const idx = 1;
+        const valueUserCodeWillInsert = 4n;
+        const userCodeReturnValue = 5n;
+        const expected = new TypedArray([valueUserCodeWillInsert, userCodeReturnValue, 3n]);
+        let userCodeExecuted = false;
+        /** @type any */
+        const val = {
+            valueOf() {
+                userCodeExecuted = true;
+                orig[0] = valueUserCodeWillInsert;
+                return userCodeReturnValue;
+            }
+        };
+
+        const copy = orig.with(idx, val);
+        t.assert(userCodeExecuted);
+        t.deepEqual(copy, expected);
+
+        t.end();
+    });
+
+    tape(`${TypedArray.name} does not use Symbol.species for the new methods`, (t) => {
+        class SubClass extends TypedArray { }
+
+        function assertType(arr) {
+            t.equal(arr instanceof SubClass, false);
+            t.equal(arr instanceof TypedArray, true);
+        }
+
+        /** @type {BigInt64Array} */
+        // @ts-ignore
+        const orig = new SubClass([1n, 2n, 3n]);
+
+        assertType(orig.with(0, 0n));
         assertType(orig.toReversed());
         assertType(orig.toSorted());
         assertType(orig.toSpliced(0, 0));
