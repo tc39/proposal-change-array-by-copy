@@ -425,6 +425,11 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
                         1. Else, let _actualStart_ be min(_relativeStart_, _len_).
                         1. Let _insertCount_ be the number of elements in _items_.
+                        1. Let _convertedItems_ be a new empty List.
+                        1. For each element _E_ of _items_, do
+                            1. If _O_.[[ContentType]] is ~BigInt~, let _convertedValue_ be ? ToBigInt(_E_).
+                            1. Else, let _convertedValue_ be ? ToNumber(_E_).
+                            1. Append _convertedValue_ as the last element of _convertedItems_.
                         1. If _start_ is not present, then
                             1. Let _actualDeleteCount_ be 0.
                         1. Else if _deleteCount_ is not present, then
@@ -441,9 +446,9 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Let _iValue_ be ! Get(_src_, _Pi_).
                             1. Perform ! Set(_target_, _Pi_, _iValue_, *true*).
                             1. Set _i_ to _i_ + 1.
-                        1. For each element _E_ of _items_, do
+                        1. For each element _E_ of _convertedItems_, do
                             1. Let _Pi_ be ! ToString(𝔽(_i_)).
-                            1. [id="step-typedarray-tospliced-set"] Perform ? Set(_A_, _Pi_, _E_, *true*).
+                            1. Perform ! Set(_A_, _Pi_, _E_, *true*).
                             1. Set _i_ to _i_ + 1.
                         1. Repeat, while _r_ &lt; _newLen_,
                             1. Let _Pi_ be ! ToString(𝔽(_i_)).
@@ -454,9 +459,6 @@ contributors: Robin Ricard, Ashley Claymore
                             1. Set _r_ to _r_ + 1.
                         1. Return _A_.
                     </emu-alg>
-                    <emu-note>
-                        Step <emu-xref href="#step-typedarray-tospliced-set"></emu-xref> may return an abrupt completion because _E_ is a value of any ECMAScript language type and is passed to ToBigInt or ToNumber.
-                    </emu-note>
                 </emu-clause>
 
                 <emu-clause id="sec-%typedarray%.prototype.with">
