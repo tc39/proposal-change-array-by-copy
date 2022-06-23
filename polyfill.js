@@ -129,6 +129,27 @@
         }
     }
 
+    /**
+     * @param {TypedArray} example
+     * @param {unknown} value
+     * @description convert `value` to bigint or number based on the the type of array
+     * @returns {bigint | number}
+     * @throws if one of the override methods throws. e.g. `@@toPrimitive`, `valueOf`, `toString`
+     */
+    function typedArrayNumberConversion(example, value) {
+        let asNumber;
+        {
+            if (isBigIntArray(example)) {
+                asNumber = 0n;
+            } else {
+                asNumber = -0; // important to use `-0` and not `0`
+            }
+            // @ts-ignore : using `+=` to emulate ToBigInt or ToNumber
+            asNumber += value;
+        }
+        return asNumber;
+    }
+
     defineArrayMethods({
         toReversed() {
             const o = toObject(this);
@@ -239,8 +260,11 @@
             const o = assertTypedArray(this);
             const len = typedArrayLength(o);
             const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values, argsCount: arguments.length });
+            const convertedValues = values.map(v => {
+                return typedArrayNumberConversion(o, v);
+            })
             const a = typedArrayCreate(o, newLen);
-            doSplice({ src: o, target: a, actualStart, actualDeleteCount, values, newLen });
+            doSplice({ src: o, target: a, actualStart, actualDeleteCount, values: convertedValues, newLen });
             return a;
         }
     });
@@ -269,16 +293,7 @@
             const len = typedArrayLength(o);
             const relativeIndex = toIntegerOrInfinity(index);
             const actualIndex = relativeIndex < 0 ? len + relativeIndex : relativeIndex;
-            let asNumber;
-            {
-                if (isBigIntArray(o)) {
-                    asNumber = 0n;
-                } else {
-                    asNumber = -0; // important to use `-0` and not `0`
-                }
-                // @ts-ignore : using `+=` to emulate ToBigInt or ToNumber
-                asNumber += value;
-            }
+            const asNumber = typedArrayNumberConversion(o, value);
             if (actualIndex < 0 || actualIndex >= len) {
                 throw new RangeError();
             }
