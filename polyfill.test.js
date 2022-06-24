@@ -219,6 +219,34 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
+    tape(`${TypedArray.name}.prototype.toSpliced performs type conversion early`, (t) => {
+        const orig = new TypedArray([1]);
+        const valueUserCodeWillInsert = 4;
+        const userCodeReturnValue = 5;
+        const expected = new TypedArray([valueUserCodeWillInsert, userCodeReturnValue]);
+
+        let userCodeExecuted = false;
+        /** @type any */
+        const val = {
+            valueOf() {
+                userCodeExecuted = true;
+                orig[0] = valueUserCodeWillInsert;
+                return userCodeReturnValue;
+            }
+        };
+
+        const idx = 1;
+        const delNum = 0;
+        const ins = [val];
+
+        const copy = orig.toSpliced(idx, delNum, ...ins);
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
     tape(`${TypedArray.name}.prototype.with`, (t) => {
         const orig = new TypedArray([1, 1, 3]);
         const expected = new TypedArray([1, 2, 3]);
@@ -306,10 +334,10 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
 [
     BigInt64Array,
     BigUint64Array
-].forEach((TypedArray) => {
-    tape(`${TypedArray.name}.prototype.toReversed`, (t) => {
-        const orig = new TypedArray([3n, 2n, 1n]);
-        const expected = new TypedArray([1n, 2n, 3n]);
+].forEach((BigIntArray) => {
+    tape(`${BigIntArray.name}.prototype.toReversed`, (t) => {
+        const orig = new BigIntArray([3n, 2n, 1n]);
+        const expected = new BigIntArray([1n, 2n, 3n]);
 
         const copy = orig.toReversed();
 
@@ -319,9 +347,9 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.toSorted`, (t) => {
-        const orig = new TypedArray([3n, 1n, 2n]);
-        const expected = new TypedArray([1n, 2n, 3n]);
+    tape(`${BigIntArray.name}.prototype.toSorted`, (t) => {
+        const orig = new BigIntArray([3n, 1n, 2n]);
+        const expected = new BigIntArray([1n, 2n, 3n]);
 
         const copy = orig.toSorted();
 
@@ -331,9 +359,9 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.toSorted(compareFn)`, (t) => {
-        const orig = new TypedArray([3n, 1n, 2n]);
-        const expected = new TypedArray([3n, 2n, 1n]);
+    tape(`${BigIntArray.name}.prototype.toSorted(compareFn)`, (t) => {
+        const orig = new BigIntArray([3n, 1n, 2n]);
+        const expected = new BigIntArray([3n, 2n, 1n]);
         function compareFn(a, b) {
             return a > b ? -1 : 1;
         }
@@ -346,9 +374,9 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.toSpliced`, (t) => {
-        const orig = new TypedArray([1n, -1n, 0n, -1n, 4n]);
-        const expected = new TypedArray([1n, 2n, 3n, 4n]);
+    tape(`${BigIntArray.name}.prototype.toSpliced`, (t) => {
+        const orig = new BigIntArray([1n, -1n, 0n, -1n, 4n]);
+        const expected = new BigIntArray([1n, 2n, 3n, 4n]);
         const idx = 1;
         const delNum = 3;
         const ins = [2n, 3n];
@@ -361,9 +389,37 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.with`, (t) => {
-        const orig = new TypedArray([1n, 1n, 3n]);
-        const expected = new TypedArray([1n, 2n, 3n]);
+    tape(`${BigIntArray.name}.prototype.toSpliced performs type conversion early`, (t) => {
+        const orig = new BigIntArray([1n]);
+        const valueUserCodeWillInsert = 4n;
+        const userCodeReturnValue = 5n;
+        const expected = new BigIntArray([valueUserCodeWillInsert, userCodeReturnValue]);
+
+        let userCodeExecuted = false;
+        /** @type any */
+        const val = {
+            valueOf() {
+                userCodeExecuted = true;
+                orig[0] = valueUserCodeWillInsert;
+                return userCodeReturnValue;
+            }
+        };
+
+        const idx = 1;
+        const delNum = 0;
+        const ins = [val];
+
+        const copy = orig.toSpliced(idx, delNum, ...ins);
+
+        t.deepEqual(copy, expected);
+        t.notEqual(orig, copy);
+        t.notDeepEqual(orig, copy);
+        t.end();
+    });
+
+    tape(`${BigIntArray.name}.prototype.with`, (t) => {
+        const orig = new BigIntArray([1n, 1n, 3n]);
+        const expected = new BigIntArray([1n, 2n, 3n]);
         const idx = 1;
         const val = 2n;
 
@@ -375,8 +431,8 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.with non bigint throws`, (t) => {
-        const orig = new TypedArray([1n, 2n, 2n]);
+    tape(`${BigIntArray.name}.prototype.with non bigint throws`, (t) => {
+        const orig = new BigIntArray([1n, 2n, 2n]);
         const idx = 3;
         const val = 4;
 
@@ -388,9 +444,9 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.with negativeIndex`, (t) => {
-        const orig = new TypedArray([1n, 2n, 2n]);
-        const expected = new TypedArray([1n, 2n, 3n]);
+    tape(`${BigIntArray.name}.prototype.with negativeIndex`, (t) => {
+        const orig = new BigIntArray([1n, 2n, 2n]);
+        const expected = new BigIntArray([1n, 2n, 3n]);
         const idx = -1;
         const val = 3n;
 
@@ -402,8 +458,8 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.with out of bounds`, (t) => {
-        const orig = new TypedArray([1n, 2n, 2n]);
+    tape(`${BigIntArray.name}.prototype.with out of bounds`, (t) => {
+        const orig = new BigIntArray([1n, 2n, 2n]);
         const idx = 3;
         const val = 4n;
 
@@ -414,12 +470,12 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.with executes 'user code' before starting copy`, (t) => {
-        const orig = new TypedArray([1n, 2n, 3n]);
+    tape(`${BigIntArray.name}.prototype.with executes 'user code' before starting copy`, (t) => {
+        const orig = new BigIntArray([1n, 2n, 3n]);
         const idx = 1;
         const valueUserCodeWillInsert = 4n;
         const userCodeReturnValue = 5n;
-        const expected = new TypedArray([valueUserCodeWillInsert, userCodeReturnValue, 3n]);
+        const expected = new BigIntArray([valueUserCodeWillInsert, userCodeReturnValue, 3n]);
         let userCodeExecuted = false;
         /** @type any */
         const val = {
@@ -437,12 +493,12 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name} does not use Symbol.species for the new methods`, (t) => {
-        class SubClass extends TypedArray { }
+    tape(`${BigIntArray.name} does not use Symbol.species for the new methods`, (t) => {
+        class SubClass extends BigIntArray { }
 
         function assertType(arr) {
             t.equal(arr instanceof SubClass, false);
-            t.equal(arr instanceof TypedArray, true);
+            t.equal(arr instanceof BigIntArray, true);
         }
 
         /** @type {BigInt64Array} */
