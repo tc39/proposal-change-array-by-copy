@@ -424,12 +424,6 @@ contributors: Robin Ricard, Ashley Claymore
                         1. If _relativeStart_ is -&infin;, let _actualStart_ be 0.
                         1. Else if _relativeStart_ &lt; 0, let _actualStart_ be max(_len_ + _relativeStart_, 0).
                         1. Else, let _actualStart_ be min(_relativeStart_, _len_).
-                        1. Let _insertCount_ be the number of elements in _items_.
-                        1. Let _convertedItems_ be a new empty List.
-                        1. For each element _E_ of _items_, do
-                            1. If _O_.[[ContentType]] is ~BigInt~, let _convertedValue_ be ? ToBigInt(_E_).
-                            1. Else, let _convertedValue_ be ? ToNumber(_E_).
-                            1. Append _convertedValue_ as the last element of _convertedItems_.
                         1. If _start_ is not present, then
                             1. Let _actualDeleteCount_ be 0.
                         1. Else if _deleteCount_ is not present, then
@@ -437,6 +431,12 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Else,
                             1. Let _dc_ be ? ToIntegerOrInfinity(_deleteCount_).
                             1. Let _actualDeleteCount_ be the result of clamping _dc_ between 0 and _len_ - _actualStart_.
+                        1. Let _insertCount_ be the number of elements in _items_.
+                        1. Let _convertedItems_ be a new empty List.
+                        1. For each element _E_ of _items_, do
+                            1. If _O_.[[ContentType]] is ~BigInt~, let _convertedValue_ be ? ToBigInt(_E_).
+                            1. Else, let _convertedValue_ be ? ToNumber(_E_).
+                            1. Append _convertedValue_ as the last element of _convertedItems_.
                         1. Let _newLen_ be _len_ + _insertCount_ - _actualDeleteCount_.
                         1. Let _A_ be ? TypedArrayCreateSameType(_O_, &laquo; 𝔽(_newLen_) &raquo;).
                         1. Let _i_ be 0.
