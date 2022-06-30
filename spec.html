@@ -443,14 +443,14 @@ contributors: Robin Ricard, Ashley Claymore
                         1. Let _r_ be _actualStart_ + _actualDeleteCount_.
                         1. Repeat, while _i_ &lt; _actualStart_,
                             1. Let _Pi_ be ! ToString(𝔽(_i_)).
-                            1. Let _iValue_ be ! Get(_src_, _Pi_).
+                            1. Let _iValue_ be ! Get(_O_, _Pi_).
                             1. Perform ! Set(_target_, _Pi_, _iValue_, *true*).
                             1. Set _i_ to _i_ + 1.
                         1. For each element _E_ of _convertedItems_, do
                             1. Let _Pi_ be ! ToString(𝔽(_i_)).
                             1. Perform ! Set(_A_, _Pi_, _E_, *true*).
                             1. Set _i_ to _i_ + 1.
-                        1. Repeat, while _r_ &lt; _newLen_,
+                        1. Repeat, while _i_ &lt; _newLen_,
                             1. Let _Pi_ be ! ToString(𝔽(_i_)).
                             1. Let _from_ be ! ToString(𝔽(_r_)).
                             1. Let _fromValue_ be ! Get(_O_, _from_).
