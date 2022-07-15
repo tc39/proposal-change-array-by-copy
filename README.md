@@ -87,6 +87,8 @@ If web compatibility prescribes it, property names defined in this proposal are 
 
 ## Implementations
 
+ - [spidermonkey bug, currently flagged](https://bugzilla.mozilla.org/show_bug.cgi?id=1729563)
+
  - [core-js](https://github.com/zloirock/core-js)
    - [change-array-by-copy](https://github.com/zloirock/core-js#change-array-by-copy)
 
