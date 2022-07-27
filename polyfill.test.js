@@ -204,49 +204,6 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         t.end();
     });
 
-    tape(`${TypedArray.name}.prototype.toSpliced`, (t) => {
-        const orig = new TypedArray([1, -1, 0, -1, 4]);
-        const expected = new TypedArray([1, 2, 3, 4]);
-        const idx = 1;
-        const delNum = 3;
-        const ins = [2, 3];
-
-        const copy = orig.toSpliced(idx, delNum, ...ins);
-
-        t.deepEqual(copy, expected);
-        t.notEqual(orig, copy);
-        t.notDeepEqual(orig, copy);
-        t.end();
-    });
-
-    tape(`${TypedArray.name}.prototype.toSpliced performs type conversion early`, (t) => {
-        const orig = new TypedArray([1]);
-        const valueUserCodeWillInsert = 4;
-        const userCodeReturnValue = 5;
-        const expected = new TypedArray([valueUserCodeWillInsert, userCodeReturnValue]);
-
-        let userCodeExecuted = false;
-        /** @type any */
-        const val = {
-            valueOf() {
-                userCodeExecuted = true;
-                orig[0] = valueUserCodeWillInsert;
-                return userCodeReturnValue;
-            }
-        };
-
-        const idx = 1;
-        const delNum = 0;
-        const ins = [val];
-
-        const copy = orig.toSpliced(idx, delNum, ...ins);
-
-        t.deepEqual(copy, expected);
-        t.notEqual(orig, copy);
-        t.notDeepEqual(orig, copy);
-        t.end();
-    });
-
     tape(`${TypedArray.name}.prototype.with`, (t) => {
         const orig = new TypedArray([1, 1, 3]);
         const expected = new TypedArray([1, 2, 3]);
@@ -325,7 +282,6 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         assertType(orig.with(0, 0));
         assertType(orig.toReversed());
         assertType(orig.toSorted());
-        assertType(orig.toSpliced(0, 0));
 
         t.end();
     });
@@ -367,49 +323,6 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         }
 
         const copy = orig.toSorted(compareFn);
-
-        t.deepEqual(copy, expected);
-        t.notEqual(orig, copy);
-        t.notDeepEqual(orig, copy);
-        t.end();
-    });
-
-    tape(`${BigIntArray.name}.prototype.toSpliced`, (t) => {
-        const orig = new BigIntArray([1n, -1n, 0n, -1n, 4n]);
-        const expected = new BigIntArray([1n, 2n, 3n, 4n]);
-        const idx = 1;
-        const delNum = 3;
-        const ins = [2n, 3n];
-
-        const copy = orig.toSpliced(idx, delNum, ...ins);
-
-        t.deepEqual(copy, expected);
-        t.notEqual(orig, copy);
-        t.notDeepEqual(orig, copy);
-        t.end();
-    });
-
-    tape(`${BigIntArray.name}.prototype.toSpliced performs type conversion early`, (t) => {
-        const orig = new BigIntArray([1n]);
-        const valueUserCodeWillInsert = 4n;
-        const userCodeReturnValue = 5n;
-        const expected = new BigIntArray([valueUserCodeWillInsert, userCodeReturnValue]);
-
-        let userCodeExecuted = false;
-        /** @type any */
-        const val = {
-            valueOf() {
-                userCodeExecuted = true;
-                orig[0] = valueUserCodeWillInsert;
-                return userCodeReturnValue;
-            }
-        };
-
-        const idx = 1;
-        const delNum = 0;
-        const ins = [val];
-
-        const copy = orig.toSpliced(idx, delNum, ...ins);
 
         t.deepEqual(copy, expected);
         t.notEqual(orig, copy);
@@ -508,7 +421,6 @@ tape("Array.prototype[Symbol.unscopables]", (t) => {
         assertType(orig.with(0, 0n));
         assertType(orig.toReversed());
         assertType(orig.toSorted());
-        assertType(orig.toSpliced(0, 0));
 
         t.end();
     });
