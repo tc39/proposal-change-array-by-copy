@@ -33,11 +33,10 @@ This proposal introduces the following function properties to `Array.prototype`:
 
 All of those methods keep the target Array untouched and returns a copy of it with the change performed instead.
 
-They will also be added to TypedArrays:
+`toReversed`, `toSorted`, and `with` will also be added to TypedArrays:
 
 - `TypedArray.prototype.toReversed() -> TypedArray`
 - `TypedArray.prototype.toSorted(compareFn) -> TypedArray`
-- `TypedArray.prototype.toSpliced(start, deleteCount, ...items) -> TypedArray`
 - `TypedArray.prototype.with(index, value) -> TypedArray`
 
 These methods will then be available on subclasses of `TypedArray`. i.e. the following:

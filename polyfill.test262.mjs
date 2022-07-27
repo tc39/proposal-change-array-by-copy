@@ -24,7 +24,6 @@ const testsPaths = [
 	["Array", "Symbol.unscopables/change-array-by-copy.js"],
 	["TypedArray", "toReversed"],
 	["TypedArray", "toSorted"],
-	["TypedArray", "toSpliced"],
 	["TypedArray", "with"],
 ].map(
 	([constructor, method]) => `test/built-ins/${constructor}/prototype/${method}`

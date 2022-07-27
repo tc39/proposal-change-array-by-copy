@@ -255,20 +255,6 @@
         }
     });
 
-    defineTypedArrayMethods({
-        toSpliced(start, deleteCount, ...values) {
-            const o = assertTypedArray(this);
-            const len = typedArrayLength(o);
-            const { actualStart, actualDeleteCount, newLen } = calculateSplice({ start, deleteCount, len, values, argsCount: arguments.length });
-            const convertedValues = values.map(v => {
-                return typedArrayNumberConversion(o, v);
-            })
-            const a = typedArrayCreate(o, newLen);
-            doSplice({ src: o, target: a, actualStart, actualDeleteCount, values: convertedValues, newLen });
-            return a;
-        }
-    });
-
     defineArrayMethods({
         with(index, value) {
             const o = toObject(this);
@@ -315,7 +301,7 @@
         });
     }
 
-    /** @type {(def: { [N in "with" | "toReversed" | "toSorted" | "toSpliced"]?: (this: TypedArray, ...args: Parameters<Uint8Array[N]>) => TypedArray }) => void} */
+    /** @type {(def: { [N in "with" | "toReversed" | "toSorted"]?: (this: TypedArray, ...args: Parameters<Uint8Array[N]>) => TypedArray }) => void} */
     function defineTypedArrayMethods(def) {
         defineMethods(typedArrayPrototype, def);
     }

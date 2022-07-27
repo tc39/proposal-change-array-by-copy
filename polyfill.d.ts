@@ -20,77 +20,66 @@ declare global {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Uint8Array {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Uint8ClampedArray {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Int16Array {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Uint16Array {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Int32Array {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Uint32Array {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Float32Array {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface Float64Array {
         with(index: number, value: number): this;
         toReversed(): this;
         toSorted(compareFn?: (a: number, b: number) => number): this;
-        toSpliced(start: number, deleteCount?: number, ...values: number[]): this;
     }
 
     interface BigInt64Array {
         with(index: number, value: bigint): this;
         toReversed(): this;
         toSorted(compareFn?: (a: bigint, b: bigint) => number | bigint): this;
-        toSpliced(start: number, deleteCount?: number, ...values: bigint[]): this;
     }
 
     interface BigUint64Array {
         with(index: number, value: bigint): this;
         toReversed(): this;
         toSorted(compareFn?: (a: bigint, b: bigint) => number | bigint): this;
-        toSpliced(start: number, deleteCount?: number, ...values: bigint[]): this;
     }
 }
 export {};
