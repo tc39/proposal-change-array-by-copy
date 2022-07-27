@@ -47,7 +47,7 @@ contributors: Robin Ricard, Ashley Claymore
                 1. <ins>Let _itemCount_ be the number of elements in _sortedList_.</ins>
                 1. <ins>Let _j_ be 0.</ins>
                 1. <ins>Repeat, while _j_ &lt; _itemCount_,</ins>
-                  1. <ins>Perform ? CreateDataPropertyOrThrow(_obj_, ! ToString(𝔽(_j_)), _sortedList_[_j_]).</ins>
+                  1. <ins>Perform ? Set(_obj_, ! ToString(𝔽(_j_)), _sortedList_[_j_], true).</ins>
                   1. <ins>Set _j_ to _j_ + 1.</ins>
                 1. <ins>NOTE: The call to SortIndexedProperties in step <emu-xref href="#step-array-sortindexedproperties"></emu-xref> has the *skipHoles* parameter set to *true*. The remaining indexes are deleted to preserve the number of holes that were detected and excluded from the sort.</ins>
                 1. <ins>Repeat, while _j_ &lt; _len_,</ins>
