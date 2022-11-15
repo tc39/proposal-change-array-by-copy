@@ -305,14 +305,12 @@ contributors: Robin Ricard, Ashley Claymore
                       1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
                       1. Let _obj_ be the *this* value.
                       1. Perform ? ValidateTypedArray(_obj_).
-                      1. Let _buffer_ be _obj_.[[ViewedArrayBuffer]].
                       1. Let _len_ be _obj_.[[ArrayLength]].
                       1. NOTE: The following closure performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-array.prototype.sort"></emu-xref>.
-                      1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _comparefn_ and _buffer_ and performs the following steps when called:
-                        1. <del>Assert: Both Type(_x_) and Type(_y_) are Number or both are BigInt.</del>
+                      1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _comparefn_ and performs the following steps when called:
+                        1. <del>Assert: _x_ is a Number and _y_ is a Number, or _x_ is a BigInt and _y_ is a BigInt.</del>
                         1. <del>If _comparefn_ is not *undefined*, then</del>
                           1. <del>Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, &laquo; _x_, _y_ &raquo;)).</del>
-                          1. <del>If IsDetachedBuffer(_buffer_) is *true*, throw a *TypeError* exception.</del>
                           1. <del>If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.</del>
                           1. <del>Return _v_.</del>
                         1. <del>If _x_ and _y_ are both *NaN*, return *+0*<sub>𝔽</sub>.</del>
@@ -323,7 +321,7 @@ contributors: Robin Ricard, Ashley Claymore
                         1. <del>If _x_ is *-0*<sub>𝔽</sub> and _y_ is *+0*<sub>𝔽</sub>, return *-1*<sub>𝔽</sub>.</del>
                         1. <del>If _x_ is *+0*<sub>𝔽</sub> and _y_ is *-0*<sub>𝔽</sub>, return *1*<sub>𝔽</sub>.</del>
                         1. <del>Return *+0*<sub>𝔽</sub>.</del>
-                        1. <ins>Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_, _buffer_).</ins>
+                        1. <ins>Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_).</ins>
                       1. <del>Return ? SortIndexedProperties(_obj_, _len_, _SortCompare_).</del>
                       1. <ins>Let _sortedList_ be ? SortIndexedProperties(_obj_, _len_, _SortCompare_, *false*).</ins>
                       1. <ins>Let _j_ be 0.</ins>
@@ -340,16 +338,14 @@ contributors: Robin Ricard, Ashley Claymore
                         _x_: unknown,
                         _y_: unknown,
                         _comparefn_: a function object or *undefined*,
-                        _buffer_: An ArrayBuffer
                     ): either a normal completion containing a Number or an abrupt completion
                     </h1>
                     <dl class="header">
                     </dl>
                     <emu-alg>
-                        1. Assert: Both Type(_x_) and Type(_y_) are Number or both are BigInt.
+                        1. Assert: _x_ is a Number and _y_ is a Number, or _x_ is a BigInt and _y_ is a BigInt.
                         1. If _comparefn_ is not *undefined*, then
                             1. Let _v_ be ? ToNumber(? Call(_comparefn_, *undefined*, &laquo; _x_, _y_ &raquo;)).
-                            1. If IsDetachedBuffer(_buffer_) is *true*, throw a *TypeError* exception.
                             1. If _v_ is *NaN*, return *+0*<sub>𝔽</sub>.
                             1. Return _v_.
                         1. If _x_ and _y_ are both *NaN*, return *+0*<sub>𝔽</sub>.
@@ -396,12 +392,11 @@ contributors: Robin Ricard, Ashley Claymore
                         1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
                         1. Let _O_ be the *this* value.
                         1. Perform ? ValidateTypedArray(_O_).
-                        1. Let _buffer_ be _obj_.[[ViewedArrayBuffer]].
                         1. Let _len_ be _O_.[[ArrayLength]].
                         1. Let _A_ be ? TypedArrayCreateSameType(_O_, &laquo; 𝔽(_len_) &raquo;).
                         1. NOTE: The following closure performs a numeric comparison rather than the string comparison used in <emu-xref href="#sec-array.prototype.toSorted"></emu-xref>.
-                        1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _comparefn_ and _buffer_ and performs the following steps when called:
-                            1. Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_, _buffer_).
+                        1. Let _SortCompare_ be a new Abstract Closure with parameters (_x_, _y_) that captures _comparefn_ and performs the following steps when called:
+                            1. Return ? CompareTypedArrayElements(_x_, _y_, _comparefn_).
                         1. Let _sortedList_ be ? SortIndexedProperties(_obj_, _len_, _SortCompare_, *false*).
                         1. Let _j_ be 0.
                         1. Repeat, while _j_ &lt; _len_,
