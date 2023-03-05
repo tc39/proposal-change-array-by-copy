@@ -4,12 +4,12 @@ Provides additional methods on `Array.prototype` and `TypedArray.prototype` to e
 
 ## Status
 
-This proposal is currently at [Stage 3].
+This proposal is currently at [Stage 4].
 
 - [Candidate spec text][spec]
 
-[Stage 3]: https://github.com/tc39/proposals#stage-3
-[spec]: https://tc39.es/proposal-change-array-by-copy/
+[Stage 4]: https://github.com/tc39/proposals/commit/ad4df8435f27f39eda26db3b940ae151980c8015#diff-af1d66eb7dbbf6f66e871d26bcad07076a557256a957f558ca21e60924e2b0b7
+[spec]: https://github.com/tc39/ecma262/pull/2997/files
 
 ## Champions
 
