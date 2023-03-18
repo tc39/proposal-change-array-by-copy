@@ -1,3 +1,6 @@
+> **Note**
+> This proposal is ['finished'](https://github.com/tc39/proposals/blob/main/finished-proposals.md) and has been merged into the ECMAScript spec. [PR](https://github.com/tc39/ecma262/pull/2997)
+
 # Change Array by copy
 
 Provides additional methods on `Array.prototype` and `TypedArray.prototype` to enable changes on the array by returning a new copy of it with the change.
