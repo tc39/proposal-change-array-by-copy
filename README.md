@@ -89,7 +89,7 @@ If web compatibility prescribes it, property names defined in this proposal are 
 
 ## Implementations
 
- - [Firefox/SpiderMonkey](https://bugzilla.mozilla.org/show_bug.cgi?id=1729563), currently flagged
+ - [Firefox/SpiderMonkey](https://bugzilla.mozilla.org/show_bug.cgi?id=1729563), shipping unflagged since [Firefox 115](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/115)
  - [Safari/JavaScriptCore](https://bugs.webkit.org/show_bug.cgi?id=234604), shipping unflagged since [Safari Tech Preview 146](https://developer.apple.com/safari/technology-preview/release-notes/#:~:text=bug%20tracker.-,Release%20146,-Note%3A%20Tab)
  - [Chrome/V8](https://bugs.chromium.org/p/v8/issues/detail?id=12764), shipping unflagged since Chrome 110
 
